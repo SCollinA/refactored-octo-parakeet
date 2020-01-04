@@ -11,7 +11,6 @@ import {
     getBasicAuth,
     rateLimiter,
 } from "./middleware";
-import { checkScopes } from "./utils";
 
 dotenv.config();
 

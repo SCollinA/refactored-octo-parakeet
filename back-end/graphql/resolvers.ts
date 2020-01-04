@@ -1,8 +1,5 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { neo4jgraphql } from "neo4j-graphql-js";
-import { IJWTPayload } from "../models/JWTPayload.model";
-import { checkScopes } from "../utils";
 
 dotenv.config();
 
@@ -19,10 +16,12 @@ export default {
                     "Hoop: Read",
                     "Hoop: Update",
                     "Hoop: Delete",
+                    "Hoop: Merge",
                     "Collection: Create",
                     "Collection: Read",
                     "Collection: Update",
                     "Collection: Delete",
+                    "Collection: Merge",
                 ],
             }, jwtSecret, {
                 expiresIn: "1d",
