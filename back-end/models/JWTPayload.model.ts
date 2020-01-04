@@ -1,3 +1,3 @@
 export interface IJWTPayload {
-    scopes: string;
+	scopes: string;
 }
