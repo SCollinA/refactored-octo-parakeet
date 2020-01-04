@@ -1,42 +1,70 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
-import React from "react"
+import { graphql, Link, useStaticQuery } from "gatsby";
+import Img from "gatsby-image";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
+import Loading from "./generic/Loading";
 
-Header.defaultProps = {
-  siteTitle: ``,
-}
+import HamburgerLinks from "./HamburgerLinks";
+import PageLinks from "./PageLinks";
+import SocialLinks from "./SocialLinks";
+library.add(faInstagram, faFacebook, faEnvelope, faAngleLeft, faAngleRight, faTimesCircle);
 
-export default Header
+const header = () => {
+	const [loading, setLoading] = useState(false);
+	const data = useStaticQuery(graphql`
+		query {
+			brandImage: file(relativePath: { eq: "brand.png" }) {
+				childImageSharp {
+					fluid(maxWidth: 2000) {
+						...GatsbyImageSharpFluid_tracedSVG
+					}
+				}
+			}
+		}
+	`);
+	return (
+		<div className="Header">
+			<div className="headerLinks">
+				<div className="homeLink">
+					<Link to="/"
+						className="clickable"
+						activeClassName="activeLink"
+						style={{
+							color: `white`,
+							textDecoration: `none`,
+						}}
+					>
+						<Loading loading={loading}
+							fitChild={true}
+							preventClick={false}
+						>
+							<Img fluid={data.brandImage.childImageSharp.fluid}
+								onStartLoad={() => setLoading(true)}
+								onLoad={() => setLoading(false)}
+							/>
+							</Loading>
+					</Link>
+				</div>
+				<SocialLinks />
+			</div>
+			<HamburgerLinks />
+			<PageLinks />
+		</div>
+	);
+};
+
+header.propTypes = {
+	siteTitle: PropTypes.string,
+};
+
+header.defaultProps = {
+	siteTitle: ``,
+};
+
+export default header;

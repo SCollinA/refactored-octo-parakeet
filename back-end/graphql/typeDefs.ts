@@ -4,6 +4,7 @@ export default `
 		collections: [Collection] @relation(name:"Has", direction:IN)
 		description: String
 		image: String
+		recentlyupdatedimage: Boolean
 		name: String
 		price: Float
 		diameter: Float

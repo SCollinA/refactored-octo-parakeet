@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Hallie's Hoops`,
-    description: `Hallie's Hoops`,
+    description: `A gallery to display the works of Hallie Grace Bradley`,
     author: `Collin Argo`,
   },
   plugins: [
@@ -19,8 +19,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
+        name: `Hallie's Hoops`,
+        short_name: `Hoops`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
