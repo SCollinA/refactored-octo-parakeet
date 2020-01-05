@@ -1,3 +1,4 @@
+import { graphql } from "gatsby";
 import gql from "graphql-tag";
 
 export const HOOP_BASIC_FRAGMENT = gql`
@@ -47,3 +48,23 @@ export const COLLECTION_FULL_FRAGMENT = gql`
     ${HOOP_WITH_IMAGE_FRAGMENT}
     ${COLLECTION_NO_HOOPS_FRAGMENT}
 `;
+
+// export const FLUID_IMAGE_FRAGMENT = graphql`
+// 	fragment FluidImage on File {
+// 		childImageSharp {
+// 			fluid(maxWidth: 3000, quality: 100, srcSetBreakpoints: [200, 340, 520, 890]) {
+// 				...GatsbyImageSharpFluid_tracedSVG
+// 			}
+// 		}
+// 	}
+// `;
+
+// export const FIXED_IMAGE_FRAGMENT = graphql`
+// 	fragment FixedImage on File {
+// 		childImageSharp {
+// 			fixed(width: 3000, quality: 100) {
+// 				...GatsbyImageSharpFixed_tracedSVG
+// 			}
+// 		}
+// 	}
+// `;

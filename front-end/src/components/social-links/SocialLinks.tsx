@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
+import "./SocialLinks.css";
+
 export default () => (
 		<div className="SocialLinks">
 				<div className="socialLink clickable">

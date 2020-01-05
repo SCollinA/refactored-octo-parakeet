@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./Loading.css";
+
 const height = 650;
 
 export default ({
@@ -19,10 +21,7 @@ export default ({
 				onClick={(event) =>
 					preventClick && event.stopPropagation()}
 			>
-				<svg
-					viewBox={`0 0 ${height} ${height}`}
-				>
-					{/* <circle cx='500' cy='500' r='250' fill='red'/> */}
+				<svg viewBox={`0 0 ${height} ${height}`}>
 					<path id="curve" fill="transparent"
 						d={`
 							M ${height / 2}, ${height / 2}
@@ -35,7 +34,7 @@ export default ({
 						<textPath alignmentBaseline="auto"
 							xlinkHref="#curve"
 						>
-								hallie's • hoops •
+							hallie's • hoops •
 						</textPath>
 					</text>
 				</svg>

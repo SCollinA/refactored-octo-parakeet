@@ -1,10 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-import SectionWrapper from "./generic/SectionWrapper";
+import SectionWrapper from "../generic/section-wrapper/SectionWrapper";
 
-import PageLinks from "./PageLinks";
-import SocialLinks from "./SocialLinks";
+import PageLinks from "../page-links/PageLinks";
+import SocialLinks from "../social-links/SocialLinks";
+
+import "./HamburgerLinks.css";
 
 export default () => {
 	const [isExpanded, setIsExpanded] = React.useState(false);

@@ -1,0 +1,44 @@
+.PageLinks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pageLink {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.pageLink h2 {
+    margin: auto;
+    padding: 2px 20px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.activeLink {
+    display: block;
+    border-left: 5px solid black;
+    border-right: 5px solid black;
+    border-radius: 10px;
+}
+
+@media (max-width: 500px) {
+    .PageLinks {
+        flex-direction: column;
+    }
+
+    .pageLink {
+        width: 100%;
+    }
+    
+    .pageLink h2 {
+        padding: 2%;
+    }
+
+    .pageLink > a {
+        flex: 1;
+    }
+}

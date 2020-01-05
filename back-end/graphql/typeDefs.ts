@@ -1,6 +1,6 @@
 export default `
 	type Hoop {
-		id: ID
+		id: ID!
 		collections: [Collection] @relation(name:"Has", direction:IN)
 		description: String
 		image: String
@@ -11,7 +11,7 @@ export default `
 		sold: Boolean
 	}
 	type Collection {
-		id: ID
+		id: ID!
 		hoops: [Hoop] @relation(name:"Has", direction:OUT)
 		name: String
 	}

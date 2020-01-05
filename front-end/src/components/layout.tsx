@@ -2,9 +2,12 @@ import { graphql, useStaticQuery } from "gatsby";
 import PropTypes from "prop-types";
 import React, { ReactNode } from "react";
 
-import Footer from "./Footer";
-import Header from "./Header";
-import "./layout.css";
+import Footer from "./footer/Footer";
+import Header from "./header/Header";
+import HamburgerLinks from "./hamburger-links/HamburgerLinks";
+import PageLinks from "./page-links/PageLinks";
+
+import "./Layout.css";
 
 export const LayoutContext = React.createContext({});
 
@@ -13,31 +16,17 @@ const Layout = ({
 }: {
 	children: ReactNode,
 }) => {
-	const data = useStaticQuery(graphql`
-		query SiteTitleQuery {
-			site {
-				siteMetadata {
-					title
-				}
-			}
-		}
-  `);
-
+	const data = useStaticQuery(siteMetadata);
 	return (
-		<>
-			<Header siteTitle={data.site.siteMetadata.title} />
-			<div
-				style={{
-					margin: `0 auto`,
-					maxWidth: 960,
-					padding: `0px 1.0875rem 1.45rem`,
-					paddingTop: 0,
-				}}
-			>
+		<div className="layout">
+			<Header siteTitle={data.site.siteMetadata.title}/>
+			<HamburgerLinks/>
+			<PageLinks/>
+			<div className="layout__content">
 				<main>{children}</main>
 			</div>
 			<Footer/>
-		</>
+		</div>
 	);
 };
 
@@ -46,3 +35,13 @@ Layout.propTypes = {
 };
 
 export default Layout;
+
+const siteMetadata = graphql`
+	query SiteTitleQuery {
+		site {
+			siteMetadata {
+				title
+			}
+		}
+	}
+`;

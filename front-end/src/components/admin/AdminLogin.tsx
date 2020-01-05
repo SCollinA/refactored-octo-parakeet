@@ -1,11 +1,11 @@
 import { useMutation } from "@apollo/react-hooks";
 import React, { useContext, useState } from "react";
 
-import { LOGIN } from "../graphql/mutations";
+import { LOGIN } from "../../graphql/mutations";
 
-import { LayoutContext } from "./Layout";
+import { LayoutContext } from "../Layout";
 
-import Loading from "./generic/Loading";
+import Loading from "../generic/loading/Loading";
 
 export default () => {
 	const [showAdmin, setShowAdmin] = useState(false);
