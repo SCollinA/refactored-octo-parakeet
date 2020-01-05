@@ -7,6 +7,8 @@ import { LayoutContext } from "../Layout";
 
 import Loading from "../generic/loading/Loading";
 
+import "./AdminLogin.css";
+
 export default () => {
 	const [showAdmin, setShowAdmin] = useState(false);
 	const {
@@ -26,7 +28,9 @@ export default () => {
 		},
 	});
 	return (
-		<Loading loading={loading}>
+		<Loading loading={loading}
+			text={"hallie's • hoops •"}
+		>
 			{isLoggedIn &&
 				<div className="logout clickable">
 					<input type="button" value="logout"

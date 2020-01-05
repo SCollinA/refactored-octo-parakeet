@@ -28,7 +28,8 @@ const header = () => {
 					textDecoration: `none`,
 				}}
 			>
-				<Loading loading={loading}
+				<Loading text={"hallie's • hoops •"}
+					loading={loading}
 					fitChild={true}
 					preventClick={false}
 				>

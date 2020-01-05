@@ -4,18 +4,19 @@ import SectionWrapper from "../generic/section-wrapper/SectionWrapper";
 
 import AdminLogin from "../admin/AdminLogin";
 
+import "./Footer.css";
+
 export default () =>
-	<SectionWrapper>
-		<footer className="Footer">
+	<footer className="footer">
+		<SectionWrapper>
 			<span>
 				<p>© {new Date().getFullYear()},&nbsp;</p>
-				<p>mkcrfineart</p>
+				<p>Hallie's Hoops</p>
 			</span>
 			<p>
-				All images on this site are copyrighted by the artist
-				and may not be reproduced without written permission
-				of the artist.
+				All images on this site are copyrighted
+				and may not be reproduced without written permission.
 			</p>
 			<AdminLogin></AdminLogin>
-		</footer>
-	</SectionWrapper>;
+		</SectionWrapper>
+	</footer>;

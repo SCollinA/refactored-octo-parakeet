@@ -1,18 +1,16 @@
-.Footer {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+.footer {
     text-align: center;
     white-space: nowrap;
+	font-size: .75em;
 }
 
-.Footer > * {
+.footer > .section-wrapper {
     padding: 2%;
     margin: 0;
     display: flex;
-    justify-content: space-around;
+	justify-content: space-evenly;
+	align-items: center;
     flex-wrap: wrap;
-    font-size: .75em;
 }
 
 .Footer > span > p {
