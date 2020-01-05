@@ -44,7 +44,7 @@ export default () => {
 							event.preventDefault();
 							adminLogin({
 								variables: {
-									adminPassword: event.target.adminPassword.value,
+									password: event.target.adminPassword.value,
 								},
 							});
 						}}
