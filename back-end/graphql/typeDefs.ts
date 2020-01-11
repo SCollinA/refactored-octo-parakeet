@@ -5,7 +5,7 @@ export default `
 		description: String
 		image: String
 		recentlyupdatedimage: Boolean
-		name: String
+		title: String
 		price: Float
 		diameter: Float
 		sold: Boolean
