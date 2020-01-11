@@ -8,9 +8,9 @@ import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
-import Loading from "../generic/loading/Loading";
+import Loading from "../../generic/loading/Loading";
 
-import SocialLinks from "../social-links/SocialLinks";
+import SocialLinks from "../../links/social-links/SocialLinks";
 library.add(faInstagram, faFacebook, faEnvelope, faAngleLeft, faAngleRight, faTimesCircle);
 
 import "./Header.css";

@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 
 import { LOGIN } from "../../graphql/mutations";
 
-import { LayoutContext } from "../Layout";
+import { LayoutContext } from "../layout/Layout";
 
 import Loading from "../generic/loading/Loading";
 
