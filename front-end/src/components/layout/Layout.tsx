@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { ReactNode, Reducer, useReducer } from "react";
 
 import Footer from "./footer/Footer";
@@ -13,7 +12,7 @@ import { ELayoutActionTypes, ILayoutAction, ILayoutState } from "../../models/la
 
 export const LayoutContext = React.createContext({});
 
-const Layout = ({
+export default ({
 	children,
 }: {
 	children: ReactNode,
@@ -40,12 +39,6 @@ const Layout = ({
 		</LayoutContext.Provider>
 	);
 };
-
-Layout.propTypes = {
-	children: PropTypes.node.isRequired,
-};
-
-export default Layout;
 
 const layoutState: ILayoutState = {
 	isLoggedIn: false,

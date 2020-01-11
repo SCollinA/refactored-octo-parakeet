@@ -1,6 +1,5 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
 import Img from "gatsby-image";
-import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -8,16 +7,18 @@ import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
-import Loading from "../../generic/loading/Loading";
-
-import SocialLinks from "../../links/social-links/SocialLinks";
-library.add(faInstagram, faFacebook, faEnvelope, faAngleLeft, faAngleRight, faTimesCircle);
-
 import "./Header.css";
 
-const header = () => {
+import Loading from "../../generic/loading/Loading";
+import SocialLinks from "../../links/social-links/SocialLinks";
+
+import { IImageFile } from "../../../models/file.model";
+
+library.add(faInstagram, faFacebook, faEnvelope, faAngleLeft, faAngleRight, faTimesCircle);
+
+export default () => {
 	const [loading, setLoading] = useState(false);
-	const data = useStaticQuery(brandImageQuery);
+	const { brandImage }: { brandImage: IImageFile } = useStaticQuery(brandImageQuery);
 	return (
 		<div className="Header">
 			<Link to="/"
@@ -33,7 +34,7 @@ const header = () => {
 					fitChild={true}
 					preventClick={false}
 				>
-					<Img fluid={data.brandImage.childImageSharp.fluid}
+					<Img fluid={brandImage.childImageSharp.fluid}
 						onStartLoad={() => setLoading(true)}
 						onLoad={() => setLoading(false)}
 					/>
@@ -43,16 +44,6 @@ const header = () => {
 		</div>
 	);
 };
-
-header.propTypes = {
-	siteTitle: PropTypes.string,
-};
-
-header.defaultProps = {
-	siteTitle: ``,
-};
-
-export default header;
 
 const brandImageQuery = graphql`
 	query {
