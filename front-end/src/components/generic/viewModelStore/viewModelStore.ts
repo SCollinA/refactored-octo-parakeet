@@ -15,22 +15,27 @@ export default class ViewModelStore<T extends IDataModel> {
 		this.viewModels = this.initializeViewModels(dataModels);
 	}
 
-	public batchReset = () => {
+	public batchReset = (onReset?: (dataModels: Dictionary<T>) => void) => {
 		this.batchDataModels = mapValues(
-			({ updatedDataModel }) => ({
-				...updatedDataModel,
+			({ dataModel }) => ({
+				...dataModel,
 			}),
 			this.viewModels,
 		);
+		if (!!onReset) {
+			onReset(this.batchDataModels);
+		}
 	}
 
-	public batchSubmit = (onSubmit: () => void) => {
+	public batchSubmit = (onSubmit?: (viewModels: Dictionary<ViewModel<T>>) => void) => {
 		forEach(
 			(dataModel: T) => this.viewModels[dataModel.id] = new ViewModel(dataModel),
 			this.batchDataModels,
 		);
 		this.batchDataModels = {};
-		onSubmit();
+		if (!!onSubmit) {
+			onSubmit(this.viewModels);
+		}
 	}
 
 	public batchUpdate = (
@@ -41,12 +46,16 @@ export default class ViewModelStore<T extends IDataModel> {
 			map(
 				(path: [string, ...Array<(keyof T)>]) => ({
 					id: path[0],
-					update: (updates: Partial<T>) => {
+					update: (updates: Partial<T>, onUpdate?: (dataModel: T) => void) => {
 						const updatedDataModel = {
+							...this.viewModels[path[0]].dataModel,
 							...this.batchDataModels[path[0]],
 							...updates,
 						};
 						this.batchDataModels = set(path, updatedDataModel, this.batchDataModels);
+						if (!!onUpdate) {
+							onUpdate(updatedDataModel);
+						}
 					},
 				}),
 				paths,
@@ -54,29 +63,36 @@ export default class ViewModelStore<T extends IDataModel> {
 		);
 	}
 
-	public reset = (id: string, onReset: () => void): void => {
+	public reset = (id: string, onReset?: () => void): void => {
 		const dataModel = get([id, "dataModel"], this.viewModels);
 		this.viewModels = set([id, "updatedDataModel"], dataModel, this.viewModels);
-		onReset();
+		if (!!onReset) {
+			onReset();
+		}
 	}
 
-	public submit = (id: string, onSubmit: () => void): void => {
+	public submit = (id: string, onSubmit?: () => void): void => {
 		const updatedDataModel = get([id, "updatedDataModel"], this.viewModels);
 		this.viewModels = set([id, "dataModel"], updatedDataModel, this.viewModels);
-		onSubmit();
+		if (!!onSubmit) {
+			onSubmit();
+		}
 	}
 
 	public update = (
 		id: string,
 		updates: Partial<T>,
+		onUpdate: (dataModel: T) => void;
 	): void => {
 		const path = [id, "updatedDataModel"];
-		let updatedDataModel = get(path, this.viewModels);
-		updatedDataModel = {
-			...updatedDataModel,
+		const updatedDataModel = {
+			...get(path, this.viewModels),
 			updates,
 		};
 		this.viewModels = set(path, updatedDataModel, this.viewModels);
+		if (!!onUpdate) {
+			onUpdate(updatedDataModel);
+		}
 	}
 
 	private initializeViewModels(dataModels: T[]): Dictionary<ViewModel<T>> {
@@ -90,5 +106,4 @@ export default class ViewModelStore<T extends IDataModel> {
 			),
 		);
 	}
-
 }

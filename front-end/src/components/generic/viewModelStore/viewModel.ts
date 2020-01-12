@@ -1,5 +1,5 @@
 import { Dictionary } from "lodash";
-import { cloneDeep, get, mapValues } from "lodash/fp";
+import { cloneDeep, get, mapValues, set } from "lodash/fp";
 
 import { IDataModel } from "./dataModel";
 import { ViewModelDataType } from "./viewModelValue";
@@ -16,6 +16,33 @@ export default class ViewModel<T extends IDataModel> {
 		this.dataModel = dataModel;
 		this.dataViews = this.getDataViews(dataModel);
 		this.updatedDataModel = cloneDeep(dataModel);
+	}
+
+	public reset = (onReset?: (dataModel: T) => void) => {
+		this.updatedDataModel = get([], this.dataModel);
+		if (!!onReset) {
+			onReset(this.updatedDataModel);
+		}
+	}
+
+	public submit = (onSubmit?: (dataModel: T) => void) => {
+		this.dataModel = set([], this.updatedDataModel, this.dataModel);
+		this.dataViews = this.getDataViews(this.dataModel);
+		if (!!onSubmit) {
+			onSubmit(this.dataModel);
+		}
+	}
+
+	public update = (updates: Partial<T>, onUpdate?: (dataModel: T) => void) => {
+		const updatedDataModel = {
+			...get([], this.updatedDataModel),
+			...updates,
+		};
+		this.dataModel = set([], updatedDataModel, this.dataModel);
+		this.dataViews = this.getDataViews(this.dataModel);
+		if (!!onUpdate) {
+			onUpdate(this.dataModel);
+		}
 	}
 
 	private getDataType(value: T[keyof T]): ViewModelDataType {
