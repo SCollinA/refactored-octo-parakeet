@@ -9,9 +9,9 @@ export default ({
 }) => {
 	return (
 		<>
-			<text className="collection__name">
+			<p className="collection__name">
 				{collection.name}
-			</text>
+			</p>
 		</>
 	);
 };

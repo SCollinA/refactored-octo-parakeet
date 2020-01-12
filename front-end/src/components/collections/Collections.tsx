@@ -19,7 +19,7 @@ export default () => {
 		data,
 		loading,
 	} = useQuery<Dictionary<ICollection[]>>(GET_COLLECTIONS);
-	const collections = get(["getCollections"], data);
+	const collections = get(["Collection"], data);
 	return (
 		<div className="Collections">
 			<Loading text={"hallie's • hoops •"}
@@ -30,7 +30,7 @@ export default () => {
 				{/* TODO: Add batch edit button here */}
 				{map(
 					(collection) =>
-						<Collection collectionId={collection.id}/>,
+						<Collection key={collection.id} collectionId={collection.id}/>,
 					collections,
 				)}
 			</Loading>

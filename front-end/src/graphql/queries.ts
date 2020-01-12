@@ -71,7 +71,7 @@ export const GET_COLLECTIONS = gql`
 
 export const GET_COLLECTION = gql`
     query getCollection($id: ID!) {
-        Collection {
+        Collection(id: $id) {
             ...CollectionFull
         }
     }

@@ -15,10 +15,28 @@ export default ({
 }) => {
 	switch (type) {
 		case "button":
-			return <button className={"col-button"} type="button" name={name} value={value}/>;
+			return <button className={"col-button"}
+				type="button"
+				name={name}
+				onClick={() => action()}
+			>
+				{value}
+			</button>;
 		case "reset":
-			return <button className={"col-button"} type="reset" name={name} value={value}/>;
+			return <button className={"col-button-reset"}
+				type="reset"
+				name={name}
+				onClick={() => action()}
+			>
+				{value}
+			</button>;
 		case "submit":
-			return <button className={"col-button"} type="submit" name={name} value={value}/>;
+			return <button className={"col-button-submit"}
+				type="submit"
+				name={name}
+				onClick={() => action()}
+			>
+				{value}
+			</button>;
 	}
 };
