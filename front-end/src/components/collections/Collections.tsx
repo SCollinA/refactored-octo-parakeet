@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import { Dictionary } from "lodash";
 import { get, map } from "lodash/fp";
-import React, { createContext } from "react";
+import React from "react";
 
 import Collection from "./collection/Collection";
 
@@ -9,10 +9,6 @@ import Loading from "../generic/loading/ColLoading";
 
 import { GET_COLLECTIONS } from "../../graphql/queries";
 import { ICollection } from "../../models/collection.model";
-
-export const CollectionContext = createContext({
-	collections: undefined,
-});
 
 export default () => {
 	const {
