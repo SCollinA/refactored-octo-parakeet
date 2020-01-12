@@ -4,7 +4,6 @@ import {
 	entries,
 	flow,
 	get,
-	keyBy,
 	mapValues,
 	omit,
 	set,
@@ -19,7 +18,7 @@ import {
 	ColViewModelValues,
 } from "./ColViewModelValue";
 
-type DataViews<T> = Dictionary<ColViewModelValues<T>>;
+type DataViews<T> = Array<ColViewModelValues<T>>;
 
 export default class ColViewModel<T extends IColDataModel> {
 
@@ -103,7 +102,6 @@ export default class ColViewModel<T extends IColDataModel> {
 					type: this.getDataType(key, value),
 				}),
 			),
-			keyBy("key"),
 		)(dataModel);
 	}
 

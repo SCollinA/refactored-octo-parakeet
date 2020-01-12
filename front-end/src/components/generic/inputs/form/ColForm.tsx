@@ -1,8 +1,10 @@
+import { map } from "lodash/fp";
 import React, { SyntheticEvent } from "react";
 
 import ColButton from "../../buttons/ColButton";
 import { IColDataModel } from "../../viewModelStore/ColDataModel";
 import ColViewModel from "../../viewModelStore/ColViewModel";
+import ColTextInput from "../ColText.input";
 
 export default ({
 	cancel,
@@ -21,16 +23,37 @@ export default ({
 				viewModel.reset(reset);
 			}}
 			onSubmit={(event: SyntheticEvent) => {
-				event.stopPropagation();
+				event.preventDefault();
 				viewModel.submit(submit);
 			}}
 		>
+			{map(
+				(dataView) => {
+					switch (dataView.type) {
+						case "STRING":
+							return <ColTextInput key={dataView.key} autoFocus={true}
+								onChange={(value: string) => viewModel.update({
+									[dataView.key]: value,
+								})}
+								value={viewModel.updatedDataModel[dataView.key] as string}
+							/>;
+						default:
+							return null;
+					}
+				},
+				viewModel.dataViews,
+			)}
 			<ColButton type="button"
 				value="cancel"
-				name="cancel"
 				action={() => {
 					viewModel.reset(cancel);
 				}}
+			/>
+			<ColButton type="reset"
+				value="reset"
+			/>
+			<ColButton type="submit"
+				value="submit"
 			/>
 		</form>
 	);

@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./text.input.css";
+import "./ColText.input.css";
 
 export default ({
 	autoFocus,
@@ -8,13 +8,13 @@ export default ({
 	value,
 }: {
 	autoFocus: boolean;
-	onChange: () => void,
+	onChange: (value: string) => void,
 	value: string,
 }) => {
 	return (
 		<input className="col-input-text" autoFocus={autoFocus} type="text" name="text"
 			value={value}
-			onChange={onChange}
+			onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
 		/>
 	);
 };

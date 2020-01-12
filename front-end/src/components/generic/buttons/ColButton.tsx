@@ -3,13 +3,11 @@ import React from "react";
 import "./ColButton.css";
 
 export default ({
-	action,
-	name,
+	action = () => undefined,
 	type,
 	value,
 }: {
-	action: () => void,
-	name: string,
+	action?: () => void,
 	type: "button" | "reset" | "submit",
 	value: string,
 }) => {
@@ -17,7 +15,6 @@ export default ({
 		case "button":
 			return <button className={"col-button"}
 				type="button"
-				name={name}
 				onClick={() => action()}
 			>
 				{value}
@@ -25,16 +22,12 @@ export default ({
 		case "reset":
 			return <button className={"col-button-reset"}
 				type="reset"
-				name={name}
-				onClick={() => action()}
 			>
 				{value}
 			</button>;
 		case "submit":
 			return <button className={"col-button-submit"}
 				type="submit"
-				name={name}
-				onClick={() => action()}
 			>
 				{value}
 			</button>;
