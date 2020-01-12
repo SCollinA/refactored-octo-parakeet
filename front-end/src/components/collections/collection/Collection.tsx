@@ -24,7 +24,7 @@ export default ({
 	} = useQuery(GET_COLLECTION, {
 		variables: { id: collectionId },
 	});
-	const collection: ICollection = get(["Collection"], data);
+	const collection: ICollection = get(["Collection", "0"], data);
 	if (!collection) {
 		return <ColPlaceholder/>;
 	}
