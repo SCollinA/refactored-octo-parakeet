@@ -1,13 +1,15 @@
 import { Dictionary } from "lodash";
-import { cloneDeep, get, mapValues, set } from "lodash/fp";
+import { cloneDeep, get, mapKeys, mapValues, set } from "lodash/fp";
 
 import { IDataModel } from "./dataModel";
-import { ViewModelDataType } from "./viewModelValue";
+import { IViewModelValue, ViewModelDataType } from "./viewModelValue";
+
+type DataViews<T> = Dictionary<IViewModelValue<T>>;
 
 export default class ViewModel<T extends IDataModel> {
 
 	public dataModel: T;
-	public dataViews: Dictionary<ViewModelDataType>;
+	public dataViews: DataViews<T>;
 	public updatedDataModel: T;
 
 	constructor(
@@ -56,7 +58,9 @@ export default class ViewModel<T extends IDataModel> {
 					return "FLOAT";
 				}
 			case "string":
-				if (get(["length"], value) < 140) {
+				if (this.isStringImage(value)) {
+					return "IMAGE";
+				} else if (get(["length"], value) < 140) {
 					return "STRING";
 				} else {
 					return "STRING_LONG";
@@ -66,10 +70,21 @@ export default class ViewModel<T extends IDataModel> {
 		}
 	}
 
-	private getDataViews(dataModel: T): Dictionary<ViewModelDataType> {
+	private getDataViews(dataModel: T): DataViews<T> {
 		return mapValues(
-			(value) => this.getDataType(value),
+			(value): IViewModelValue<T> => ({
+				isValid: true, // TODO: implement validation
+				onChange: () => null, // TODO: implement auto onChange methods
+				onReset: () => null, // TODO: implement auto onChange methods
+				onSubmit: () => null, // TODO: implement auto onChange methods
+				type: this.getDataType(value),
+				value,
+			}),
 			dataModel,
 		);
+	}
+
+	private isStringImage(value: string): boolean {
+		return value.startsWith("data:image/jpeg;base64,");
 	}
 }

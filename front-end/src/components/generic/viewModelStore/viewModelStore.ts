@@ -82,7 +82,7 @@ export default class ViewModelStore<T extends IDataModel> {
 	public update = (
 		id: string,
 		updates: Partial<T>,
-		onUpdate: (dataModel: T) => void;
+		onUpdate: (dataModel: T) => void,
 	): void => {
 		const path = [id, "updatedDataModel"];
 		const updatedDataModel = {

@@ -3,12 +3,13 @@ import { SyntheticEvent } from "react";
 type ModelValue<T> = Exclude<T, object>;
 
 export interface IViewModelValue<T> {
+	isRequired?: boolean;
+	isValid: boolean;
 	onChange: (event: SyntheticEvent) => void;
 	onReset: (event: SyntheticEvent) => void;
 	onSubmit: (event: SyntheticEvent) => void;
-	name: string;
-	value: ModelValue<T>;
 	type: ViewModelDataType;
+	value: ModelValue<T>;
 }
 
-export type ViewModelDataType =  "STRING" | "STRING_LONG" | "INTEGER" | "FLOAT" | "BOOLEAN" | "FILE";
+export type ViewModelDataType =  "STRING" | "STRING_LONG" | "IMAGE" | "INTEGER" | "FLOAT" | "BOOLEAN" | "FILE";
