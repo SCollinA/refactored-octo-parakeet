@@ -1,7 +1,6 @@
-import { IHoop } from "./hoop.model";
+import { IColDataModel } from "../components/generic/viewModelStore/ColDataModel";
 
-export interface ICollection {
+export interface ICollection extends IColDataModel {
 	id: string;
-	hoops: IHoop[];
-	name: string;
+	name?: string;
 }

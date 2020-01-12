@@ -12,7 +12,7 @@ export default ({
 	value: string,
 }) => {
 	return (
-		<input autoFocus={autoFocus} type="text" name="text"
+		<input className="col-input-text" autoFocus={autoFocus} type="text" name="text"
 			value={value}
 			onChange={onChange}
 		/>

@@ -3,10 +3,12 @@ import React from "react";
 import "./ColButton.css";
 
 export default ({
+	action,
 	name,
 	type,
 	value,
 }: {
+	action: () => void,
 	name: string,
 	type: "button" | "reset" | "submit",
 	value: string,

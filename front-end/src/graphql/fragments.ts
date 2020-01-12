@@ -4,9 +4,9 @@ import gql from "graphql-tag";
 export const HOOP_BASIC_FRAGMENT = gql`
     fragment HoopBasic on Hoop {
         id
-        name
+        title
         description
-        size
+        diameter
         price
         sold
     }

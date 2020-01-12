@@ -1,7 +1,9 @@
 import { ICollection } from "./collection.model";
 import { IImageFile } from "./file.model";
 
-export interface IHoop {
+import { IColDataModel } from "../components/generic/viewModelStore/ColDataModel";
+
+export interface IHoop extends IColDataModel {
 	id: string;
 	title: string;
 	collections: ICollection[];

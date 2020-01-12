@@ -10,6 +10,7 @@ import ColLoading from "../../generic/loading/ColLoading";
 
 import { GET_COLLECTION } from "../../../graphql/queries";
 import { ICollection } from "../../../models/collection.model";
+import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
 
 export default ({
 	collectionId,
@@ -19,10 +20,13 @@ export default ({
 	const {
 		data,
 		loading,
-	} = useQuery<ICollection>(GET_COLLECTION, {
+	} = useQuery(GET_COLLECTION, {
 		variables: { id: collectionId },
 	});
-	const collection = get(["getCollection"], data);
+	const collection: ICollection = get(["getCollection"], data);
+	if (!collection) {
+		return <ColPlaceholder/>;
+	}
 	const [isEditing, setIsEditing] = useState(false);
 	const className = `collection collection--${isEditing ? "edit" : "readonly"}`;
 	return (
@@ -35,9 +39,12 @@ export default ({
 				<ColButton type="button"
 					name="editCollection"
 					value="edit collection"
+					action={() => setIsEditing(true)}
 				/>
 				{isEditing &&
-					<CollectionEdit collection={collection}/>}
+					<CollectionEdit collection={collection}
+						submit={() => setIsEditing(false)}
+					/>}
 				{!isEditing &&
 					<CollectionReadOnly collection={collection}/>}
 			</ColLoading>
