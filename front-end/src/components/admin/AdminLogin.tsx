@@ -11,15 +11,11 @@ import "./AdminLogin.css";
 
 export default () => {
 	const [showAdmin, setShowAdmin] = useState(false);
-	const {
-		isLoggedIn,
-		login,
-		logout,
-	}: any = useContext(LayoutContext);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [adminLogin, { loading }] = useMutation(LOGIN, {
 		onCompleted({ login: { token }}: any) {
 			localStorage.setItem("auth-token", token);
-			login();
+			setIsLoggedIn(true);
 			setShowAdmin(false);
 		},
 		onError(err: any) {
@@ -34,7 +30,7 @@ export default () => {
 			{isLoggedIn &&
 				<div className="logout clickable">
 					<input type="button" value="logout"
-						onClick={() => logout()}
+						onClick={() => setIsLoggedIn(false)}
 					/>
 				</div>}
 			{!isLoggedIn &&
