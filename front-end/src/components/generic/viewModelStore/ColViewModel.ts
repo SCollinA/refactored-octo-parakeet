@@ -1,4 +1,3 @@
-import { Dictionary } from "lodash";
 import {
 	cloneDeep,
 	entries,
@@ -8,6 +7,8 @@ import {
 	omit,
 	set,
 } from "lodash/fp";
+
+import isStringImage from "../../utils/functions/isStringImage";
 
 import {
 	ColDataModelValue,
@@ -69,7 +70,7 @@ export default class ColViewModel<T extends IColDataModel> {
 		}
 	}
 
-	private getDataType(key: keyof T, value: ColDataModelValue): ColViewModelDataType {
+	private getDataType(key: string, value: ColDataModelValue): ColViewModelDataType {
 		if (!value) {
 			value = this.placeholders[key];
 		}
@@ -83,7 +84,7 @@ export default class ColViewModel<T extends IColDataModel> {
 					return "FLOAT";
 				}
 			case "string":
-				if (this.isStringImage(value)) {
+				if (isStringImage(value)) {
 					return "IMAGE";
 				} else if (get(["length"], value) < 140) {
 					return "STRING";
@@ -108,9 +109,5 @@ export default class ColViewModel<T extends IColDataModel> {
 				}),
 			),
 		)(dataModel);
-	}
-
-	private isStringImage(value: string): boolean {
-		return value.startsWith("data:image/jpeg;base64,");
 	}
 }

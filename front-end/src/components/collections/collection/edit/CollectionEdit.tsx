@@ -8,7 +8,6 @@ import { ICollection } from "../../../../models/collection.model";
 
 import ColForm from "../../../generic/inputs/form/ColForm";
 import ColLoading from "../../../generic/loading/ColLoading";
-import { IColDataModel } from "../../../generic/viewModelStore/ColDataModel";
 import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
 import { scrubData } from "../../../utils/functions/scrubData";
 

@@ -3,28 +3,45 @@ import { Dictionary } from "lodash";
 import { find, get, map } from "lodash/fp";
 import React, { useContext, useState } from "react";
 
-import { GET_COLLECTIONS } from "../../graphql/queries";
+import { GET_COLLECTIONS, GET_HOOP_FULL } from "../../graphql/queries";
 import { ICollection } from "../../models/collection.model";
 
 import { AdminContext } from "../admin/AdminContext";
 import ColButton from "../generic/buttons/ColButton";
-import Loading from "../generic/loading/ColLoading";
+import ColLoading from "../generic/loading/ColLoading";
 import Hoops from "../hoops/Hoops";
 
 import Collection from "./collection/Collection";
 import CollectionCreate from "./collection/create/CollectionCreate";
 
-export default () => {
-	const {
-		data,
-		loading,
-	} = useQuery<Dictionary<ICollection[]>>(GET_COLLECTIONS);
-	const collections = get(["Collection"], data);
+export default ({
+	hoopId,
+}: {
+	hoopId?: string,
+}) => {
+	let collections: ICollection[];
+	let loading: boolean;
+	if (!hoopId) {
+		const {
+			data,
+			loading: collectionsLoading,
+		} = useQuery(GET_COLLECTIONS);
+		collections = get(["Collection"], data);
+		loading = collectionsLoading;
+	} else {
+		const {
+			data,
+			loading: hoopLoading,
+		} = useQuery(GET_HOOP_FULL);
+		collections = get(["Hoop", "collections"], data);
+		loading = hoopLoading;
+
+	}
 	const { isLoggedIn } = useContext(AdminContext);
 	const [selectedCollectionId, setSelectedCollectionId] = useState<string>("");
 	return (
 		<div className="collections">
-			<Loading text={"hallie's • hoops •"}
+			<ColLoading text={"hallie's • hoops •"}
 				loading={loading}
 				fitChild={true}
 				preventClick={false}
@@ -36,7 +53,10 @@ export default () => {
 							value="Back"
 							action={() => setSelectedCollectionId("")}
 						/>
-						<Collection collection={find(selectedCollectionId, collections)}
+						<Collection collection={find(
+								({id}) => id === selectedCollectionId,
+								collections,
+							)}
 							isSelected={true}
 						/>
 						<Hoops collectionId={selectedCollectionId}/>
@@ -57,7 +77,7 @@ export default () => {
 							</>}
 					</>
 				}
-			</Loading>
+			</ColLoading>
 		</div>
 	);
 };
