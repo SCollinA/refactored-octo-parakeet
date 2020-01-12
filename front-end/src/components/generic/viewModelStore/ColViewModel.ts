@@ -81,9 +81,6 @@ export default class ColViewModel<T extends IColDataModel> {
 		return mapValues(
 			(value): ColViewModelValues<T> => ({
 				isValid: true, // TODO: implement validation
-				onChange: () => null, // TODO: implement auto onChange methods
-				onReset: () => null, // TODO: implement auto onChange methods
-				onSubmit: () => null, // TODO: implement auto onChange methods
 				type: this.getDataType(value),
 			}),
 			dataModel,

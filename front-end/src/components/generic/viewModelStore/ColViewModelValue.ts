@@ -5,9 +5,6 @@ export type ColViewModelDataType =  "STRING" | "STRING_LONG" | "IMAGE" | "INTEGE
 interface IColViewModelValue {
 	isRequired?: boolean;
 	isValid: boolean;
-	onChange: (event: SyntheticEvent) => void;
-	onReset: (event: SyntheticEvent) => void;
-	onSubmit: (event: SyntheticEvent) => void;
 	type: ColViewModelDataType;
 }
 
