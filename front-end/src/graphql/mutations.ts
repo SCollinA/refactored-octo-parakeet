@@ -55,6 +55,7 @@ export const MERGE_COLLECTION = gql`
 			...CollectionFull
 		}
 	}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const UPDATE_COLLECTION = gql`
@@ -63,6 +64,7 @@ export const UPDATE_COLLECTION = gql`
 			...CollectionFull
 		}
 	}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const DELETE_COLLECTION = gql`
@@ -88,6 +90,7 @@ export const MERGE_HOOP = gql`
 			...HoopFull
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
 `;
 
 export const UPDATE_HOOP = gql`
@@ -96,6 +99,7 @@ export const UPDATE_HOOP = gql`
 			...HoopFull
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
 `;
 
 export const DELETE_HOOP = gql`
@@ -123,6 +127,8 @@ export const ADD_COLLECTION_HOOPS = gql`
 			}
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const MERGE_COLLECTION_HOOPS = gql`
@@ -142,6 +148,8 @@ export const MERGE_COLLECTION_HOOPS = gql`
 			}
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const REMOVE_COLLECTION_HOOPS = gql`
@@ -161,4 +169,6 @@ export const REMOVE_COLLECTION_HOOPS = gql`
 			}
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
+	${COLLECTION_FULL_FRAGMENT}
 `;

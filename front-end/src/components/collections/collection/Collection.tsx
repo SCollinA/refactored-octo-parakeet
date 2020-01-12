@@ -40,14 +40,13 @@ export default ({
 					preventClick={false}
 				>
 					{isLoggedIn && <ColButton type="button"
-						name="editCollection"
 						value="edit collection"
 						action={() => setIsEditing(true)}
 					/>}
 					{isLoggedInAndEditing &&
 						<CollectionEdit collection={collection}
-							submit={() => setIsEditing(false)}
 							cancel={() => setIsEditing(false)}
+							submit={() => setIsEditing(false)}
 						/>}
 					{!isEditing &&
 						<CollectionReadOnly collection={collection}/>}
