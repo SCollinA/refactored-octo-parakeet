@@ -15,8 +15,12 @@ import { ICollection } from "../../../models/collection.model";
 
 export default ({
 	collectionId,
+	isSelected,
+	selectCollection = () => undefined,
 }: {
 	collectionId?: string,
+	isSelected?: boolean,
+	selectCollection?: () => void,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
@@ -33,13 +37,15 @@ export default ({
 		return <ColPlaceholder/>;
 	} else {
 		return (
-			<div className={className}>
+			<div className={className}
+				onClick={() => selectCollection()}
+			>
 				<ColLoading text={"hallie's • hoops •"}
 					loading={loading}
 					fitChild={true}
 					preventClick={false}
 				>
-					{isLoggedIn && <ColButton type="button"
+					{isLoggedIn && isSelected && <ColButton type="button"
 						value="edit collection"
 						action={() => setIsEditing(true)}
 					/>}
