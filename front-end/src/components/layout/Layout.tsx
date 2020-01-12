@@ -5,6 +5,7 @@ import Header from "./header/Header";
 
 import "./Layout.css";
 
+import AdminContext from "../admin/AdminContext";
 import HamburgerLinks from "../links/hamburger-links/HamburgerLinks";
 import PageLinks from "../links/page-links/HalPageLinks";
 
@@ -14,14 +15,16 @@ export default ({
 	children: ReactNode,
 }) => {
 	return (
-		<div className="layout">
-			<Header/>
-			<HamburgerLinks/>
-			<PageLinks/>
-			<div className="layout__content">
-				<main>{children}</main>
+		<AdminContext>
+			<div className="layout">
+				<Header/>
+				<HamburgerLinks/>
+				<PageLinks/>
+				<div className="layout__content">
+					<main>{children}</main>
+				</div>
+				<Footer/>
 			</div>
-			<Footer/>
-		</div>
+		</AdminContext>
 	);
 };

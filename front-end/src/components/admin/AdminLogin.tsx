@@ -5,11 +5,16 @@ import { LOGIN } from "../../graphql/mutations";
 
 import ColLoading from "../generic/loading/ColLoading";
 
+import { AdminContext } from "./AdminContext";
+
 import "./AdminLogin.css";
 
 export default () => {
 	const [showAdmin, setShowAdmin] = useState(false);
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const {
+		isLoggedIn,
+		setIsLoggedIn,
+	} = useContext(AdminContext);
 	const [adminLogin, { loading }] = useMutation(LOGIN, {
 		onCompleted({ login: { token }}: any) {
 			localStorage.setItem("auth-token", token);
