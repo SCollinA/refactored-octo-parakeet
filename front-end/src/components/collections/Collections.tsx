@@ -9,6 +9,7 @@ import { ICollection } from "../../models/collection.model";
 import { AdminContext } from "../admin/AdminContext";
 import ColButton from "../generic/buttons/ColButton";
 import Loading from "../generic/loading/ColLoading";
+import Hoops from "../hoops/Hoops";
 
 import Collection from "./collection/Collection";
 import CollectionCreate from "./collection/create/CollectionCreate";
@@ -20,7 +21,7 @@ export default () => {
 	} = useQuery<Dictionary<ICollection[]>>(GET_COLLECTIONS);
 	const collections = get(["Collection"], data);
 	const { isLoggedIn } = useContext(AdminContext);
-	const [selectedCollectionId, setSelectedCollection] = useState<string>("");
+	const [selectedCollectionId, setSelectedCollectionId] = useState<string>("");
 	return (
 		<div className="collections">
 			<Loading text={"hallie's • hoops •"}
@@ -33,23 +34,27 @@ export default () => {
 					<>
 						<ColButton type="button"
 							value="Back"
-							action={() => setSelectedCollection("")}
+							action={() => setSelectedCollectionId("")}
 						/>
 						<Collection collectionId={selectedCollectionId}
 							isSelected={true}
 						/>
+						<Hoops collectionId={selectedCollectionId}/>
 					</>
 				) :
 					<>
 						{map(
 							(collection) =>
 								<Collection key={collection.id} collectionId={collection.id}
-									selectCollection={() => setSelectedCollection(collection.id)}
+									selectCollection={() => setSelectedCollectionId(collection.id)}
 								/>,
 							collections,
 						)}
 						{isLoggedIn &&
-							<CollectionCreate/>}
+							<>
+								<CollectionCreate/>
+								<Hoops/>
+							</>}
 					</>
 				}
 			</Loading>

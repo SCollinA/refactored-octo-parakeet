@@ -1,6 +1,7 @@
 import React from "react";
 
 import { ICollection } from "../../../../models/collection.model";
+import ColPlaceholder from "../../../generic/layout/placeholder/ColPlaceholder";
 
 export default ({
 	collection,
@@ -9,9 +10,11 @@ export default ({
 }) => {
 	return (
 		<>
-			<p className="collection__name">
-				{collection.name}
-			</p>
+			{!!collection.name ?
+				<p className="collection__name">
+					{collection.name}
+				</p> :
+				<ColPlaceholder/>}
 		</>
 	);
 };

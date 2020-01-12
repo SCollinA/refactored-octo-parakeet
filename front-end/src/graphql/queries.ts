@@ -60,6 +60,15 @@ export const GET_HOOP_WITH_IMAGE = gql`
     ${HOOP_WITH_IMAGE_FRAGMENT}
 `;
 
+export const GET_HOOPS_WITHOUT_COLLECTIONS = gql`
+	query getHoopsWithoutCollections {
+		Hoop(filter: { collections: null }) {
+			...HoopFull
+		}
+	}
+	${HOOP_FULL_FRAGMENT}
+`;
+
 export const GET_COLLECTIONS = gql`
     query getCollections {
         Collection {
@@ -72,8 +81,21 @@ export const GET_COLLECTIONS = gql`
 export const GET_COLLECTION = gql`
     query getCollection($id: ID!) {
         Collection(id: $id) {
-            ...CollectionFull
+			...CollectionFull
         }
     }
     ${COLLECTION_FULL_FRAGMENT}
+`;
+
+export const GET_COLLECTION_WITH_HOOPS = gql`
+    query getCollection($id: ID) {
+        Collection(id: $id) {
+			...CollectionFull
+			hoops {
+				...HoopFull
+			}
+        }
+    }
+	${COLLECTION_FULL_FRAGMENT}
+	${HOOP_FULL_FRAGMENT}
 `;
