@@ -8,11 +8,13 @@ import ColTextInput from "../ColText.input";
 
 export default ({
 	cancel,
+	remove,
 	reset,
 	submit,
 	viewModel,
 }: {
 	cancel?: <T extends IColDataModel>(item: T) => void,
+	remove?: () => void,
 	reset?: <T extends IColDataModel>(item: T) => void,
 	submit?: <T extends IColDataModel>(item: T) => void,
 	viewModel: ColViewModel<IColDataModel>,
@@ -45,9 +47,11 @@ export default ({
 			)}
 			<ColButton type="button"
 				value="cancel"
-				action={() => {
-					viewModel.reset(cancel);
-				}}
+				action={() => viewModel.reset(cancel)}
+			/>
+			<ColButton type="button"
+				value="delete"
+				action={() => viewModel.remove(remove)}
 			/>
 			<ColButton type="reset"
 				value="reset"

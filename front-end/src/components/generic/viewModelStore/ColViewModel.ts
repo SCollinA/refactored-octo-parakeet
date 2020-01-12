@@ -37,6 +37,12 @@ export default class ColViewModel<T extends IColDataModel> {
 		this.updatedDataModel = cloneDeep(dataModel);
 	}
 
+	public remove = (onRemove?: (dataModel: T) => void) => {
+		if (!!onRemove) {
+			onRemove(this.dataModel);
+		}
+	}
+
 	public reset = (onReset?: (dataModel: T) => void) => {
 		this.updatedDataModel = this.dataModel;
 		if (!!onReset) {

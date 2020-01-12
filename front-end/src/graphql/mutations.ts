@@ -70,9 +70,10 @@ export const UPDATE_COLLECTION = gql`
 export const DELETE_COLLECTION = gql`
 	mutation deleteCollection($id: ID!) {
 		DeleteCollection(id: $id) {
-			id
+			...CollectionFull
 		}
 	}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const CREATE_HOOP = gql`
@@ -105,9 +106,10 @@ export const UPDATE_HOOP = gql`
 export const DELETE_HOOP = gql`
 	mutation deleteHoop($id: ID!) {
 		DeleteHoop(id: $id) {
-			id
+			...HoopFull
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
 `;
 
 export const ADD_COLLECTION_HOOPS = gql`

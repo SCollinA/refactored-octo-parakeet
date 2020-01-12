@@ -1,8 +1,9 @@
 import { useMutation } from "@apollo/react-hooks";
-import { map, mapKeys, mapValues } from "lodash/fp";
+import { filter, get } from "lodash/fp";
 import React from "react";
 
-import { UPDATE_COLLECTION } from "../../../../graphql/mutations";
+import { DELETE_COLLECTION, UPDATE_COLLECTION } from "../../../../graphql/mutations";
+import { GET_COLLECTIONS } from "../../../../graphql/queries";
 import { ICollection } from "../../../../models/collection.model";
 
 import ColForm from "../../../generic/inputs/form/ColForm";
@@ -24,10 +25,34 @@ export default ({
 }) => {
 	const [
 		updateCollection,
-		{ loading },
+		{ loading: updateLoading },
 	] = useMutation(UPDATE_COLLECTION, {
 		variables: { id: collection.id },
 	});
+	const [
+		removeCollection,
+		{ loading: removeLoading },
+	] = useMutation(DELETE_COLLECTION, {
+		update(cache) {
+			const cachedData = cache.readQuery({
+				query: GET_COLLECTIONS,
+			});
+			const cachedCollections = get(
+				"Collection",
+				cachedData,
+			);
+			const updatedCollections = filter(
+				({ id }: ICollection) => collection.id !== id,
+				cachedCollections,
+			);
+			cache.writeQuery({
+				data: { Collection: updatedCollections },
+				query: GET_COLLECTIONS,
+			});
+		},
+		variables: { id: collection.id },
+	});
+	const loading = updateLoading || removeLoading;
 	const scrubbedCollection = scrubData<ICollection>(collection);
 	const placeholders = washCollection(scrubbedCollection);
 	const viewModel = new ColViewModel(scrubbedCollection, placeholders);
@@ -39,6 +64,7 @@ export default ({
 		>
 			<ColForm viewModel={viewModel}
 				cancel={(cancelledCollection) => cancel(cancelledCollection)}
+				remove={() => removeCollection()}
 				reset={(resetCollection) => reset(resetCollection)}
 				submit={(submittedCollection) => {
 					updateCollection({
