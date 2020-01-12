@@ -3,6 +3,7 @@ import { SyntheticEvent } from "react";
 export type ColViewModelDataType =  "STRING" | "STRING_LONG" | "IMAGE" | "INTEGER" | "FLOAT" | "BOOLEAN" | "FILE";
 
 interface IColViewModelValue {
+	key: string;
 	isRequired?: boolean;
 	isValid: boolean;
 	type: ColViewModelDataType;

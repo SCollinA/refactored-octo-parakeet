@@ -1,5 +1,14 @@
 import { Dictionary } from "lodash";
-import { cloneDeep, get, mapKeys, mapValues, set } from "lodash/fp";
+import {
+	cloneDeep,
+	entries,
+	flow,
+	get,
+	keyBy,
+	mapValues,
+	omit,
+	set,
+} from "lodash/fp";
 
 import {
 	ColDataModelValue,
@@ -16,12 +25,15 @@ export default class ColViewModel<T extends IColDataModel> {
 
 	public dataModel: T;
 	public dataViews: DataViews<T>;
+	public placeholders: T;
 	public updatedDataModel: T;
 
 	constructor(
 		dataModel: T,
+		placeholders: T,
 	) {
 		this.dataModel = dataModel;
+		this.placeholders = placeholders;
 		this.dataViews = this.getDataViews(dataModel);
 		this.updatedDataModel = cloneDeep(dataModel);
 	}
@@ -53,7 +65,10 @@ export default class ColViewModel<T extends IColDataModel> {
 		}
 	}
 
-	private getDataType(value: ColDataModelValue): ColViewModelDataType {
+	private getDataType(key: keyof T, value: ColDataModelValue): ColViewModelDataType {
+		if (!value) {
+			value = this.placeholders[key];
+		}
 		switch (typeof value) {
 			case "boolean":
 				return "BOOLEAN";
@@ -78,13 +93,18 @@ export default class ColViewModel<T extends IColDataModel> {
 	}
 
 	private getDataViews(dataModel: T): DataViews<T> {
-		return mapValues(
-			(value): ColViewModelValues<T> => ({
-				isValid: true, // TODO: implement validation
-				type: this.getDataType(value),
-			}),
-			dataModel,
-		);
+		return flow(
+			omit(["id"]),
+			entries,
+			mapValues(
+				([key, value]): ColViewModelValues<T> => ({
+					isValid: true, // TODO: implement validation
+					key,
+					type: this.getDataType(key, value),
+				}),
+			),
+			keyBy("key"),
+		)(dataModel);
 	}
 
 	private isStringImage(value: string): boolean {

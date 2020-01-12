@@ -18,6 +18,8 @@ export default ({
 }: {
 	collectionId?: string,
 }) => {
+	const [isEditing, setIsEditing] = useState(false);
+	const { isLoggedIn } = useContext(AdminContext);
 	const {
 		data,
 		loading,
@@ -25,33 +27,32 @@ export default ({
 		variables: { id: collectionId },
 	});
 	const collection: ICollection = get(["Collection", "0"], data);
-	if (!collection) {
-		return <ColPlaceholder/>;
-	}
-	const [isEditing, setIsEditing] = useState(false);
-	const { isLoggedIn } = useContext(AdminContext);
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
 	const className = `collection collection--${isLoggedInAndEditing ? "edit" : "readonly"}`;
-	return (
-		<div className={className}>
-			<ColLoading text={"hallie's • hoops •"}
-				loading={loading}
-				fitChild={true}
-				preventClick={false}
-			>
-				{isLoggedIn && <ColButton type="button"
-					name="editCollection"
-					value="edit collection"
-					action={() => setIsEditing(true)}
-				/>}
-				{isLoggedInAndEditing &&
-					<CollectionEdit collection={collection}
-						submit={() => setIsEditing(false)}
-						cancel={() => setIsEditing(false)}
+	if (!collection) {
+		return <ColPlaceholder/>;
+	} else {
+		return (
+			<div className={className}>
+				<ColLoading text={"hallie's • hoops •"}
+					loading={loading}
+					fitChild={true}
+					preventClick={false}
+				>
+					{isLoggedIn && <ColButton type="button"
+						name="editCollection"
+						value="edit collection"
+						action={() => setIsEditing(true)}
 					/>}
-				{!isEditing &&
-					<CollectionReadOnly collection={collection}/>}
-			</ColLoading>
-		</div>
-	);
+					{isLoggedInAndEditing &&
+						<CollectionEdit collection={collection}
+							submit={() => setIsEditing(false)}
+							cancel={() => setIsEditing(false)}
+						/>}
+					{!isEditing &&
+						<CollectionReadOnly collection={collection}/>}
+				</ColLoading>
+			</div>
+		);
+	}
 };
