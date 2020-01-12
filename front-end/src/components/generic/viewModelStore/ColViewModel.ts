@@ -1,12 +1,12 @@
 import { Dictionary } from "lodash";
 import { cloneDeep, get, mapKeys, mapValues, set } from "lodash/fp";
 
-import { IDataModel } from "./dataModel";
-import { IViewModelValue, ViewModelDataType } from "./viewModelValue";
+import { IColDataModel } from "./ColDataModel";
+import { ColViewModelDataType, IColViewModelValue } from "./ColViewModelValue";
 
-type DataViews<T> = Dictionary<IViewModelValue<T>>;
+type DataViews<T> = Dictionary<IColViewModelValue<T>>;
 
-export default class ViewModel<T extends IDataModel> {
+export default class ColViewModel<T extends IColDataModel> {
 
 	public dataModel: T;
 	public dataViews: DataViews<T>;
@@ -47,7 +47,7 @@ export default class ViewModel<T extends IDataModel> {
 		}
 	}
 
-	private getDataType(value: T[keyof T]): ViewModelDataType {
+	private getDataType(value: T[keyof T]): ColViewModelDataType {
 		switch (typeof value) {
 			case "boolean":
 				return "BOOLEAN";
@@ -72,7 +72,7 @@ export default class ViewModel<T extends IDataModel> {
 
 	private getDataViews(dataModel: T): DataViews<T> {
 		return mapValues(
-			(value): IViewModelValue<T> => ({
+			(value): IColViewModelValue<T> => ({
 				isValid: true, // TODO: implement validation
 				onChange: () => null, // TODO: implement auto onChange methods
 				onReset: () => null, // TODO: implement auto onChange methods

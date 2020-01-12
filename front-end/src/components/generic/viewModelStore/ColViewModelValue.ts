@@ -2,14 +2,14 @@ import { SyntheticEvent } from "react";
 
 type ModelValue<T> = Exclude<T, object>;
 
-export interface IViewModelValue<T> {
+export interface IColViewModelValue<T> {
 	isRequired?: boolean;
 	isValid: boolean;
 	onChange: (event: SyntheticEvent) => void;
 	onReset: (event: SyntheticEvent) => void;
 	onSubmit: (event: SyntheticEvent) => void;
-	type: ViewModelDataType;
+	type: ColViewModelDataType;
 	value: ModelValue<T>;
 }
 
-export type ViewModelDataType =  "STRING" | "STRING_LONG" | "IMAGE" | "INTEGER" | "FLOAT" | "BOOLEAN" | "FILE";
+export type ColViewModelDataType =  "STRING" | "STRING_LONG" | "IMAGE" | "INTEGER" | "FLOAT" | "BOOLEAN" | "FILE";

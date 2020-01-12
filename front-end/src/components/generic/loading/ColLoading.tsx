@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./Loading.css";
+import "./ColLoading.css";
 
 export default ({
 	children,

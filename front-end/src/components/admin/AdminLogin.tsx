@@ -3,9 +3,7 @@ import React, { useContext, useState } from "react";
 
 import { LOGIN } from "../../graphql/mutations";
 
-import { LayoutContext } from "../layout/Layout";
-
-import Loading from "../generic/loading/Loading";
+import ColLoading from "../generic/loading/ColLoading";
 
 import "./AdminLogin.css";
 
@@ -24,7 +22,7 @@ export default () => {
 		},
 	});
 	return (
-		<Loading loading={loading}
+		<ColLoading loading={loading}
 			text={"hallie's • hoops •"}
 		>
 			{isLoggedIn &&
@@ -61,6 +59,6 @@ export default () => {
 						admin
 					</p>)
 			}
-		</Loading>
+		</ColLoading>
 	);
 };

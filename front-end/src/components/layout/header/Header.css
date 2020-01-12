@@ -1,0 +1,8 @@
+.hal-header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.hal-header__home-link {
+	width: 140px;
+}

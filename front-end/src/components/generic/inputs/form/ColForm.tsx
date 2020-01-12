@@ -1,6 +1,6 @@
 import React, { SyntheticEvent } from "react";
 
-import ViewModel from "../../viewModelStore/viewModel";
+import ColViewModel from "../../viewModelStore/ColViewModel";
 
 import { ICollection } from "../../../../models/collection.model";
 import { IHoop } from "../../../../models/hoop.model";
@@ -8,7 +8,7 @@ import { IHoop } from "../../../../models/hoop.model";
 export default ({
 	viewModel,
 }: {
-	viewModel: ViewModel<IHoop | ICollection>,
+	viewModel: ColViewModel<IHoop | ICollection>,
 }) => {
 	return (
 		<form id="UpdateGalleryForm"

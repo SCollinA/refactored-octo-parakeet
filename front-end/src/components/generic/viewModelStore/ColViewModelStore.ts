@@ -1,13 +1,13 @@
 import { Dictionary } from "lodash";
 import { forEach, get, keyBy, map, mapValues, set } from "lodash/fp";
 
-import { IDataModel } from "./dataModel";
-import ViewModel from "./viewModel";
+import { IColDataModel } from "./ColDataModel";
+import ColViewModel from "./ColViewModel";
 
-export default class ViewModelStore<T extends IDataModel> {
+export default class ColViewModelStore<T extends IColDataModel> {
 
 	public batchDataModels: Dictionary<T> = {};
-	public viewModels: Dictionary<ViewModel<T>>;
+	public viewModels: Dictionary<ColViewModel<T>>;
 
 	constructor(
 		dataModels: T[],
@@ -27,9 +27,9 @@ export default class ViewModelStore<T extends IDataModel> {
 		}
 	}
 
-	public batchSubmit = (onSubmit?: (viewModels: Dictionary<ViewModel<T>>) => void) => {
+	public batchSubmit = (onSubmit?: (viewModels: Dictionary<ColViewModel<T>>) => void) => {
 		forEach(
-			(dataModel: T) => this.viewModels[dataModel.id] = new ViewModel(dataModel),
+			(dataModel: T) => this.viewModels[dataModel.id] = new ColViewModel(dataModel),
 			this.batchDataModels,
 		);
 		this.batchDataModels = {};
@@ -95,12 +95,12 @@ export default class ViewModelStore<T extends IDataModel> {
 		}
 	}
 
-	private initializeViewModels(dataModels: T[]): Dictionary<ViewModel<T>> {
+	private initializeViewModels(dataModels: T[]): Dictionary<ColViewModel<T>> {
 		return keyBy(
 			"id",
 			map(
 				(dataModel) => {
-					return new ViewModel<T>(dataModel);
+					return new ColViewModel<T>(dataModel);
 				},
 				dataModels,
 			),

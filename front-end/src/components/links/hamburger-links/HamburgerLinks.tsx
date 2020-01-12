@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-import SectionWrapper from "../../generic/layout/section-wrapper/SectionWrapper";
+import SectionWrapper from "../../generic/layout/section-wrapper/ColSectionWrapper";
 
-import PageLinks from "../page-links/PageLinks";
-import SocialLinks from "../social-links/SocialLinks";
+import PageLinks from "../page-links/HalPageLinks";
+import SocialLinks from "../social-links/HalSocialLinks";
 
 import "./HamburgerLinks.css";
 

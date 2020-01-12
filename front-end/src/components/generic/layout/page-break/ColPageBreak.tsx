@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./PageBreak.css";
+import "./ColPageBreak.css";
 
 export default ({ vertical = false }: { vertical?: boolean }) =>
 	<div className="page-break-container">

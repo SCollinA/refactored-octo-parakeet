@@ -1,11 +1,10 @@
 import { useQuery } from "@apollo/react-hooks";
 import { get } from "lodash/fp";
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 
-import Loading from "../../generic/loading/Loading";
+import Loading from "../../generic/loading/ColLoading";
 
 export default ({
-	windowAspectRatio,
 	id,
 	image,
 	imageAltText,
@@ -13,7 +12,6 @@ export default ({
 	imageQueryImagePath,
 	loadingText,
 }: {
-	windowAspectRatio: number,
 	id: string,
 	image?: string,
 	imageAltText: string,
@@ -30,6 +28,13 @@ export default ({
 	});
 	image = image || get(imageQueryImagePath, data) || "";
 	const imageRef = createRef<HTMLImageElement>();
+	const [windowAspectRatio, setWindowAspectRatio] = useState();
+	useEffect(() => {
+		const updateWindowDimensions = () =>
+			setWindowAspectRatio(window.innerWidth / window.innerHeight);
+		window.addEventListener("resize", updateWindowDimensions);
+		return () => window.removeEventListener("resize", updateWindowDimensions);
+	});
 	const [imageWidthPercent, setImageWidthPercent] = useState(0);
 	const imageOnLoad = () => {
 		const imageDB = imageRef.current;

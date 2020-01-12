@@ -1,19 +1,24 @@
 import Img from "gatsby-image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import Loading from "../../generic/loading/Loading";
+import Loading from "../../generic/loading/ColLoading";
 
 import { IImageFile } from "../../../models/file.model";
 
 export default ({
-	windowAspectRatio,
 	file,
 	loadingText,
 }: {
-	windowAspectRatio: number,
 	file: IImageFile,
 	loadingText: string,
 }) => {
+	const [windowAspectRatio, setWindowAspectRatio] = useState();
+	useEffect(() => {
+		const updateWindowDimensions = () =>
+			setWindowAspectRatio(window.innerWidth / window.innerHeight);
+		window.addEventListener("resize", updateWindowDimensions);
+		return () => window.removeEventListener("resize", updateWindowDimensions);
+	});
 	const correctedAspectRatio = file.childImageSharp.fluid.aspectRatio / windowAspectRatio;
 	const imageWidthPercent = correctedAspectRatio * 100;
 	const [loading, setLoading] = useState(false);

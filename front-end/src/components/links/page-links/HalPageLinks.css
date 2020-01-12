@@ -1,17 +1,17 @@
-.PageLinks {
+.hal-page-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 }
 
-.pageLink {
+.hal-page-link {
     margin: auto;
     display: flex;
     justify-content: center;
 }
 
-.pageLink h2 {
+.hal-page-link h2 {
     margin: auto;
     padding: 2px 20px;
     white-space: nowrap;
@@ -30,15 +30,15 @@
         flex-direction: column;
     }
 
-    .pageLink {
+    .hal-page-link {
         width: 100%;
     }
     
-    .pageLink h2 {
+    .hal-page-link h2 {
         padding: 2%;
     }
 
-    .pageLink > a {
+    .hal-page-link > a {
         flex: 1;
     }
 }

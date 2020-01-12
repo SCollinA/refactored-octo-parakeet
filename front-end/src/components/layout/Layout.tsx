@@ -6,7 +6,7 @@ import Header from "./header/Header";
 import "./Layout.css";
 
 import HamburgerLinks from "../links/hamburger-links/HamburgerLinks";
-import PageLinks from "../links/page-links/PageLinks";
+import PageLinks from "../links/page-links/HalPageLinks";
 
 export default ({
 	children,
