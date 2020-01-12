@@ -4,8 +4,15 @@ import {
 	HOOP_FULL_FRAGMENT,
 } from "./fragments";
 
-const CollectionInputParams = `
+const RequiredId = `
 	$id: ID!,
+`;
+
+const OptionalId = `
+	$id: ID,
+`;
+
+const CollectionInputParams = `
 	$name: String,
 `;
 const CollectionInputArgs = `
@@ -14,7 +21,6 @@ const CollectionInputArgs = `
 `;
 
 const HoopInputParams = `
-	$id: ID!,
 	$name: String,
 	$description: String,
 	$diameter: Float,
@@ -41,7 +47,7 @@ export const LOGIN = gql`
 `;
 
 export const CREATE_COLLECTION = gql`
-	mutation createCollection(${CollectionInputParams}) {
+	mutation createCollection(${OptionalId}${CollectionInputParams}) {
 		CreateCollection(${CollectionInputArgs}) {
 			...CollectionFull
 		}
@@ -50,7 +56,7 @@ export const CREATE_COLLECTION = gql`
 `;
 
 export const MERGE_COLLECTION = gql`
-	mutation mergeCollection(${CollectionInputParams}) {
+	mutation mergeCollection(${OptionalId}${CollectionInputParams}) {
 		MergeCollection(${CollectionInputArgs}) {
 			...CollectionFull
 		}
@@ -59,7 +65,7 @@ export const MERGE_COLLECTION = gql`
 `;
 
 export const UPDATE_COLLECTION = gql`
-	mutation updateCollection(${CollectionInputParams}) {
+	mutation updateCollection(${RequiredId}${CollectionInputParams}) {
 		UpdateCollection(${CollectionInputArgs}) {
 			...CollectionFull
 		}
@@ -68,7 +74,7 @@ export const UPDATE_COLLECTION = gql`
 `;
 
 export const DELETE_COLLECTION = gql`
-	mutation deleteCollection($id: ID!) {
+	mutation deleteCollection(${RequiredId}) {
 		DeleteCollection(id: $id) {
 			...CollectionFull
 		}
@@ -77,7 +83,7 @@ export const DELETE_COLLECTION = gql`
 `;
 
 export const CREATE_HOOP = gql`
-	mutation createHoop(${HoopInputParams}) {
+	mutation createHoop(${OptionalId}${HoopInputParams}) {
 		CreateHoop(${HoopInputArgs}) {
 			...HoopFull
 		}
@@ -86,7 +92,7 @@ export const CREATE_HOOP = gql`
 `;
 
 export const MERGE_HOOP = gql`
-	mutation mergeHoop(${HoopInputParams}) {
+	mutation mergeHoop(${OptionalId}${HoopInputParams}) {
 		MergeHoop(${HoopInputArgs}) {
 			...HoopFull
 		}
@@ -95,7 +101,7 @@ export const MERGE_HOOP = gql`
 `;
 
 export const UPDATE_HOOP = gql`
-	mutation updateHoop(${HoopInputParams}) {
+	mutation updateHoop(${RequiredId}${HoopInputParams}) {
 		UpdateHoop(${HoopInputArgs}) {
 			...HoopFull
 		}
@@ -104,7 +110,7 @@ export const UPDATE_HOOP = gql`
 `;
 
 export const DELETE_HOOP = gql`
-	mutation deleteHoop($id: ID!) {
+	mutation deleteHoop(${RequiredId}) {
 		DeleteHoop(id: $id) {
 			...HoopFull
 		}
