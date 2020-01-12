@@ -1,6 +1,6 @@
 import { Link } from "gatsby";
 import React from "react";
-import SectionWrapper from "../../generic/section-wrapper/SectionWrapper";
+import SectionWrapper from "../../generic/layout/section-wrapper/SectionWrapper";
 
 import "./PageLinks.css";
 

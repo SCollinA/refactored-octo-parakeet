@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import ImageDB from "./image-db/ImageDB";
 import ImageFile from "./image-file/ImageFile";
 
-import Placeholder from "../generic/placeholder/Placeholder";
+import Placeholder from "../generic/layout/placeholder/Placeholder";
 
 import { GET_HOOP_WITH_IMAGE } from "../../graphql/queries";
 import { IHoop } from "../../models/hoop.model";
