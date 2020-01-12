@@ -38,14 +38,14 @@ export default class ColViewModel<T extends IColDataModel> {
 	}
 
 	public reset = (onReset?: (dataModel: T) => void) => {
-		this.updatedDataModel = get([], this.dataModel);
+		this.updatedDataModel = this.dataModel;
 		if (!!onReset) {
 			onReset(this.updatedDataModel);
 		}
 	}
 
 	public submit = (onSubmit?: (dataModel: T) => void) => {
-		this.dataModel = set([], this.updatedDataModel, this.dataModel);
+		this.dataModel = cloneDeep(this.updatedDataModel);
 		this.dataViews = this.getDataViews(this.dataModel);
 		if (!!onSubmit) {
 			onSubmit(this.dataModel);
@@ -54,13 +54,12 @@ export default class ColViewModel<T extends IColDataModel> {
 
 	public update = (updates: Partial<T>, onUpdate?: (dataModel: T) => void) => {
 		const updatedDataModel = {
-			...get([], this.updatedDataModel),
+			...this.updatedDataModel,
 			...updates,
 		};
-		this.dataModel = set([], updatedDataModel, this.dataModel);
-		this.dataViews = this.getDataViews(this.dataModel);
+		this.updatedDataModel = updatedDataModel;
 		if (!!onUpdate) {
-			onUpdate(this.dataModel);
+			onUpdate(this.updatedDataModel);
 		}
 	}
 
