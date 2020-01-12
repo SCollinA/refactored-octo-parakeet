@@ -1,10 +1,16 @@
 import { Dictionary } from "lodash";
 import { cloneDeep, get, mapKeys, mapValues, set } from "lodash/fp";
 
-import { IColDataModel } from "./ColDataModel";
-import { ColViewModelDataType, IColViewModelValue } from "./ColViewModelValue";
+import {
+	ColDataModelValue,
+	IColDataModel,
+} from "./ColDataModel";
+import {
+	ColViewModelDataType,
+	ColViewModelValues,
+} from "./ColViewModelValue";
 
-type DataViews<T> = Dictionary<IColViewModelValue<T>>;
+type DataViews<T> = Dictionary<ColViewModelValues<T>>;
 
 export default class ColViewModel<T extends IColDataModel> {
 
@@ -47,11 +53,11 @@ export default class ColViewModel<T extends IColDataModel> {
 		}
 	}
 
-	private getDataType(value: T[keyof T]): ColViewModelDataType {
+	private getDataType(value: ColDataModelValue): ColViewModelDataType {
 		switch (typeof value) {
 			case "boolean":
 				return "BOOLEAN";
-			case "number":
+		case "number":
 				if (value % 1 === 0) {
 					return "INTEGER";
 				} else {
@@ -68,17 +74,17 @@ export default class ColViewModel<T extends IColDataModel> {
 			default:
 				return "FILE";
 		}
+
 	}
 
 	private getDataViews(dataModel: T): DataViews<T> {
 		return mapValues(
-			(value): IColViewModelValue<T> => ({
+			(value): ColViewModelValues<T> => ({
 				isValid: true, // TODO: implement validation
 				onChange: () => null, // TODO: implement auto onChange methods
 				onReset: () => null, // TODO: implement auto onChange methods
 				onSubmit: () => null, // TODO: implement auto onChange methods
 				type: this.getDataType(value),
-				value,
 			}),
 			dataModel,
 		);
