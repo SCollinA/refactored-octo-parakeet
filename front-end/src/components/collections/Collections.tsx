@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/react-hooks";
 import { Dictionary } from "lodash";
-import { get, map } from "lodash/fp";
+import { find, get, map } from "lodash/fp";
 import React, { useContext, useState } from "react";
 
 import { GET_COLLECTIONS } from "../../graphql/queries";
@@ -36,7 +36,7 @@ export default () => {
 							value="Back"
 							action={() => setSelectedCollectionId("")}
 						/>
-						<Collection collectionId={selectedCollectionId}
+						<Collection collection={find(selectedCollectionId, collections)}
 							isSelected={true}
 						/>
 						<Hoops collectionId={selectedCollectionId}/>
@@ -45,7 +45,7 @@ export default () => {
 					<>
 						{map(
 							(collection) =>
-								<Collection key={collection.id} collectionId={collection.id}
+								<Collection key={collection.id} collection={collection}
 									selectCollection={() => setSelectedCollectionId(collection.id)}
 								/>,
 							collections,

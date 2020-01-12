@@ -13,10 +13,10 @@ export default ({
 	submit,
 	viewModel,
 }: {
-	cancel?: <T extends IColDataModel>(item: T) => void,
+	cancel?: () => void,
 	remove?: () => void,
-	reset?: <T extends IColDataModel>(item: T) => void,
-	submit?: <T extends IColDataModel>(item: T) => void,
+	reset?: () => void,
+	submit?: () => void,
 	viewModel: ColViewModel<IColDataModel>,
 }) => {
 	return (

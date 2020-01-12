@@ -1,5 +1,3 @@
-import { useQuery } from "@apollo/react-hooks";
-import { get } from "lodash/fp";
 import React, { useContext, useState } from "react";
 
 import CollectionEdit from "./edit/CollectionEdit";
@@ -8,29 +6,20 @@ import CollectionReadOnly from "./read-only/CollectionReadOnly";
 import { AdminContext } from "../../admin/AdminContext";
 import ColButton from "../../generic/buttons/ColButton";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
-import ColLoading from "../../generic/loading/ColLoading";
 
-import { GET_COLLECTION } from "../../../graphql/queries";
 import { ICollection } from "../../../models/collection.model";
 
 export default ({
-	collectionId,
+	collection,
 	isSelected,
 	selectCollection = () => undefined,
 }: {
-	collectionId?: string,
+	collection?: ICollection,
 	isSelected?: boolean,
 	selectCollection?: () => void,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
-	const {
-		data,
-		loading,
-	} = useQuery(GET_COLLECTION, {
-		variables: { id: collectionId },
-	});
-	const collection: ICollection = get(["Collection", "0"], data);
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
 	const className = `collection collection--${isLoggedInAndEditing ? "edit" : "readonly"}`;
 	if (!collection) {
@@ -40,23 +29,17 @@ export default ({
 			<div className={className}
 				onClick={() => selectCollection()}
 			>
-				<ColLoading text={"hallie's • hoops •"}
-					loading={loading}
-					fitChild={true}
-					preventClick={false}
-				>
-					{isLoggedIn && isSelected && <ColButton type="button"
-						value="edit collection"
-						action={() => setIsEditing(true)}
+				{isLoggedIn && isSelected && <ColButton type="button"
+					value="edit collection"
+					action={() => setIsEditing(true)}
+				/>}
+				{isLoggedInAndEditing &&
+					<CollectionEdit collection={collection}
+						cancel={() => setIsEditing(false)}
+						submit={() => setIsEditing(false)}
 					/>}
-					{isLoggedInAndEditing &&
-						<CollectionEdit collection={collection}
-							cancel={() => setIsEditing(false)}
-							submit={() => setIsEditing(false)}
-						/>}
-					{!isEditing &&
-						<CollectionReadOnly collection={collection}/>}
-				</ColLoading>
+				{!isEditing &&
+					<CollectionReadOnly collection={collection}/>}
 			</div>
 		);
 	}

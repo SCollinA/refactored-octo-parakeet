@@ -18,10 +18,10 @@ export default ({
 	reset = () => undefined,
 	submit = () => undefined,
 }: {
-	cancel: <T extends IColDataModel>(collection: T) => void,
+	cancel: () => void,
 	collection: ICollection,
-	reset?: <T extends IColDataModel>(collection: T) => void,
-	submit?: <T extends IColDataModel>(collection: T) => void,
+	reset?: () => void,
+	submit?: () => void,
 }) => {
 	const [
 		updateCollection,
@@ -63,16 +63,16 @@ export default ({
 			preventClick={false}
 		>
 			<ColForm viewModel={viewModel}
-				cancel={(cancelledCollection) => cancel(cancelledCollection)}
+				cancel={() => cancel()}
 				remove={() => removeCollection()}
-				reset={(resetCollection) => reset(resetCollection)}
-				submit={(submittedCollection) => {
+				reset={() => reset()}
+				submit={() => {
 					updateCollection({
 						variables: {
-							...submittedCollection,
+							...viewModel.updatedDataModel,
 						},
 					});
-					submit(submittedCollection);
+					submit();
 				}}
 			/>
 		</ColLoading>
