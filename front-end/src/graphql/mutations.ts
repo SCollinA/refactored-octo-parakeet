@@ -21,7 +21,7 @@ const CollectionInputArgs = `
 `;
 
 const HoopInputParams = `
-	$name: String,
+	$title: String,
 	$description: String,
 	$diameter: Float,
 	$image: String,
@@ -30,7 +30,7 @@ const HoopInputParams = `
 `;
 const HoopInputArgs = `
 	id: $id,
-	name: $name,
+	title: $title,
 	description: $description,
 	diameter: $diameter,
 	image: $image,
@@ -150,6 +150,9 @@ export const MERGE_COLLECTION_HOOPS = gql`
 		) {
 			from {
 				...CollectionFull
+				hoops {
+					...HoopFull
+				}
 			}
 			to {
 				...HoopFull

@@ -10,6 +10,7 @@ import Collections from "../collections/Collections";
 import ColButton from "../generic/buttons/ColButton";
 import ColLoading from "../generic/loading/ColLoading";
 
+import HoopCreate from "./hoop/create/HoopCreate";
 import Hoop from "./hoop/Hoop";
 import "./Hoops.css";
 
@@ -34,7 +35,7 @@ export default ({
 		} = useQuery(GET_COLLECTION_WITH_HOOPS, {
 			variables: { id: collectionId },
 		});
-		hoops = get(["Collection", "hoops"], data);
+		hoops = get(["Collection", "0", "hoops"], data);
 		loading = collectionsLoading;
 	}
 	const { isLoggedIn } = useContext(AdminContext);
@@ -67,6 +68,8 @@ export default ({
 							/>,
 							hoops,
 						)}
+						{isLoggedIn &&
+							<HoopCreate selectedCollectionId={collectionId}/>}
 					</>
 				}
 			</ColLoading>
