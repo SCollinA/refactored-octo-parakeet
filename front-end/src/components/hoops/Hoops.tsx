@@ -63,7 +63,7 @@ export default ({
 					</> :
 					<>
 						{map(
-							(hoop) => <Hoop hoop={hoop}
+							(hoop) => <Hoop key={hoop.id} hoop={hoop}
 								selectHoop={() => setSelectedHoopId(hoop.id)}
 							/>,
 							hoops,

@@ -1,9 +1,10 @@
-import { map } from "lodash/fp";
-import React, { SyntheticEvent } from "react";
+import { isEqual, map } from "lodash/fp";
+import React, { SyntheticEvent, useEffect } from "react";
 
 import ColButton from "../../buttons/ColButton";
 import { IColDataModel } from "../../viewModelStore/ColDataModel";
 import ColViewModel from "../../viewModelStore/ColViewModel";
+
 import ColTextInput from "../ColText.input";
 
 export default ({
@@ -21,23 +22,22 @@ export default ({
 }) => {
 	return (
 		<form id="col-form"
-			onReset={() => {
-				viewModel.reset(reset);
-			}}
+			onReset={() => viewModel.reset(reset)}
 			onSubmit={(event: SyntheticEvent) => {
 				event.preventDefault();
-				viewModel.submit(submit);
+				return viewModel.submit(submit);
 			}}
 		>
 			{map(
 				(dataView) => {
+					console.log("mapping data view", dataView);
 					switch (dataView.type) {
 						case "STRING":
 							return <ColTextInput key={dataView.key} autoFocus={true}
 								onChange={(value: string) => viewModel.update({
 									[dataView.key]: value,
 								})}
-								value={viewModel.updatedDataModel[dataView.key] as string}
+								value={dataView.value || dataView.placeholder}
 							/>;
 						default:
 							return null;

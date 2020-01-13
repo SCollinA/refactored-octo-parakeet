@@ -4,8 +4,7 @@ export type ColDataModelSingle =
 	string |
 	number |
 	boolean |
-	IImageFile |
-	undefined;
+	IImageFile;
 
 export type ColDataModelValue =
 	ColDataModelSingle |
@@ -14,5 +13,5 @@ export type ColDataModelValue =
 export interface IColDataModel {
 	id: string;
 	[index: string]:
-		ColDataModelValue;
+		ColDataModelValue | undefined;
 }

@@ -1,3 +1,4 @@
+import { Dictionary } from "lodash";
 import {
 	cloneDeep,
 	entries,
@@ -5,7 +6,6 @@ import {
 	get,
 	mapValues,
 	omit,
-	set,
 } from "lodash/fp";
 
 import isStringImage from "../../utils/functions/isStringImage";
@@ -19,12 +19,12 @@ import {
 	ColViewModelValues,
 } from "./ColViewModelValue";
 
-type DataViews<T> = Array<ColViewModelValues<T>>;
+export type DataViews = Dictionary<ColViewModelValues>;
 
 export default class ColViewModel<T extends IColDataModel> {
 
 	public dataModel: T;
-	public dataViews: DataViews<T>;
+	public dataViews: DataViews;
 	public placeholders: T;
 	public updatedDataModel: T;
 
@@ -38,41 +38,44 @@ export default class ColViewModel<T extends IColDataModel> {
 		this.updatedDataModel = cloneDeep(dataModel);
 	}
 
-	public remove = (onRemove?: (dataModel: T) => void) => {
+	public remove = (onRemove?: (viewModel:  ColViewModel<T>) => void) => {
 		if (!!onRemove) {
-			onRemove(this.dataModel);
+			onRemove(this);
 		}
 	}
 
-	public reset = (onReset?: (dataModel: T) => void) => {
+	public reset = (onReset?: (viewModel: ColViewModel<T>) => void) => {
 		this.updatedDataModel = this.dataModel;
 		if (!!onReset) {
-			onReset(this.updatedDataModel);
+			onReset(this);
 		}
 	}
 
-	public submit = (onSubmit?: (dataModel: T) => void) => {
+	public submit = (onSubmit?: (viewModel:  ColViewModel<T>) => void) => {
 		this.dataModel = cloneDeep(this.updatedDataModel);
 		this.dataViews = this.getDataViews(this.dataModel);
 		if (!!onSubmit) {
-			onSubmit(this.dataModel);
+			onSubmit(this);
 		}
 	}
 
-	public update = (updates: Partial<T>, onUpdate?: (dataModel: T) => void) => {
+	public update = (updates: Partial<T>, onUpdate?: (viewModel: ColViewModel<T>) => void) => {
 		const updatedDataModel = {
-			...this.updatedDataModel,
+			...cloneDeep(this.updatedDataModel),
 			...updates,
 		};
 		this.updatedDataModel = updatedDataModel;
+		console.log("making updates", this.updatedDataModel);
+		this.dataViews = this.getDataViews(this.updatedDataModel);
 		if (!!onUpdate) {
-			onUpdate(this.updatedDataModel);
+			onUpdate(this);
 		}
 	}
 
 	private getDataType(key: string, value: ColDataModelValue): ColViewModelDataType {
-		if (!value) {
-			value = this.placeholders[key];
+		const placeholder = this.placeholders[key];
+		if (!value && !!placeholder) {
+			value = placeholder;
 		}
 		switch (typeof value) {
 			case "boolean":
@@ -97,16 +100,81 @@ export default class ColViewModel<T extends IColDataModel> {
 
 	}
 
-	private getDataViews(dataModel: T): DataViews<T> {
+	private getDataViews(dataModel: T): DataViews {
 		return flow(
 			omit(["id"]),
 			entries,
 			mapValues(
-				([key, value]): ColViewModelValues<T> => ({
-					isValid: true, // TODO: implement validation
-					key,
-					type: this.getDataType(key, value),
-				}),
+				([key, value]): ColViewModelValues => {
+					const dataType = this.getDataType(key, value);
+					let dataView: ColViewModelValues;
+					switch (dataType) {
+						case "BOOLEAN":
+							dataView = {
+								isValid: true, // TODO: implement validation
+								key,
+								placeholder: false,
+								type: dataType,
+								value,
+							};
+							break;
+						case "INTEGER":
+							dataView = {
+								isValid: true, // TODO: implement validation
+								key,
+								placeholder: 0,
+								type: dataType,
+								value,
+							};
+							break;
+						case "FLOAT":
+							dataView = {
+								isValid: true, // TODO: implement validation
+								key,
+								placeholder: 0.0,
+								type: dataType,
+								value,
+							};
+							break;
+						case "STRING":
+							dataView = {
+								isValid: true, // TODO: implement validation
+								key,
+								placeholder: "",
+								type: dataType,
+								value,
+							};
+							break;
+						case "STRING_LONG":
+							dataView = {
+								isValid: true, // TODO: implement validation
+								key,
+								placeholder: "",
+								type: dataType,
+								value,
+							};
+							break;
+						case "IMAGE":
+							dataView = {
+								isValid: true, // TODO: implement validation
+								key,
+								placeholder: "data:image/jpeg;base64,",
+								type: dataType,
+								value,
+							};
+							break;
+						case "FILE":
+							dataView = {
+								isValid: true, // TODO: implement validation
+								key,
+								placeholder: "",
+								type: dataType,
+								value,
+							};
+							break;
+					}
+					return dataView;
+				},
 			),
 		)(dataModel);
 	}

@@ -7,11 +7,14 @@ import ColViewModel from "./ColViewModel";
 export default class ColViewModelStore<T extends IColDataModel> {
 
 	public batchDataModels: Dictionary<T> = {};
+	public placeholders: T;
 	public viewModels: Dictionary<ColViewModel<T>>;
 
 	constructor(
 		dataModels: T[],
+		placeholders: T,
 	) {
+		this.placeholders = placeholders;
 		this.viewModels = this.initializeViewModels(dataModels);
 	}
 
@@ -29,7 +32,7 @@ export default class ColViewModelStore<T extends IColDataModel> {
 
 	public batchSubmit = (onSubmit?: (viewModels: Dictionary<ColViewModel<T>>) => void) => {
 		forEach(
-			(dataModel: T) => this.viewModels[dataModel.id] = new ColViewModel(dataModel),
+			(dataModel: T) => this.viewModels[dataModel.id] = new ColViewModel(dataModel, this.placeholders),
 			this.batchDataModels,
 		);
 		this.batchDataModels = {};
@@ -100,7 +103,7 @@ export default class ColViewModelStore<T extends IColDataModel> {
 			"id",
 			map(
 				(dataModel) => {
-					return new ColViewModel<T>(dataModel);
+					return new ColViewModel<T>(dataModel, this.placeholders);
 				},
 				dataModels,
 			),

@@ -1,4 +1,4 @@
-import { SyntheticEvent } from "react";
+import { ColDataModelSingle } from "./ColDataModel";
 
 export type ColViewModelDataType =  "STRING" | "STRING_LONG" | "IMAGE" | "INTEGER" | "FLOAT" | "BOOLEAN" | "FILE";
 
@@ -7,40 +7,57 @@ interface IColViewModelValue {
 	isRequired?: boolean;
 	isValid: boolean;
 	type: ColViewModelDataType;
+	value: ColDataModelSingle;
+	placeholder: ColDataModelSingle;
 }
 
-export type ColViewModelValues<T> = IColViewModelValueBoolean<T> |
-	IColViewModelValueFile<T> |
-	IColViewModelValueFloat<T> |
-	IColViewModelValueImage<T> |
-	IColViewModelValueInteger<T> |
-	IColViewModelValueString<T> |
-	IColViewModelValueStringLong<T>;
+export type ColViewModelValues =
+	ColViewModelValueBoolean |
+	ColViewModelValueFile |
+	ColViewModelValueFloat |
+	ColViewModelValueImage |
+	ColViewModelValueInteger |
+	ColViewModelValueString |
+	ColViewModelValueStringLong;
 
-export interface IColViewModelValueString<T> extends IColViewModelValue {
+export type ColViewModelValueString = IColViewModelValue & {
 	type: "STRING";
-}
+	value: string;
+	placeholder?: "";
+};
 
-export interface IColViewModelValueStringLong<T> extends IColViewModelValue {
+export type ColViewModelValueStringLong = IColViewModelValue & {
 	type: "STRING_LONG";
-}
+	value: string;
+	placeholder?: "";
+};
 
-export interface IColViewModelValueImage<T> extends IColViewModelValue {
+export type ColViewModelValueImage = IColViewModelValue & {
 	type: "IMAGE";
-}
+	value: string;
+	placeholder?: "data:image/jpeg;base64,";
+};
 
-export interface IColViewModelValueInteger<T> extends IColViewModelValue {
+export type ColViewModelValueInteger = IColViewModelValue & {
 	type: "INTEGER";
-}
+	value: number;
+	placeholder?: 0;
+};
 
-export interface IColViewModelValueFloat<T> extends IColViewModelValue {
+export type ColViewModelValueFloat = IColViewModelValue & {
 	type: "FLOAT";
-}
+	value: number;
+	placeholder?: 0.0;
+};
 
-export interface IColViewModelValueBoolean<T> extends IColViewModelValue {
+export type ColViewModelValueBoolean = IColViewModelValue & {
 	type: "BOOLEAN";
-}
+	value: boolean;
+	placeholder?: false;
+};
 
-export interface IColViewModelValueFile<T> extends IColViewModelValue {
+export type ColViewModelValueFile = IColViewModelValue & {
 	type: "FILE";
-}
+	value?: any;
+	placeholder?: {};
+};
