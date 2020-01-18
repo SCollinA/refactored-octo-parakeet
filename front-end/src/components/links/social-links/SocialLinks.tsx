@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-import "./HalSocialLinks.css";
+import "./SocialLinks.css";
 
 export default () => (
 		<div className="hal-social-links">

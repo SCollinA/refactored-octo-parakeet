@@ -1,8 +1,27 @@
-.hal-header {
+.header {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 
-.hal-header__home-link {
+.header__home-link {
 	width: 140px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+@media (max-width: 500px) {
+	.header {
+		flex-direction: column;
+	}
+
+	.header__home-link {
+		width: 80%;
+	}
+
+	.hamburger-links {
+		width: 90%;
+	}
 }

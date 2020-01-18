@@ -1,23 +1,23 @@
-.HamburgerLinks {
+.hamburger-links {
     display: none;
 }
 
-.HamburgerLinks > svg {
+.hamburger-links > svg {
     transform: rotate(45deg);
     transition: transform .5s;
 }
 
-.expandedMenu > svg {
+.hamburger-links--expanded > svg {
     transform: rotate(405deg);
     transition: transform .5s;
 }
 
-.HamburgerLinks > .section-wrapper {
+.hamburger-links > .section-wrapper {
     width: 100%;
 }
 
 @media (max-width: 500px) {
-    .HamburgerLinks {
+    .hamburger-links {
         display: flex;
         flex-direction: column;
         align-items: center;
