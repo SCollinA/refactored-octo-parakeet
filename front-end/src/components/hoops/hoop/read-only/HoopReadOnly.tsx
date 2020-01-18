@@ -18,6 +18,11 @@ export default ({
 					{hoop.title}
 				</p> :
 				<ColPlaceholder text="no hoop name"/>}
+			{!!hoop.description ?
+				<p className="hoop__description">
+					{hoop.description}
+				</p> :
+				<ColPlaceholder text="no hoop description"/>}
 		</>
 	);
 };
