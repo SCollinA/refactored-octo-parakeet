@@ -53,15 +53,30 @@ export default () => {
 							});
 						}}
 					>
-						<label style={{ display: "none" }}>admin password
-							<input autoComplete={"username"} type="text" name="adminUsername" placeholder="no username"/>
+						<label htmlFor="username">
+								admin password
 						</label>
-						<label>admin password
-							<input autoFocus autoComplete={"current-password"} type="password" placeholder="not 'password1'" name="adminPassword"/>
+						<input id="username"
+							autoComplete={"username"}
+							type="text"
+							name="adminUsername"
+							placeholder="no username"
+							style={{ display: "none" }}
+						/>
+						<label htmlFor="password">
+							admin password
 						</label>
-						<label>submit
-							<input type="submit" value="proceed"/>
+						<input id="password"
+							autoFocus
+							autoComplete={"current-password"}
+							type="password"
+							placeholder="not 'password1'"
+							name="adminPassword"
+						/>
+						<label htmlFor="submit">
+							submit
 						</label>
+						<input id="submit" type="submit" value="submit"/>
 					</form> :
 					<p className="adminLoginButton"
 						onClick={() => setShowAdmin(true)}
