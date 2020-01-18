@@ -17,7 +17,7 @@ export default ({
 				<p className="hoop__title">
 					{hoop.title}
 				</p> :
-				<ColPlaceholder/>}
+				<ColPlaceholder text="no hoop name"/>}
 		</>
 	);
 };

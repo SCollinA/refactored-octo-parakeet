@@ -14,7 +14,7 @@ export default ({
 				<p className="collection__name">
 					{collection.name}
 				</p> :
-				<ColPlaceholder/>}
+				<ColPlaceholder text="no collection name"/>}
 		</>
 	);
 };

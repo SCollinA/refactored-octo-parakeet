@@ -1,5 +1,4 @@
 import { useQuery } from "@apollo/react-hooks";
-import { Dictionary } from "lodash";
 import { find, get, map } from "lodash/fp";
 import React, { useContext, useState } from "react";
 
@@ -8,10 +7,11 @@ import { ICollection } from "../../models/collection.model";
 
 import { AdminContext } from "../admin/AdminContext";
 import ColButton from "../generic/buttons/ColButton";
+import ColCard from "../generic/layout/card/ColCard";
+import ColPlaceholder from "../generic/layout/placeholder/ColPlaceholder";
 import ColLoading from "../generic/loading/ColLoading";
 import Hoops from "../hoops/Hoops";
 
-import ColCard from "../generic/layout/card/ColCard";
 import Collection from "./collection/Collection";
 import CollectionCreate from "./collection/create/CollectionCreate";
 
@@ -64,6 +64,10 @@ export default ({
 					</ColCard>
 				) :
 					<ColCard>
+						{!get("length", collections) &&
+							<ColCard>
+								<ColPlaceholder text={"No collections found"}/>
+							</ColCard>}
 						{map(
 							(collection) =>
 								<Collection key={collection.id} collection={collection}
