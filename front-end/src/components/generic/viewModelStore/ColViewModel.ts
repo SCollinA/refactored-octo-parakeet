@@ -71,7 +71,6 @@ export default class ColViewModel<T extends IColDataModel> {
 		};
 		this.updatedDataModel = updatedDataModel;
 		this.dataViews = this.getDataViews(this.updatedDataModel);
-		console.log("updated model", this.dataViews)
 		if (!!onUpdate) {
 			onUpdate(this);
 		}

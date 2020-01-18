@@ -7,6 +7,7 @@ import { IColDataModel } from "../viewModelStore/ColDataModel";
 import ColViewModel from "../viewModelStore/ColViewModel";
 
 import ColTextInput from "./inputs/ColText.input";
+import ColTextAreaInput from "./inputs/ColTextArea.input";
 
 import "./ColForm.css";
 
@@ -46,6 +47,19 @@ export default ({
 						case "STRING":
 							return dataViewLayout(
 								<ColTextInput id={dataView.key}
+									autoFocus={true}
+									onChange={(value: string) => viewModel.update({
+										[dataView.key]: value,
+									}, ({dataViews: newDataViews}) =>
+										setDataViews(newDataViews),
+									)}
+									value={dataView.value || dataView.placeholder}
+									placeholder={dataView.key}
+								/>,
+							);
+						case "STRING_LONG":
+							return dataViewLayout(
+								<ColTextAreaInput id={dataView.key}
 									autoFocus={true}
 									onChange={(value: string) => viewModel.update({
 										[dataView.key]: value,
