@@ -4,7 +4,7 @@
 	align-items: center;
 }
 
-.header__home-link {
+.header__home-link.clickable {
 	width: 140px;
 	display: flex;
 	justify-content: center;
@@ -17,7 +17,7 @@
 		flex-direction: column;
 	}
 
-	.header__home-link {
+	.header__home-link.clickable {
 		width: 80%;
 	}
 
