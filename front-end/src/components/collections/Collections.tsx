@@ -11,6 +11,7 @@ import ColButton from "../generic/buttons/ColButton";
 import ColLoading from "../generic/loading/ColLoading";
 import Hoops from "../hoops/Hoops";
 
+import ColCard from "../generic/layout/card/ColCard";
 import Collection from "./collection/Collection";
 import CollectionCreate from "./collection/create/CollectionCreate";
 
@@ -48,21 +49,21 @@ export default ({
 			>
 				{/* TODO: Add batch edit button here */}
 				{!!selectedCollectionId ? (
-					<>
+					<ColCard>
 						<ColButton type="button"
 							value="Back"
 							action={() => setSelectedCollectionId("")}
 						/>
 						<Collection collection={find(
-								({id}) => id === selectedCollectionId,
-								collections,
+							({id}) => id === selectedCollectionId,
+							collections,
 							)}
 							isSelected={true}
 						/>
 						<Hoops collectionId={selectedCollectionId}/>
-					</>
+					</ColCard>
 				) :
-					<>
+					<ColCard>
 						{map(
 							(collection) =>
 								<Collection key={collection.id} collection={collection}
@@ -71,11 +72,11 @@ export default ({
 							collections,
 						)}
 						{isLoggedIn &&
-							<>
+							<ColCard>
 								<CollectionCreate/>
 								<Hoops/>
-							</>}
-					</>
+							</ColCard>}
+					</ColCard>
 				}
 			</ColLoading>
 		</div>

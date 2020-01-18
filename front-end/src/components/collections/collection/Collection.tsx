@@ -8,6 +8,7 @@ import ColButton from "../../generic/buttons/ColButton";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
 
 import { ICollection } from "../../../models/collection.model";
+import ColCard from "../../generic/layout/card/ColCard";
 
 export default ({
 	collection,
@@ -29,18 +30,20 @@ export default ({
 			<div className={className}
 				onClick={() => selectCollection()}
 			>
-				{isLoggedIn && isSelected && !isEditing &&
-					<ColButton type="button"
-						value="edit collection"
-						action={() => setIsEditing(true)}
-					/>}
-				{isLoggedInAndEditing &&
-					<CollectionEdit collection={collection}
-						cancel={() => setIsEditing(false)}
-						submit={() => setIsEditing(false)}
-					/>}
-				{!isEditing &&
-					<CollectionReadOnly collection={collection}/>}
+				<ColCard clickable={!isSelected}>
+					{isLoggedIn && isSelected && !isEditing &&
+						<ColButton type="button"
+							value="edit collection"
+							action={() => setIsEditing(true)}
+						/>}
+					{isLoggedInAndEditing &&
+						<CollectionEdit collection={collection}
+							cancel={() => setIsEditing(false)}
+							submit={() => setIsEditing(false)}
+						/>}
+					{!isEditing &&
+						<CollectionReadOnly collection={collection}/>}
+				</ColCard>
 			</div>
 		);
 	}
