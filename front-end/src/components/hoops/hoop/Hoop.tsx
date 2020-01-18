@@ -22,12 +22,12 @@ export default ({
 	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
-	const className = `hoop hoop--${isLoggedInAndEditing ? "edit" : "readonly"}`;
+	const editingClass = ` hoop--${isLoggedInAndEditing ? "edit" : "readonly"}`;
 	if (!hoop) {
 		return <ColPlaceholder/>;
 	} else {
 		return (
-			<div className={className}
+			<div className={`hoop${editingClass}`}
 				onClick={() => selectHoop()}
 			>
 				<ColCard clickable={!isSelected}>
