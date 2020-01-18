@@ -27,10 +27,11 @@ export type DataViews = Dictionary<ColViewModelValues>;
 
 export default class ColViewModel<T extends IColDataModel> {
 
-	public dataModel: T;
 	public dataViews: DataViews;
-	public placeholders: T;
 	public updatedDataModel: T;
+
+	private dataModel: T;
+	private placeholders: T;
 
 	constructor(
 		dataModel: T,
@@ -70,6 +71,7 @@ export default class ColViewModel<T extends IColDataModel> {
 		};
 		this.updatedDataModel = updatedDataModel;
 		this.dataViews = this.getDataViews(this.updatedDataModel);
+		console.log("updated model", this.dataViews)
 		if (!!onUpdate) {
 			onUpdate(this);
 		}

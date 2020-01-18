@@ -1,5 +1,5 @@
-import { isEqual, map } from "lodash/fp";
-import React, { SyntheticEvent, useEffect } from "react";
+import { map } from "lodash/fp";
+import React, { SyntheticEvent, useState } from "react";
 
 import ColButton from "../../buttons/ColButton";
 import { IColDataModel } from "../../viewModelStore/ColDataModel";
@@ -20,6 +20,7 @@ export default ({
 	submit?: () => void,
 	viewModel: ColViewModel<IColDataModel>,
 }) => {
+	const [dataViews, setDataViews] = useState(viewModel.dataViews);
 	return (
 		<form id="col-form"
 			onReset={() => viewModel.reset(reset)}
@@ -35,14 +36,16 @@ export default ({
 							return <ColTextInput key={dataView.key} autoFocus={true}
 								onChange={(value: string) => viewModel.update({
 									[dataView.key]: value,
-								})}
+								}, ({dataViews: newDataViews}) =>
+									setDataViews(newDataViews),
+								)}
 								value={dataView.value || dataView.placeholder}
 							/>;
 						default:
 							return null;
 					}
 				},
-				viewModel.dataViews,
+				dataViews,
 			)}
 			<ColButton type="button"
 				value="cancel"
