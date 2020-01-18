@@ -29,10 +29,11 @@ export default ({
 			<div className={className}
 				onClick={() => selectCollection()}
 			>
-				{isLoggedIn && isSelected && <ColButton type="button"
-					value="edit collection"
-					action={() => setIsEditing(true)}
-				/>}
+				{isLoggedIn && isSelected && !isEditing &&
+					<ColButton type="button"
+						value="edit collection"
+						action={() => setIsEditing(true)}
+					/>}
 				{isLoggedInAndEditing &&
 					<CollectionEdit collection={collection}
 						cancel={() => setIsEditing(false)}
