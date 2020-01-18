@@ -30,7 +30,6 @@ export default ({
 		>
 			{map(
 				(dataView) => {
-					console.log("mapping data view", dataView);
 					switch (dataView.type) {
 						case "STRING":
 							return <ColTextInput key={dataView.key} autoFocus={true}

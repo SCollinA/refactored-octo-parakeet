@@ -4,8 +4,12 @@ import {
 	entries,
 	flow,
 	get,
-	mapValues,
+	isNull,
+	isUndefined,
+	map,
 	omit,
+	reduce,
+	set,
 } from "lodash/fp";
 
 import isStringImage from "../../utils/functions/isStringImage";
@@ -38,7 +42,7 @@ export default class ColViewModel<T extends IColDataModel> {
 		this.updatedDataModel = cloneDeep(dataModel);
 	}
 
-	public remove = (onRemove?: (viewModel:  ColViewModel<T>) => void) => {
+	public remove = (onRemove?: (viewModel: ColViewModel<T>) => void) => {
 		if (!!onRemove) {
 			onRemove(this);
 		}
@@ -51,7 +55,7 @@ export default class ColViewModel<T extends IColDataModel> {
 		}
 	}
 
-	public submit = (onSubmit?: (viewModel:  ColViewModel<T>) => void) => {
+	public submit = (onSubmit?: (viewModel: ColViewModel<T>) => void) => {
 		this.dataModel = cloneDeep(this.updatedDataModel);
 		this.dataViews = this.getDataViews(this.dataModel);
 		if (!!onSubmit) {
@@ -65,7 +69,6 @@ export default class ColViewModel<T extends IColDataModel> {
 			...updates,
 		};
 		this.updatedDataModel = updatedDataModel;
-		console.log("making updates", this.updatedDataModel);
 		this.dataViews = this.getDataViews(this.updatedDataModel);
 		if (!!onUpdate) {
 			onUpdate(this);
@@ -74,7 +77,7 @@ export default class ColViewModel<T extends IColDataModel> {
 
 	private getDataType(key: string, value: ColDataModelValue): ColViewModelDataType {
 		const placeholder = this.placeholders[key];
-		if (!value && !!placeholder) {
+		if (!value && !isNull(placeholder) && !isUndefined(placeholder)) {
 			value = placeholder;
 		}
 		switch (typeof value) {
@@ -101,11 +104,11 @@ export default class ColViewModel<T extends IColDataModel> {
 	}
 
 	private getDataViews(dataModel: T): DataViews {
+		const newDataViews: DataViews = {};
 		return flow(
 			omit(["id"]),
 			entries,
-			mapValues(
-				([key, value]): ColViewModelValues => {
+			map(([key, value]): ColViewModelValues => {
 					const dataType = this.getDataType(key, value);
 					let dataView: ColViewModelValues;
 					switch (dataType) {
@@ -175,6 +178,10 @@ export default class ColViewModel<T extends IColDataModel> {
 					}
 					return dataView;
 				},
+			),
+			reduce(
+				(acc, dataView) => set(dataView.key, dataView, acc),
+				newDataViews,
 			),
 		)(dataModel);
 	}
