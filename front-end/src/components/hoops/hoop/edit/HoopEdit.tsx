@@ -83,7 +83,7 @@ export default ({
 
 const washCollection = (hoop: IHoop): IHoop => {
 	return {
-		collectionIds: hoop.collectionIds || [],
+		collections: hoop.collections || [],
 		description: hoop.description || "",
 		diameter: hoop.diameter || 0,
 		file: hoop.file || undefined,

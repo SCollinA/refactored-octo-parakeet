@@ -1,7 +1,8 @@
 import { map } from "lodash/fp";
-import React, { SyntheticEvent, useState } from "react";
+import React, { ReactNode, SyntheticEvent, useState } from "react";
 
 import ColButton from "../../buttons/ColButton";
+import ColCard from "../../layout/card/ColCard";
 import { IColDataModel } from "../../viewModelStore/ColDataModel";
 import ColViewModel from "../../viewModelStore/ColViewModel";
 
@@ -31,16 +32,28 @@ export default ({
 		>
 			{map(
 				(dataView) => {
+					const dataViewLayout = (input: ReactNode) => (
+						<ColCard key={dataView.key}  clickable={true}>
+							<label htmlFor={dataView.key}>
+								{dataView.key}
+							</label>
+							{input}
+						</ColCard>
+					);
 					switch (dataView.type) {
 						case "STRING":
-							return <ColTextInput key={dataView.key} autoFocus={true}
-								onChange={(value: string) => viewModel.update({
-									[dataView.key]: value,
-								}, ({dataViews: newDataViews}) =>
-									setDataViews(newDataViews),
-								)}
-								value={dataView.value || dataView.placeholder}
-							/>;
+							return dataViewLayout(
+								<ColTextInput id={dataView.key}
+									autoFocus={true}
+									onChange={(value: string) => viewModel.update({
+										[dataView.key]: value,
+									}, ({dataViews: newDataViews}) =>
+										setDataViews(newDataViews),
+									)}
+									value={dataView.value || dataView.placeholder}
+									placeholder={dataView.key}
+								/>,
+							);
 						default:
 							return null;
 					}
