@@ -26,6 +26,11 @@ export default () => {
 			setShowAdmin(false);
 		},
 	});
+	const logout = () => {
+		localStorage.clear();
+		setIsLoggedIn(false);
+		setShowAdmin(false);
+	};
 	return (
 		<ColLoading loading={loading}
 			text={"hallie's • hoops •"}
@@ -33,7 +38,7 @@ export default () => {
 			{isLoggedIn &&
 				<div className="logout clickable">
 					<input type="button" value="logout"
-						onClick={() => setIsLoggedIn(false)}
+						onClick={() => logout()}
 					/>
 				</div>}
 			{!isLoggedIn &&
