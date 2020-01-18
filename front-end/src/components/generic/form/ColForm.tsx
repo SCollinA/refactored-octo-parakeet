@@ -9,9 +9,11 @@ import ColViewModel from "../viewModelStore/ColViewModel";
 import ColTextInput from "./inputs/string/ColText.input";
 import ColTextAreaInput from "./inputs/string/ColTextArea.input";
 
-import "./ColForm.css";
 import ColBooleanInput from "./inputs/boolean/ColBoolean.input";
 import ColNumberInput from "./inputs/number/ColNumber.input";
+
+import "./ColForm.css";
+import "./ColInput.css";
 
 export default ({
 	cancel,
@@ -28,7 +30,7 @@ export default ({
 }) => {
 	const [dataViews, setDataViews] = useState(viewModel.dataViews);
 	return (
-		<form id="col-form"
+		<form id="col-form" className="col-form"
 			onReset={() => viewModel.reset(reset)}
 			onSubmit={(event: SyntheticEvent) => {
 				event.preventDefault();
@@ -38,11 +40,11 @@ export default ({
 			{map(
 				(dataView) => {
 					const dataViewLayout = (input: ReactNode) => (
-						<ColCard key={dataView.key}  clickable={true}>
+						<ColCard key={dataView.key} clickable={true}>
 							<label htmlFor={dataView.key} className={`col-form__label-${dataView.key}`}>
 								{dataView.key}
+								{input}
 							</label>
-							{input}
 						</ColCard>
 					);
 					switch (dataView.type) {
@@ -73,7 +75,8 @@ export default ({
 							);
 						case "BOOLEAN":
 							return dataViewLayout(
-								<ColBooleanInput affirmativeText={dataView.key}
+								<ColBooleanInput id={dataView.key}
+									affirmativeText={dataView.key}
 									onChange={(value: boolean) => viewModel.update({
 										[dataView.key]: value,
 									}, ({dataViews: newDataViews}) =>
@@ -108,8 +111,10 @@ export default ({
 									placeholder={dataView.key}
 								/>,
 							);
-						default:
-							return null;
+						case "IMAGE":
+							return dataViewLayout(
+								null,
+							);
 					}
 				},
 				dataViews,

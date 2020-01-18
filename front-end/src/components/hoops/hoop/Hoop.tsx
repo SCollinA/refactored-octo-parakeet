@@ -34,13 +34,12 @@ export default ({
 				onClick={() => setSelectedHoopId(hoop.id)}
 			>
 				<ColCard clickable={!isSelected}>
-
-					{isSelected &&
+					{isSelected && !isEditing &&
 						<ColButton type="button"
 							value="Back"
 							action={() => setSelectedHoopId("")}
 						/>}
-					{isLoggedIn && isSelected && <ColButton type="button"
+					{isLoggedIn && isSelected && !isEditing && <ColButton type="button"
 						value="edit hoop"
 						action={() => setIsEditing(true)}
 					/>}

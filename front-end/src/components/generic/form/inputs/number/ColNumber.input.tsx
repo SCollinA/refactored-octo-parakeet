@@ -1,5 +1,9 @@
 import React from "react";
 
+import "../../ColInput.css";
+
+import "./ColNumber.input.css";
+
 export default ({
 	autoFocus,
 	id,
@@ -14,7 +18,8 @@ export default ({
 	placeholder: string,
 }) => {
 	return (
-		<input type="number"
+		<input className="col-input col-input-number"
+			type="number"
 			id={id}
 			value={value}
 			onChange={(event) => onChange(+event.target.value)}

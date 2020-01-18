@@ -1,41 +1,37 @@
 import React from "react";
 
+import "../../ColInput.css";
+
 import "./ColBoolean.input.css";
 
 export default ({
 	affirmativeText = "true",
 	autoFocus,
 	checked,
+	id,
 	negativeText = `not ${affirmativeText}`,
 	onChange,
 }: {
 	affirmativeText?: string,
 	autoFocus?: boolean;
 	checked: boolean,
+	id: string,
 	negativeText?: string,
 	onChange: (value: boolean) => void,
 }) => {
+	const value = checked ? affirmativeText : negativeText;
 	return (
-		<div className="col-boolean-input">
-			<label htmlFor="true">
-				{affirmativeText}
-			</label>
-			<input type="radio"
+		<>
+			<input className="col-input col-input-boolean"
+				type="checkbox"
+				id={id}
+				name="checkbox"
+				value={value}
 				autoFocus={autoFocus}
-				id="true"
-				name="radio"
 				checked={checked}
 				onChange={(event) => onChange(event.target.checked)}
 			/>
-			<label htmlFor="true">
-				{negativeText}
-			</label>
-			<input type="radio"
-				id="false"
-				name="radio"
-				checked={!checked}
-				onChange={(event) => onChange(!event.target.checked)}
-			/>
-		</div>
+			<p>{value}</p>
+		</>
 	);
 };

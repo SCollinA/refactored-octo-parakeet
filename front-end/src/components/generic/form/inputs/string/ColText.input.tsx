@@ -1,5 +1,7 @@
 import React from "react";
 
+import "../../ColInput.css";
+
 import "./ColText.input.css";
 
 export default ({
@@ -16,9 +18,9 @@ export default ({
 	placeholder: string,
 }) => {
 	return (
-		<input id={id}
+		<input className="col-input col-input-text"
+			id={id}
 			autoFocus={autoFocus}
-			className="col-input-text"
 			name="text"
 			onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
 			placeholder={placeholder}

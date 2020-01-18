@@ -1,4 +1,4 @@
-.col-boolean-input
-label {
-	display: block;
+.col-input-boolean + p {
+	display: inline;
+	margin: 0;
 }

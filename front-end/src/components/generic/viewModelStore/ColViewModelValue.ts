@@ -1,6 +1,13 @@
 import { ColDataModelSingle } from "./ColDataModel";
 
-export type ColViewModelDataType =  "STRING" | "STRING_LONG" | "IMAGE" | "INTEGER" | "FLOAT" | "BOOLEAN" | "FILE";
+export type ColViewModelDataType =
+	"STRING" |
+	"STRING_LONG" |
+	"IMAGE" |
+	"INTEGER" |
+	"FLOAT" |
+	"BOOLEAN"; // |
+	// "FILE";
 
 interface IColViewModelValue {
 	key: string;
@@ -13,7 +20,7 @@ interface IColViewModelValue {
 
 export type ColViewModelValues =
 	ColViewModelValueBoolean |
-	ColViewModelValueFile |
+	// ColViewModelValueFile |
 	ColViewModelValueFloat |
 	ColViewModelValueImage |
 	ColViewModelValueInteger |
@@ -56,8 +63,8 @@ export type ColViewModelValueBoolean = IColViewModelValue & {
 	placeholder?: false;
 };
 
-export type ColViewModelValueFile = IColViewModelValue & {
-	type: "FILE";
-	value?: any;
-	placeholder?: {};
-};
+// export type ColViewModelValueFile = IColViewModelValue & {
+// 	type: "FILE";
+// 	value?: any;
+// 	placeholder?: {};
+// };
