@@ -15,6 +15,8 @@ import Hoops from "../hoops/Hoops";
 import Collection from "./collection/Collection";
 import CollectionCreate from "./collection/create/CollectionCreate";
 
+import "./Collections.css";
+
 export default ({
 	hoopId,
 }: {
@@ -50,7 +52,7 @@ export default ({
 			>
 				{/* TODO: Add batch edit button here */}
 				{!!selectedCollectionId ? (
-					<ColCard>
+					<>
 						<ColButton type="button"
 							value="Back"
 							action={() => setSelectedCollectionId("")}
@@ -61,9 +63,9 @@ export default ({
 							)}
 							isSelected={true}
 						/>
-					</ColCard>
+					</>
 				) :
-					<ColCard>
+					<>
 						{!get("length", collections) &&
 							<ColCard>
 								<ColPlaceholder text={"No collections found"}/>
@@ -79,7 +81,7 @@ export default ({
 							<CollectionCreate/>}
 						{isLoggedIn && !hoopId &&
 							<Hoops/>}
-					</ColCard>
+					</>
 				}
 			</ColLoading>
 		</div>

@@ -4,7 +4,7 @@
 }
 
 .header__home-link.clickable {
-	width: 140px;
+	width: 100px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -14,6 +14,9 @@
 .hamburger-links,
 .hamburger-links__content > .section-wrapper {
 	flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 @media (max-width: 500px) {

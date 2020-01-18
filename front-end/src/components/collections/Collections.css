@@ -1,0 +1,31 @@
+.collections {
+	flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.collections 
+.loading-wrapper {
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+    justify-content: space-evenly;
+	align-items: center;
+}
+
+.collections
+.col-card 
+.collection {
+	flex-basis: 25%;
+}
+
+@media (max-width: 500px) {
+
+	.collections
+	.col-card 
+	.collection {
+		flex-basis: 100%;
+	}
+}

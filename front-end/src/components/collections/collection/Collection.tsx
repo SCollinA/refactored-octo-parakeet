@@ -23,12 +23,13 @@ export default ({
 	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
-	const className = `collection collection--${isLoggedInAndEditing ? "edit" : "readonly"}`;
+	const selectedClass = isSelected ? " collection--selected" : "";
+	const editingClass = ` collection--${isLoggedInAndEditing ? "edit" : "readonly"}`;
 	if (!collection) {
 		return <ColPlaceholder/>;
 	} else {
 		return (
-			<div className={className}
+			<div className={`collection${selectedClass}${editingClass}`}
 				onClick={() => selectCollection()}
 			>
 				<ColCard clickable={!isSelected}>
