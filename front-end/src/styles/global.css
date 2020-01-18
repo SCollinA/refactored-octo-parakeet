@@ -9,8 +9,9 @@ a {
     text-decoration: none;
 }
 
-a.clickable {
-    display: block;
+.clickable {
+	display: block;
+	padding: 0 5px;
 }
 .clickable:not(.activeLink) {
     box-sizing: content-box;

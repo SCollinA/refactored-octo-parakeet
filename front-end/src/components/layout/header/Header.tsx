@@ -36,8 +36,8 @@ export default () => {
 				/>
 			</Link>
 			<HamburgerLinks>
-				<SocialLinks/>
 				<PageLinks/>
+				<SocialLinks/>
 			</HamburgerLinks>
 		</div>
 	);
