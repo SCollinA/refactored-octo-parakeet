@@ -4,7 +4,7 @@ import { IColDataModel } from "../components/generic/viewModelStore/ColDataModel
 
 export interface IHoop extends IColDataModel {
 	id: string;
-	collectionIds: string[];
+	collections: string[];
 	description: string;
 	diameter: number;
 	file?: IImageFile;
