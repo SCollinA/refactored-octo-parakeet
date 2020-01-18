@@ -33,7 +33,9 @@ export default ({
 		const {
 			data,
 			loading: hoopLoading,
-		} = useQuery(GET_HOOP_FULL);
+		} = useQuery(GET_HOOP_FULL, {
+			variables: { id: hoopId },
+		});
 		collections = get(["Hoop", "collections"], data);
 		loading = hoopLoading;
 
