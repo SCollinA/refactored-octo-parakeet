@@ -6,13 +6,12 @@ import { GET_COLLECTION_WITH_HOOPS, GET_HOOPS_WITHOUT_COLLECTIONS } from "../../
 import { IHoop } from "../../models/hoop.model";
 
 import { AdminContext } from "../admin/AdminContext";
-import Collections from "../collections/Collections";
-import ColButton from "../generic/buttons/ColButton";
-import ColCard from "../generic/layout/card/ColCard";
+import { CollectionContext } from "../collections/Collections";
 import ColLoading from "../generic/loading/ColLoading";
 
 import HoopCreate from "./hoop/create/HoopCreate";
 import Hoop from "./hoop/Hoop";
+
 import "./Hoops.css";
 
 export default ({
@@ -40,7 +39,9 @@ export default ({
 		loading = collectionsLoading;
 	}
 	const { isLoggedIn } = useContext(AdminContext);
-	const [selectedHoopId, setSelectedHoopId] = useState<string>("");
+	const {
+		selectedHoopId,
+	} = useContext(CollectionContext);
 	return (
 		<div className="hoops">
 			<ColLoading text={"hallie's • hoops •"}
@@ -49,29 +50,21 @@ export default ({
 				preventClick={false}
 			>
 				{!!selectedHoopId ?
-					<ColCard>
-						<ColButton type="button"
-							value="Back"
-							action={() => setSelectedHoopId("")}
-						/>
-						<Hoop hoop={find(
-								({id}) => id === selectedHoopId,
-								hoops,
-							)}
-							isSelected={true}
-						/>
-						<Collections hoopId={selectedHoopId}/>
-					</ColCard> :
-					<ColCard>
+					<Hoop hoop={find(
+							({id}) => id === selectedHoopId,
+							hoops,
+						)}
+					/> :
+					<>
 						{map(
-							(hoop) => <Hoop key={hoop.id} hoop={hoop}
-								selectHoop={() => setSelectedHoopId(hoop.id)}
+							(hoop) => <Hoop key={hoop.id}
+								hoop={hoop}
 							/>,
 							hoops,
 						)}
 						{isLoggedIn &&
-							<HoopCreate selectedCollectionId={collectionId}/>}
-					</ColCard>
+							<HoopCreate/>}
+					</>
 				}
 			</ColLoading>
 		</div>

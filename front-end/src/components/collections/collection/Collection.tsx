@@ -1,27 +1,32 @@
+import { get } from "lodash/fp";
 import React, { useContext, useState } from "react";
+
+import { ICollection } from "../../../models/collection.model";
+
+import { AdminContext } from "../../admin/AdminContext";
+import ColButton from "../../generic/buttons/ColButton";
+import ColCard from "../../generic/layout/card/ColCard";
+import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
+import Hoops from "../../hoops/Hoops";
+
+import { CollectionContext } from "../Collections";
 
 import CollectionEdit from "./edit/CollectionEdit";
 import CollectionReadOnly from "./read-only/CollectionReadOnly";
 
-import { AdminContext } from "../../admin/AdminContext";
-import ColButton from "../../generic/buttons/ColButton";
-import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
-
-import { ICollection } from "../../../models/collection.model";
-import ColCard from "../../generic/layout/card/ColCard";
-import Hoops from "../../hoops/Hoops";
-
 export default ({
 	collection,
-	isSelected,
-	selectCollection = () => undefined,
 }: {
 	collection?: ICollection,
-	isSelected?: boolean,
-	selectCollection?: () => void,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
+	const {
+		selectedCollectionId,
+		selectedHoopId,
+		setSelectedCollectionId,
+	} = useContext(CollectionContext);
+	const isSelected = selectedCollectionId === get("id", collection);
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
 	const selectedClass = isSelected ? " collection--selected" : "";
 	const editingClass = ` collection--${isLoggedInAndEditing ? "edit" : "readonly"}`;
@@ -30,24 +35,30 @@ export default ({
 	} else {
 		return (
 			<div className={`collection${selectedClass}${editingClass}`}
-				onClick={() => selectCollection()}
+				onClick={() => setSelectedCollectionId(collection.id)}
 			>
-				<ColCard clickable={!isSelected}>
-					{isLoggedIn && isSelected && !isEditing &&
-						<ColButton type="button"
-							value="edit collection"
-							action={() => setIsEditing(true)}
-						/>}
-					{isLoggedInAndEditing &&
-						<CollectionEdit collection={collection}
-							cancel={() => setIsEditing(false)}
-							submit={() => setIsEditing(false)}
-						/>}
-					{!isEditing &&
-						<CollectionReadOnly collection={collection}/>}
-					{isSelected &&
-						<Hoops collectionId={collection.id}/>}
-				</ColCard>
+				{!selectedHoopId &&
+					<ColCard clickable={!isSelected}>
+						{isSelected &&
+							<ColButton type="button"
+								value="Back"
+								action={() => setSelectedCollectionId("")}
+							/>}
+						{isLoggedIn && isSelected && !isEditing &&
+							<ColButton type="button"
+								value="edit collection"
+								action={() => setIsEditing(true)}
+							/>}
+						{isLoggedInAndEditing &&
+							<CollectionEdit collection={collection}
+								cancel={() => setIsEditing(false)}
+								submit={() => setIsEditing(false)}
+							/>}
+						{!isEditing &&
+							<CollectionReadOnly collection={collection}/>}
+					</ColCard>}
+				{isSelected &&
+					<Hoops collectionId={collection.id}/>}
 			</div>
 		);
 	}

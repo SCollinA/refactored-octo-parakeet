@@ -15,7 +15,10 @@ export default ({
 		case "button":
 			return <button className={"col-button"}
 				type="button"
-				onClick={() => action()}
+				onClick={(event) => {
+					event.stopPropagation();
+					action();
+				}}
 			>
 				{value}
 			</button>;

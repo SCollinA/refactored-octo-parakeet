@@ -1,22 +1,22 @@
 import { useMutation } from "@apollo/react-hooks";
 import { get, set } from "lodash/fp";
-import React from "react";
+import React, { useContext } from "react";
 
 import { CREATE_HOOP, MERGE_COLLECTION_HOOPS } from "../../../../graphql/mutations";
 import { GET_COLLECTION_WITH_HOOPS, GET_HOOPS_WITHOUT_COLLECTIONS } from "../../../../graphql/queries";
 import { ICollection } from "../../../../models/collection.model";
 import { IHoop } from "../../../../models/hoop.model";
 
+import { CollectionContext } from "../../../collections/Collections";
 import ColButton from "../../../generic/buttons/ColButton";
 import ColLoading from "../../../generic/loading/ColLoading";
 
 import "./HoopCreate.css";
 
-export default ({
-	selectedCollectionId,
-}: {
-	selectedCollectionId?: string,
-}) => {
+export default () => {
+	const {
+		selectedCollectionId,
+	} = useContext(CollectionContext);
 	const [
 		createHoop,
 		{ loading: createLoading },

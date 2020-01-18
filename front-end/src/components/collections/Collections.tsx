@@ -1,12 +1,11 @@
 import { useQuery } from "@apollo/react-hooks";
 import { find, get, map } from "lodash/fp";
-import React, { useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
-import { GET_COLLECTIONS, GET_HOOP_FULL } from "../../graphql/queries";
+import { GET_COLLECTIONS } from "../../graphql/queries";
 import { ICollection } from "../../models/collection.model";
 
 import { AdminContext } from "../admin/AdminContext";
-import ColButton from "../generic/buttons/ColButton";
 import ColCard from "../generic/layout/card/ColCard";
 import ColPlaceholder from "../generic/layout/placeholder/ColPlaceholder";
 import ColLoading from "../generic/loading/ColLoading";
@@ -17,72 +16,71 @@ import CollectionCreate from "./collection/create/CollectionCreate";
 
 import "./Collections.css";
 
-export default ({
-	hoopId,
-}: {
-	hoopId?: string,
-}) => {
-	let collections: ICollection[];
-	let loading: boolean;
-	if (!hoopId) {
-		const {
-			data,
-			loading: collectionsLoading,
-		} = useQuery(GET_COLLECTIONS);
-		collections = get(["Collection"], data);
-		loading = collectionsLoading;
-	} else {
-		const {
-			data,
-			loading: hoopLoading,
-		} = useQuery(GET_HOOP_FULL, {
-			variables: { id: hoopId },
-		});
-		collections = get(["Hoop", "collections"], data);
-		loading = hoopLoading;
-	}
+export interface ICollectionContext {
+	selectedCollectionId: string;
+	selectedHoopId: string;
+	setSelectedCollectionId: (selectedCollectionId: string) => void;
+	setSelectedHoopId: (selectedCollectionId: string) => void;
+}
+
+export const CollectionContext = createContext<ICollectionContext>({
+	selectedCollectionId: "",
+	selectedHoopId: "",
+	setSelectedCollectionId: () => null,
+	setSelectedHoopId: () => null,
+});
+
+export default () => {
 	const { isLoggedIn } = useContext(AdminContext);
 	const [selectedCollectionId, setSelectedCollectionId] = useState<string>("");
+	const [selectedHoopId, setSelectedHoopId] = useState<string>("");
+	const context: ICollectionContext = {
+		selectedCollectionId,
+		selectedHoopId,
+		setSelectedCollectionId,
+		setSelectedHoopId,
+	};
+	let collections: ICollection[];
+	const {
+		data,
+		loading,
+	} = useQuery(GET_COLLECTIONS);
+	collections = get(["Collection"], data);
+	const selectedClass = !!selectedCollectionId ? " collections--selected" : "";
 	return (
-		<div className="collections">
+		<div className={`collections${selectedClass}`}>
 			<ColLoading text={"hallie's • hoops •"}
 				loading={loading}
 				fitChild={true}
 				preventClick={false}
 			>
-				{/* TODO: Add batch edit button here */}
-				{!!selectedCollectionId ? (
-					<>
-						<ColButton type="button"
-							value="Back"
-							action={() => setSelectedCollectionId("")}
-						/>
+				<CollectionContext.Provider value={context}>
+					{/* TODO: Add batch edit button here */}
+					{!!selectedCollectionId ?
 						<Collection collection={find(
-							({id}) => id === selectedCollectionId,
-							collections,
+								({id}) => id === selectedCollectionId,
+								collections,
 							)}
-							isSelected={true}
-						/>
-					</>
-				) :
-					<>
-						{!get("length", collections) &&
-							<ColCard>
-								<ColPlaceholder text={"No collections found"}/>
-							</ColCard>}
-						{map(
-							(collection) =>
-								<Collection key={collection.id} collection={collection}
-									selectCollection={() => setSelectedCollectionId(collection.id)}
-								/>,
-							collections,
-						)}
-						{isLoggedIn &&
-							<CollectionCreate/>}
-						{isLoggedIn && !hoopId &&
-							<Hoops/>}
-					</>
-				}
+						/> :
+						<>
+							{!get("length", collections) &&
+								<ColCard>
+									<ColPlaceholder text={"No collections found"}/>
+								</ColCard>}
+							{map(
+								(collection) =>
+									<Collection key={collection.id}
+										collection={collection}
+									/>,
+								collections,
+							)}
+							{isLoggedIn && !selectedHoopId &&
+								<CollectionCreate/>}
+							{isLoggedIn &&
+								<Hoops/>}
+						</>
+					}
+				</CollectionContext.Provider>
 			</ColLoading>
 		</div>
 	);

@@ -1,8 +1,10 @@
+import { get } from "lodash/fp";
 import React, { useContext, useState } from "react";
 
 import { IHoop } from "../../../models/hoop.model";
 
 import { AdminContext } from "../../admin/AdminContext";
+import { CollectionContext } from "../../collections/Collections";
 import ColButton from "../../generic/buttons/ColButton";
 import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
@@ -12,25 +14,32 @@ import HoopReadOnly from "./read-only/HoopReadOnly";
 
 export default ({
 	hoop,
-	isSelected,
-	selectHoop = () => undefined,
 }: {
 	hoop?: IHoop,
-	isSelected?: boolean,
-	selectHoop?: () => void,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
+	const {
+		selectedHoopId,
+		setSelectedHoopId,
+	} = useContext(CollectionContext);
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
+	const isSelected = selectedHoopId === get("id", hoop);
 	const editingClass = ` hoop--${isLoggedInAndEditing ? "edit" : "readonly"}`;
 	if (!hoop) {
 		return <ColPlaceholder/>;
 	} else {
 		return (
 			<div className={`hoop${editingClass}`}
-				onClick={() => selectHoop()}
+				onClick={() => setSelectedHoopId(hoop.id)}
 			>
 				<ColCard clickable={!isSelected}>
+
+					{isSelected &&
+						<ColButton type="button"
+							value="Back"
+							action={() => setSelectedHoopId("")}
+						/>}
 					{isLoggedIn && isSelected && <ColButton type="button"
 						value="edit hoop"
 						action={() => setIsEditing(true)}

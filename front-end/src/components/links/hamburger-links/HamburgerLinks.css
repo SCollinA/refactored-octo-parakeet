@@ -4,6 +4,7 @@
 }
 
 .hamburger-links > svg {
+	margin: auto;
     transform: rotate(45deg);
     transition: transform .5s;
 }
