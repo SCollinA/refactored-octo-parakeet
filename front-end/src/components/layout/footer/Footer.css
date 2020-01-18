@@ -13,10 +13,10 @@
     flex-wrap: wrap;
 }
 
-.Footer > span > p {
+.footer > span > p {
     margin: 0;
 }
 
-.Footer > p:nth-child(2) {
+.footer p:nth-child(2) {
     white-space: normal;
 }
