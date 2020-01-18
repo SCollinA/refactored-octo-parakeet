@@ -8,6 +8,7 @@ import { IHoop } from "../../models/hoop.model";
 import { AdminContext } from "../admin/AdminContext";
 import Collections from "../collections/Collections";
 import ColButton from "../generic/buttons/ColButton";
+import ColCard from "../generic/layout/card/ColCard";
 import ColLoading from "../generic/loading/ColLoading";
 
 import HoopCreate from "./hoop/create/HoopCreate";
@@ -48,7 +49,7 @@ export default ({
 				preventClick={false}
 			>
 				{!!selectedHoopId ?
-					<>
+					<ColCard>
 						<ColButton type="button"
 							value="Back"
 							action={() => setSelectedHoopId("")}
@@ -60,8 +61,8 @@ export default ({
 							isSelected={true}
 						/>
 						<Collections hoopId={selectedHoopId}/>
-					</> :
-					<>
+					</ColCard> :
+					<ColCard>
 						{map(
 							(hoop) => <Hoop key={hoop.id} hoop={hoop}
 								selectHoop={() => setSelectedHoopId(hoop.id)}
@@ -70,7 +71,7 @@ export default ({
 						)}
 						{isLoggedIn &&
 							<HoopCreate selectedCollectionId={collectionId}/>}
-					</>
+					</ColCard>
 				}
 			</ColLoading>
 		</div>

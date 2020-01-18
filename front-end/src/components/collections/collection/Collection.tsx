@@ -9,6 +9,7 @@ import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
 
 import { ICollection } from "../../../models/collection.model";
 import ColCard from "../../generic/layout/card/ColCard";
+import Hoops from "../../hoops/Hoops";
 
 export default ({
 	collection,
@@ -43,6 +44,8 @@ export default ({
 						/>}
 					{!isEditing &&
 						<CollectionReadOnly collection={collection}/>}
+					{isSelected &&
+						<Hoops collectionId={collection.id}/>}
 				</ColCard>
 			</div>
 		);

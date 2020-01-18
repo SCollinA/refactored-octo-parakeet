@@ -4,7 +4,9 @@ import { IHoop } from "../../../models/hoop.model";
 
 import { AdminContext } from "../../admin/AdminContext";
 import ColButton from "../../generic/buttons/ColButton";
+import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
+
 import HoopEdit from "./edit/HoopEdit";
 import HoopReadOnly from "./read-only/HoopReadOnly";
 
@@ -28,17 +30,19 @@ export default ({
 			<div className={className}
 				onClick={() => selectHoop()}
 			>
-				{isLoggedIn && isSelected && <ColButton type="button"
-					value="edit hoop"
-					action={() => setIsEditing(true)}
-				/>}
-				{isLoggedInAndEditing &&
-					<HoopEdit hoop={hoop}
-						cancel={() => setIsEditing(false)}
-						submit={() => setIsEditing(false)}
+				<ColCard clickable={!isSelected}>
+					{isLoggedIn && isSelected && <ColButton type="button"
+						value="edit hoop"
+						action={() => setIsEditing(true)}
 					/>}
-				{!isEditing &&
-					<HoopReadOnly hoop={hoop}/>}
+					{isLoggedInAndEditing &&
+						<HoopEdit hoop={hoop}
+							cancel={() => setIsEditing(false)}
+							submit={() => setIsEditing(false)}
+						/>}
+					{!isEditing &&
+						<HoopReadOnly hoop={hoop}/>}
+				</ColCard>
 			</div>
 		);
 	}

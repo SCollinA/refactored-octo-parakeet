@@ -38,7 +38,6 @@ export default ({
 		});
 		collections = get(["Hoop", "collections"], data);
 		loading = hoopLoading;
-
 	}
 	const { isLoggedIn } = useContext(AdminContext);
 	const [selectedCollectionId, setSelectedCollectionId] = useState<string>("");
@@ -62,7 +61,6 @@ export default ({
 							)}
 							isSelected={true}
 						/>
-						<Hoops collectionId={selectedCollectionId}/>
 					</ColCard>
 				) :
 					<ColCard>
@@ -74,10 +72,9 @@ export default ({
 							collections,
 						)}
 						{isLoggedIn &&
-							<ColCard>
-								<CollectionCreate/>
-								<Hoops/>
-							</ColCard>}
+							<CollectionCreate/>}
+						{isLoggedIn && !hoopId &&
+							<Hoops/>}
 					</ColCard>
 				}
 			</ColLoading>
