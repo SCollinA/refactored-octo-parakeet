@@ -23,6 +23,10 @@ export default ({
 					{hoop.description}
 				</p> :
 				<ColPlaceholder text="no hoop description"/>}
+			{!!hoop.sold &&
+				<p className="hoop__sold">
+					sold
+				</p>}
 		</>
 	);
 };

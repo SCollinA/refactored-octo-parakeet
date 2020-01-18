@@ -9,7 +9,7 @@ export default ({
 	value,
 	placeholder,
 }: {
-	autoFocus: boolean;
+	autoFocus?: boolean;
 	id: string,
 	onChange: (value: string) => void,
 	value: string,

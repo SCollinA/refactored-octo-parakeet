@@ -10,6 +10,7 @@ import ColTextInput from "./inputs/ColText.input";
 import ColTextAreaInput from "./inputs/ColTextArea.input";
 
 import "./ColForm.css";
+import ColBooleanInput from "./inputs/ColBoolean.input";
 
 export default ({
 	cancel,
@@ -60,7 +61,6 @@ export default ({
 						case "STRING_LONG":
 							return dataViewLayout(
 								<ColTextAreaInput id={dataView.key}
-									autoFocus={true}
 									onChange={(value: string) => viewModel.update({
 										[dataView.key]: value,
 									}, ({dataViews: newDataViews}) =>
@@ -68,6 +68,17 @@ export default ({
 									)}
 									value={dataView.value || dataView.placeholder}
 									placeholder={dataView.key}
+								/>,
+							);
+						case "BOOLEAN":
+							return dataViewLayout(
+								<ColBooleanInput affirmativeText={dataView.key}
+									onChange={(value: boolean) => viewModel.update({
+										[dataView.key]: value,
+									}, ({dataViews: newDataViews}) =>
+										setDataViews(newDataViews),
+									)}
+									checked={dataView.value || dataView.placeholder}
 								/>,
 							);
 						default:
