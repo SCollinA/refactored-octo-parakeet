@@ -37,8 +37,9 @@ export default {
 				return {
 					token,
 				};
+			} else {
+				throw new Error("bad password");
 			}
-			return null;
 		},
 	},
 	// UpdateCollections: (obj: any, collections: ICollection[], context: any, info: any) => {
