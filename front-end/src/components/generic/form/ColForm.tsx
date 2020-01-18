@@ -1,12 +1,14 @@
 import { map } from "lodash/fp";
 import React, { ReactNode, SyntheticEvent, useState } from "react";
 
-import ColButton from "../../buttons/ColButton";
-import ColCard from "../../layout/card/ColCard";
-import { IColDataModel } from "../../viewModelStore/ColDataModel";
-import ColViewModel from "../../viewModelStore/ColViewModel";
+import ColButton from "../buttons/ColButton";
+import ColCard from "../layout/card/ColCard";
+import { IColDataModel } from "../viewModelStore/ColDataModel";
+import ColViewModel from "../viewModelStore/ColViewModel";
 
-import ColTextInput from "../ColText.input";
+import ColTextInput from "./inputs/ColText.input";
+
+import "./ColForm.css";
 
 export default ({
 	cancel,

@@ -6,7 +6,7 @@ import { DELETE_COLLECTION, UPDATE_COLLECTION } from "../../../../graphql/mutati
 import { GET_COLLECTIONS } from "../../../../graphql/queries";
 import { ICollection } from "../../../../models/collection.model";
 
-import ColForm from "../../../generic/inputs/form/ColForm";
+import ColForm from "../../../generic/form/ColForm";
 import ColLoading from "../../../generic/loading/ColLoading";
 import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
 import { scrubData } from "../../../utils/functions/scrubData";
