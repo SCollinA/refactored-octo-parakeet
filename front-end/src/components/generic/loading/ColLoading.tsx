@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 import "./ColLoading.css";
 
@@ -9,7 +9,7 @@ export default ({
 	fitChild = false,
 	preventClick = true,
 }: {
-	children: any,
+	children: ReactNode,
 	loading: boolean,
 	text: string,
 	fitChild?: boolean,
