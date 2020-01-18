@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/react-hooks";
 import { find, get, map } from "lodash/fp";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { GET_COLLECTION_WITH_HOOPS, GET_HOOPS_WITHOUT_COLLECTIONS } from "../../graphql/queries";
 import { IHoop } from "../../models/hoop.model";

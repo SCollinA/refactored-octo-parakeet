@@ -8,6 +8,11 @@
 	flex-direction: column;
 }
 
+.admin-login
+label {
+	display: none;
+}
+
 @media (max-width: 500px) {
 	.admin-login {
 		flex-direction: row;

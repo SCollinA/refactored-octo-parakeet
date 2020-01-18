@@ -6,11 +6,12 @@ import ColCard from "../layout/card/ColCard";
 import { IColDataModel } from "../viewModelStore/ColDataModel";
 import ColViewModel from "../viewModelStore/ColViewModel";
 
-import ColTextInput from "./inputs/ColText.input";
-import ColTextAreaInput from "./inputs/ColTextArea.input";
+import ColTextInput from "./inputs/string/ColText.input";
+import ColTextAreaInput from "./inputs/string/ColTextArea.input";
 
 import "./ColForm.css";
-import ColBooleanInput from "./inputs/ColBoolean.input";
+import ColBooleanInput from "./inputs/boolean/ColBoolean.input";
+import ColNumberInput from "./inputs/number/ColNumber.input";
 
 export default ({
 	cancel,
@@ -38,7 +39,7 @@ export default ({
 				(dataView) => {
 					const dataViewLayout = (input: ReactNode) => (
 						<ColCard key={dataView.key}  clickable={true}>
-							<label htmlFor={dataView.key}>
+							<label htmlFor={dataView.key} className={`col-form__label-${dataView.key}`}>
 								{dataView.key}
 							</label>
 							{input}
@@ -55,7 +56,7 @@ export default ({
 										setDataViews(newDataViews),
 									)}
 									value={dataView.value || dataView.placeholder}
-									placeholder={dataView.key}
+									placeholder={dataView.placeholder}
 								/>,
 							);
 						case "STRING_LONG":
@@ -79,6 +80,32 @@ export default ({
 										setDataViews(newDataViews),
 									)}
 									checked={dataView.value || dataView.placeholder}
+								/>,
+							);
+						case "INTEGER":
+							return dataViewLayout(
+								<ColNumberInput id={dataView.key}
+									autoFocus={true}
+									onChange={(value: number) => viewModel.update({
+										[dataView.key]: value,
+									}, ({dataViews: newDataViews}) =>
+										setDataViews(newDataViews),
+									)}
+									value={dataView.value || dataView.placeholder}
+									placeholder={dataView.key}
+								/>,
+							);
+						case "FLOAT":
+							return dataViewLayout(
+								<ColNumberInput id={dataView.key}
+									autoFocus={true}
+									onChange={(value: number) => viewModel.update({
+										[dataView.key]: value,
+									}, ({dataViews: newDataViews}) =>
+										setDataViews(newDataViews),
+									)}
+									value={dataView.value || dataView.placeholder}
+									placeholder={dataView.key}
 								/>,
 							);
 						default:

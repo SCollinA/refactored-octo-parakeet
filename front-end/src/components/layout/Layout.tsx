@@ -6,7 +6,6 @@ import Header from "./header/Header";
 import "./Layout.css";
 
 import AdminContext from "../admin/AdminContext";
-import HamburgerLinks from "../links/hamburger-links/HamburgerLinks";
 
 export default ({
 	children,
