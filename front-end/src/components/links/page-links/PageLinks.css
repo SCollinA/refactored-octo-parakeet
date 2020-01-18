@@ -13,7 +13,6 @@
 
 .page-link h2 {
     margin: auto;
-    padding: 2px 20px;
     white-space: nowrap;
     text-align: center;
 }
@@ -32,10 +31,6 @@
 
     .page-link {
         width: 100%;
-    }
-    
-    .page-link h2 {
-        padding: 2%;
     }
 
     .page-link > a {

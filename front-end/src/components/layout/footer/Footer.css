@@ -13,10 +13,15 @@
     flex-wrap: wrap;
 }
 
-.footer > span > p {
-    margin: 0;
+.footer p {
+	margin: 0;
 }
 
-.footer p:nth-child(2) {
+.footer__copyright {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer__copyright-message {
     white-space: normal;
 }

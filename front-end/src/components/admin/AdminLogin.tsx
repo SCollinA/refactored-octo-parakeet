@@ -36,14 +36,14 @@ export default () => {
 			text={"hallie's • hoops •"}
 		>
 			{isLoggedIn &&
-				<div className="logout clickable">
+				<div className="admin-logout clickable">
 					<input type="button" value="logout"
 						onClick={() => logout()}
 					/>
 				</div>}
 			{!isLoggedIn &&
 				(showAdmin ?
-					<form className="AdminLogin"
+					<form className="admin-login"
 						onSubmit={(event: any) => {
 							event.preventDefault();
 							adminLogin({
@@ -77,8 +77,16 @@ export default () => {
 							submit
 						</label>
 						<input id="submit" type="submit" value="submit"/>
+						<label htmlFor="cancel">
+							cancel
+						</label>
+						<input id="cancel"
+							type="button"
+							value="cancel"
+							onClick={() => setShowAdmin(false)}
+						/>
 					</form> :
-					<p className="adminLoginButton"
+					<p className="admin-login__button"
 						onClick={() => setShowAdmin(true)}
 					>
 						admin

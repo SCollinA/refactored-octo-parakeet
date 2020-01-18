@@ -1,13 +1,15 @@
-.adminLoginButton {
+.admin-login__button {
     cursor: pointer;
     margin: auto;
 }
 
-.AdminLogin {
+.admin-login {
 	display: flex;
 	flex-direction: column;
 }
 
-label {
-	display: none;
+@media (max-width: 500px) {
+	.admin-login {
+		flex-direction: row;
+	}
 }
