@@ -11,7 +11,7 @@ export default ({
 }: {
 	children: ReactNode,
 	loading: boolean,
-	text: string,
+	text?: string,
 	fitChild?: boolean,
 	preventClick?: boolean,
 }) => {

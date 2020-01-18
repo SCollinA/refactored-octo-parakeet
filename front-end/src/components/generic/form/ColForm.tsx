@@ -6,11 +6,11 @@ import ColCard from "../layout/card/ColCard";
 import { IColDataModel } from "../viewModelStore/ColDataModel";
 import ColViewModel from "../viewModelStore/ColViewModel";
 
+import ColBooleanInput from "./inputs/boolean/ColBoolean.input";
+import ColImageInput from "./inputs/image/ColImage.input";
+import ColNumberInput from "./inputs/number/ColNumber.input";
 import ColTextInput from "./inputs/string/ColText.input";
 import ColTextAreaInput from "./inputs/string/ColTextArea.input";
-
-import ColBooleanInput from "./inputs/boolean/ColBoolean.input";
-import ColNumberInput from "./inputs/number/ColNumber.input";
 
 import "./ColForm.css";
 import "./ColInput.css";
@@ -113,7 +113,7 @@ export default ({
 							);
 						case "IMAGE":
 							return dataViewLayout(
-								null,
+								<ColImageInput image={dataView.value}/>,
 							);
 					}
 				},
