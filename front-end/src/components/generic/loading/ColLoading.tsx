@@ -10,7 +10,7 @@ export default ({
 	preventClick = true,
 }: {
 	children: ReactNode,
-	loading: boolean,
+	loading?: boolean,
 	text?: string,
 	fitChild?: boolean,
 	preventClick?: boolean,

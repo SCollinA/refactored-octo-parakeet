@@ -31,7 +31,7 @@ interface IImageState {
 	imageHeight: number;
 	imageRef: RefObject<HTMLImageElement>;
 	imageRemoved: boolean;
-	imageRotated: boolean;
+	imageRotating: boolean;
 	imageVisible: boolean;
 	imageWidth: number;
 	imageWidthPercent: number;
@@ -49,7 +49,7 @@ const imageState: IImageState = {
 	imageHeight: 0,
 	imageRef: React.createRef<HTMLImageElement>(),
 	imageRemoved: false,
-	imageRotated: false,
+	imageRotating: false,
 	imageVisible: false,
 	imageWidth: 0,
 	imageWidthPercent: 0,
@@ -65,7 +65,6 @@ const imageReducer: React.Reducer<Partial<IImageState>, IImageAction> =
 					...state,
 					imageBlob: action.imageBlob,
 					imageFile: action.imageFile,
-					imageWidthPercent: 0,
 				};
 			case EImageActionType.RemoveImage:
 				return {
@@ -89,12 +88,12 @@ const imageReducer: React.Reducer<Partial<IImageState>, IImageAction> =
 			case EImageActionType.RotateImage:
 				return {
 					...state,
-					imageRotated: action.imageRotated,
+					imageRotating: action.imageRotating,
 				};
 			case EImageActionType.SetImageVisible:
 				return {
 					...state,
-					imageRotated: false,
+					imageRotating: false,
 					imageVisible: action.imageVisible,
 				};
 			case EImageActionType.SetImageWidthPercent:
@@ -113,7 +112,9 @@ export default ({
 	onChange: (value: string) => void,
 }) => {
 	const [state, dispatch] = useReducer(imageReducer, imageState);
-	useEffect(loadInitialImage(image, state, dispatch), [image]);
+	useEffect(createImageBlob(image, state, dispatch), [image]);
+	useEffect(resetImageWidthPercent(dispatch), [state.imageBlob]);
+	useEffect(drawImage(state, dispatch, onChange), [state.imageWidthPercent]);
 	useEffect(resizeWindow(dispatch), [state.windowHeight, state.windowWidth]);
 	useEffect(() => dispatch({
 		imageVisible: false,
@@ -126,16 +127,7 @@ export default ({
 		state.imageHeight,
 		state.imageWidth,
 	]);
-	useEffect(finishLoadingImage(state, dispatch, onChange), [state.imageWidthPercent]);
-	useEffect(() => {
-		if (state.imageRotated) {
-			dispatch({
-				imageHeight: state.imageWidth,
-				imageWidth: state.imageHeight,
-				type: EImageActionType.ResizeImage,
-			});
-		}
-	}, [state.imageRotated]);
+	useEffect(startRotatingImage(state, dispatch), [state.imageRotating]);
 	useEffect(rotateImage(state, dispatch), [state.imageHeight, state.imageWidth]);
 	useEffect(removeImage(state, dispatch), [state.imageRemoved]);
 	const [imageInput, setImageInput] = useState<HTMLInputElement | null>();
@@ -172,8 +164,8 @@ export default ({
 				height={state.imageHeight}
 				style={{ display: "none" }}
 			/>
-			{(!!state.imageFile || !!state.imageBlob) &&
-				<ColLoading loading={!state.imageVisible || !!state.imageRotated} fitChild={true}>
+			{(!!state.imageFile || !!state.imageBlob?.size) &&
+				<ColLoading loading={!state.imageVisible || state.imageRotating} fitChild={true}>
 					<img id="uploadedImage" ref={state.imageRef}
 						style={{
 							display: state.imageVisible ?
@@ -196,7 +188,7 @@ export default ({
 				<input className="col-input-image__rotate-image"
 					type="button"
 					onClick={() => dispatch({
-						imageRotated: true,
+						imageRotating: true,
 						type: EImageActionType.RotateImage,
 					})}
 					value="rotate right"
@@ -205,8 +197,8 @@ export default ({
 	);
 };
 
-const finishLoadingImage =
-	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>, callback: (value: string) => void) =>
+const drawImage =
+	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>, onChange: (value: string) => void) =>
 		() => {
 			if (!!state.imageWidthPercent) {
 				if (!!state.imageFile && !!state.imageRef?.current && !!state.canvasRef?.current) {
@@ -225,7 +217,7 @@ const finishLoadingImage =
 						fr.onload = () => {
 							const uploadedImage = btoa(`${fr.result}`);
 							if (!!uploadedImage) {
-								callback(`data:image/jpeg;base64,${uploadedImage}`);
+								onChange(`data:image/jpeg;base64,${uploadedImage}`);
 							}
 						};
 						fr.readAsBinaryString(imageBlob);
@@ -238,10 +230,10 @@ const finishLoadingImage =
 			}
 		};
 
-const loadInitialImage =
+const createImageBlob =
 	(image: string, state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
 		() => {
-			if ((!state.imageFile || !state.imageBlob) && !state.imageRemoved) {
+			if (!state.imageBlob?.size && !state.imageRemoved) {
 				if (!!image) {
 					fetch(image)
 						.then((res) => res.blob())
@@ -268,11 +260,26 @@ const resizeWindow = (dispatch: React.Dispatch<IImageAction>) => {
 	};
 };
 
+const resetImageWidthPercent =
+(dispatch: React.Dispatch<IImageAction>) =>
+	() => {
+		dispatch({
+			imageWidthPercent: 0,
+			type: EImageActionType.SetImageWidthPercent,
+		});
+	};
+
 const resizeImage =
 	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
 		() => {
-			const { imageWidth, imageHeight, windowWidth, windowHeight } = state;
-			if (!state.imageVisible &&
+			const {
+				imageWidth,
+				imageHeight,
+				imageVisible,
+				windowWidth,
+				windowHeight,
+			} = state;
+			if (!imageVisible &&
 				!!imageWidth && !!imageHeight &&
 				!!windowWidth && !!windowHeight
 			) {
@@ -290,7 +297,7 @@ const resizeImage =
 const rotateImage =
 	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
 		() => {
-			if (state.imageRotated) {
+			if (state.imageRotating) {
 				// get canvas and image elements from page
 				const imageCanvasNode = get(["canvasRef", "current"], state);
 				const rotatingImage =  get(["imageRef", "current"], state);
@@ -336,6 +343,18 @@ const removeImage =
 				dispatch({
 					imageRemoved: false,
 					type: EImageActionType.RemoveImage,
+				});
+			}
+		};
+
+const startRotatingImage =
+	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
+		() => {
+			if (state.imageRotating) {
+				dispatch({
+					imageHeight: state.imageWidth,
+					imageWidth: state.imageHeight,
+					type: EImageActionType.ResizeImage,
 				});
 			}
 		};
