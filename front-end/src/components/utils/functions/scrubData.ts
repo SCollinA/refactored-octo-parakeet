@@ -9,11 +9,11 @@ import {
 import { IDataModel } from "../../../models/models";
 import { imagePrefix } from "./isStringImage";
 
-export function scrubData(data: IDataModel): IDataModel {
-	const omittedData = omit<IDataModel, "__typename">([
+export function scrubData<T extends IDataModel>(data: T): T {
+	const omittedData = omit<T, "__typename">([
 			"__typename",
 		], data);
-	const setData = set<IDataModel>(
+	const setData = set<T>(
 			"image",
 			has("image", data) ?
 				`${imagePrefix}${get("image", data) || ""}` :

@@ -27,6 +27,7 @@ export type DataViews = Dictionary<ColViewModelValues>;
 
 export default class ColViewModel<T extends IColDataModel> {
 
+	public id: string;
 	public dataModel: T;
 	public dataViews: DataViews;
 	public updatedDataModel: T;
@@ -37,6 +38,7 @@ export default class ColViewModel<T extends IColDataModel> {
 		dataModel: T,
 		placeholders: T,
 	) {
+		this.id = dataModel.id;
 		this.dataModel = dataModel;
 		this.placeholders = placeholders;
 		this.dataViews = this.getDataViews(dataModel);

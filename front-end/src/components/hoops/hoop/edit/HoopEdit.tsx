@@ -17,11 +17,11 @@ import "./HoopEdit.css";
 
 export default ({
 	cancel = () => undefined,
-	hoop,
+	hoopModel,
 	reset = () => undefined,
 	submit = () => undefined,
 }: {
-	hoop: IHoop,
+	hoopModel: ColViewModel<IHoop>,
 	cancel?: () => void,
 	reset?: () => void,
 	submit?: () => void,
@@ -30,7 +30,7 @@ export default ({
 		updateHoop,
 		{ loading: updateLoading },
 	] = useMutation(UPDATE_HOOP, {
-		variables: { id: hoop.id },
+		variables: { id: hoopModel.id },
 	});
 	const [
 		removeHoop,
@@ -45,7 +45,7 @@ export default ({
 				cachedData,
 			);
 			const updatedHoops = filter(
-				({ id }: IHoop) => hoop.id !== id,
+				({ id }: IHoop) => hoopModel.id !== id,
 				cachedHoops,
 			);
 			cache.writeQuery({
@@ -53,44 +53,26 @@ export default ({
 				query: GET_HOOPS_FULL,
 			});
 		},
-		variables: { id: hoop.id },
+		variables: { id: hoopModel.id },
 	});
 	const loading = updateLoading || removeLoading;
-	const scrubbedHoop = scrubData(hoop);
-	const viewModel = new ColViewModel(scrubbedHoop, {
-		...placeholders,
-		id: hoop.id,
-	});
 	return (
 		<ColLoading text={"hallie's • hoops •"}
 			loading={loading}
 			fitChild={true}
 			preventClick={false}
 		>
-			<ColForm viewModel={viewModel}
+			<ColForm viewModel={hoopModel}
 				cancel={() => cancel()}
 				remove={() => removeHoop()}
 				reset={() => reset()}
 				submit={() => {
 					updateHoop({
-						variables: washData(viewModel.updatedDataModel),
+						variables: washData(hoopModel.updatedDataModel),
 					});
 					submit();
 				}}
 			/>
 		</ColLoading>
 	);
-};
-
-const placeholders: IHoop = {
-	collections: [],
-	description: "",
-	diameter: 0,
-	file: undefined,
-	id: "",
-	image: imagePrefix,
-	price: 0,
-	recentlyupdatedimage: false,
-	sold: false,
-	title: "",
 };

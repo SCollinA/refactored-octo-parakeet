@@ -8,7 +8,9 @@ import { CollectionContext } from "../../collections/Collections";
 import ColButton from "../../generic/buttons/ColButton";
 import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
-
+import ColViewModel from "../../generic/viewModelStore/ColViewModel";
+import { imagePrefix } from "../../utils/functions/isStringImage";
+import { scrubData } from "../../utils/functions/scrubData";
 import HoopEdit from "./edit/HoopEdit";
 import HoopReadOnly from "./read-only/HoopReadOnly";
 
@@ -29,6 +31,11 @@ export default ({
 	if (!hoop) {
 		return <ColPlaceholder/>;
 	} else {
+		const scrubbedHoop = scrubData<IHoop>(hoop);
+		const hoopModel = new ColViewModel<IHoop>(scrubbedHoop, {
+			...placeholders,
+			id: hoop.id,
+		});
 		return (
 			<div className={`hoop${editingClass}`}
 				onClick={() => setSelectedHoopId(hoop.id)}
@@ -44,14 +51,27 @@ export default ({
 						action={() => setIsEditing(true)}
 					/>}
 					{isLoggedInAndEditing &&
-						<HoopEdit hoop={hoop}
+						<HoopEdit hoopModel={hoopModel}
 							cancel={() => setIsEditing(false)}
 							submit={() => setIsEditing(false)}
 						/>}
 					{!isEditing &&
-						<HoopReadOnly hoop={hoop}/>}
+						<HoopReadOnly hoopModel={hoopModel}/>}
 				</ColCard>
 			</div>
 		);
 	}
+};
+
+const placeholders: IHoop = {
+	collections: [],
+	description: "",
+	diameter: 0,
+	file: undefined,
+	id: "",
+	image: imagePrefix,
+	price: 0,
+	recentlyupdatedimage: false,
+	sold: false,
+	title: "",
 };
