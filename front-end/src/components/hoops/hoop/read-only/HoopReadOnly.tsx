@@ -2,7 +2,10 @@ import React from "react";
 
 import { IHoop } from "../../../../models/hoop.model";
 
-import ColPlaceholder from "../../../generic/layout/placeholder/ColPlaceholder";
+import ColModel from "../../../generic/model/read-only/ColModel";
+import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
+import { imagePrefix } from "../../../utils/functions/isStringImage";
+import { scrubData } from "../../../utils/functions/scrubData";
 
 import "./HoopReadOnly.css";
 
@@ -11,22 +14,25 @@ export default ({
 }: {
 	hoop: IHoop,
 }) => {
+	const scrubbedHoop = scrubData(hoop);
+	const viewModel = new ColViewModel(scrubbedHoop, {
+		...placeholders,
+		id: hoop.id,
+	});
 	return (
-		<>
-			{!!hoop.title ?
-				<p className="hoop__title">
-					{hoop.title}
-				</p> :
-				<ColPlaceholder text="no hoop name"/>}
-			{!!hoop.description ?
-				<p className="hoop__description">
-					{hoop.description}
-				</p> :
-				<ColPlaceholder text="no hoop description"/>}
-			{!!hoop.sold &&
-				<p className="hoop__sold">
-					sold
-				</p>}
-		</>
+		<ColModel viewModel={viewModel}/>
 	);
+};
+
+const placeholders: IHoop = {
+	collections: [],
+	description: "",
+	diameter: 0,
+	file: undefined,
+	id: "",
+	image: imagePrefix,
+	price: 0,
+	recentlyupdatedimage: false,
+	sold: false,
+	title: "",
 };

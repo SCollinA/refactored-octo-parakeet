@@ -8,12 +8,12 @@ import React, {
 	useState,
 } from "react";
 
-import ColLoading from "../../../loading/ColLoading";
-import { blobUrl } from "../../../utils/blobs.utils";
+import ColLoading from "../../../../loading/ColLoading";
+import { blobUrl } from "../../../../utils/blobs.utils";
 
-import "../../ColInput.css";
+import "../../ColData.edit.css";
 
-import "./ColImage.input.css";
+import "./ColImage.edit.css";
 
 enum EImageActionType {
 	LoadImage = "LOAD_IMAGE",
@@ -131,11 +131,11 @@ export default ({
 	const [imageInput, setImageInput] = useState<HTMLInputElement | null>();
 	return (
 		<>
-			<p className="col-input-image__file-name">
+			<p className="col-image-edit__file-name">
 				{state.imageFile?.name}
 			</p>
 			<input type="button"
-				className="col-input-image__upload-button"
+				className="col-image-edit__upload-button"
 				value="upload image"
 				onClick={() => !!imageInput && imageInput.click()}
 			/>
@@ -183,7 +183,7 @@ export default ({
 						src={blobUrl(state.imageFile || state.imageBlob)}
 					/>
 				</ColLoading>}
-				<input className="col-input-image__rotate-image"
+				<input className="col-image-edit__rotate-image"
 					type="button"
 					onClick={() => dispatch({
 						imageRotating: true,

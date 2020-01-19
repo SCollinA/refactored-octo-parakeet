@@ -14,7 +14,7 @@ interface IColViewModelValue {
 	isRequired?: boolean;
 	isValid: boolean;
 	type: ColViewModelDataType;
-	value: ColDataModelSingle;
+	// value: ColDataModelSingle;
 	placeholder: ColDataModelSingle;
 }
 

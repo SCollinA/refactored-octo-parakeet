@@ -6,8 +6,8 @@ import { DELETE_HOOP, UPDATE_HOOP } from "../../../../graphql/mutations";
 import { GET_HOOPS_FULL } from "../../../../graphql/queries";
 import { IHoop } from "../../../../models/hoop.model";
 
-import ColForm from "../../../generic/form/ColForm";
 import ColLoading from "../../../generic/loading/ColLoading";
+import ColForm from "../../../generic/model/edit/ColModel.edit";
 import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
 import { imagePrefix } from "../../../utils/functions/isStringImage";
 import { scrubData } from "../../../utils/functions/scrubData";

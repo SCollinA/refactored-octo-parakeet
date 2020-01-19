@@ -1,17 +1,17 @@
-.col-form
+.col-model-edit
 .col-card {
 	display: flex;
 }
 
-.col-form
+.col-model-edit
 .col-card 
 label {
 	flex: 1;
 	cursor: pointer;
 }
 
-.col-form
-.col-input {
+.col-model-edit
+.col-data-edit {
 	margin: 0 20px;
 	flex: 1;
 }

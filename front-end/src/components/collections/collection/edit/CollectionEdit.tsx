@@ -6,8 +6,8 @@ import { DELETE_COLLECTION, UPDATE_COLLECTION } from "../../../../graphql/mutati
 import { GET_COLLECTIONS } from "../../../../graphql/queries";
 import { ICollection } from "../../../../models/collection.model";
 
-import ColForm from "../../../generic/form/ColForm";
 import ColLoading from "../../../generic/loading/ColLoading";
+import ColForm from "../../../generic/model/edit/ColModel.edit";
 import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
 import { scrubData } from "../../../utils/functions/scrubData";
 
@@ -52,9 +52,11 @@ export default ({
 		variables: { id: collection.id },
 	});
 	const loading = updateLoading || removeLoading;
-	const scrubbedCollection = scrubData<ICollection>(collection);
-	const placeholders = washCollection(scrubbedCollection);
-	const viewModel = new ColViewModel(scrubbedCollection, placeholders);
+	const scrubbedCollection = scrubData(collection);
+	const viewModel = new ColViewModel(scrubbedCollection, {
+		...placeholders,
+		id: collection.id,
+	});
 	return (
 		<ColLoading text={"hallie's • hoops •"}
 			loading={loading}
@@ -78,9 +80,7 @@ export default ({
 	);
 };
 
-const washCollection = (collection: ICollection): ICollection => {
-	return {
-		id: collection.id,
-		name: collection.name || "",
-	};
+const placeholders =  {
+	id: "",
+	name: "",
 };

@@ -1,8 +1,8 @@
 import React from "react";
 
-import "../../ColInput.css";
+import "../../ColData.edit.css";
 
-import "./ColTextArea.input.css";
+import "./ColString.edit.css";
 
 export default ({
 	autoFocus,
@@ -11,19 +11,20 @@ export default ({
 	value,
 	placeholder,
 }: {
-	autoFocus?: boolean;
+	autoFocus: boolean;
 	id: string,
 	onChange: (value: string) => void,
 	value: string,
 	placeholder: string,
 }) => {
 	return (
-		<textarea className="col-input col-input-textarea"
+		<input className="col-data-edit col-string-edit"
 			id={id}
 			autoFocus={autoFocus}
-			name="textarea"
-			onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => onChange(event.target.value)}
+			name="text"
+			onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
 			placeholder={placeholder}
+			type="text"
 			value={value}
 		/>
 	);

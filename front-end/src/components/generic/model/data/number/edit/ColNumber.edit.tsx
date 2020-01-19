@@ -1,8 +1,8 @@
 import React from "react";
 
-import "../../ColInput.css";
+import "../../ColData.edit.css";
 
-import "./ColNumber.input.css";
+import "./ColNumber.edit.css";
 
 export default ({
 	autoFocus,
@@ -18,7 +18,7 @@ export default ({
 	placeholder: string,
 }) => {
 	return (
-		<input className="col-input col-input-number"
+		<input className="col-data-edit col-number-edit"
 			type="number"
 			id={id}
 			value={value}

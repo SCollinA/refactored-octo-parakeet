@@ -3,6 +3,7 @@
 	transition: box-shadow 300ms ease-in-out;
 	margin: 5px;
 	padding: 5px;
+	border-radius: 2px;
 }
 
 .col-card--clickable {

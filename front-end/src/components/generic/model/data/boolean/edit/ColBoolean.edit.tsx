@@ -1,8 +1,8 @@
 import React from "react";
 
-import "../../ColInput.css";
+import "../../ColData.edit.css";
 
-import "./ColBoolean.input.css";
+import "./ColBoolean.edit.css";
 
 export default ({
 	affirmativeText = "true",
@@ -22,7 +22,7 @@ export default ({
 	const value = checked ? affirmativeText : negativeText;
 	return (
 		<>
-			<input className="col-input col-input-boolean"
+			<input className="col-data-edit col-boolean-edit"
 				type="checkbox"
 				id={id}
 				name="checkbox"

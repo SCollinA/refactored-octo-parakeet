@@ -1,19 +1,19 @@
 import { map } from "lodash/fp";
 import React, { ReactNode, SyntheticEvent, useState } from "react";
 
-import ColButton from "../buttons/ColButton";
-import ColCard from "../layout/card/ColCard";
-import { IColDataModel } from "../viewModelStore/ColDataModel";
-import ColViewModel from "../viewModelStore/ColViewModel";
+import ColButton from "../../buttons/ColButton";
+import ColCard from "../../layout/card/ColCard";
+import { IColDataModel } from "../../viewModelStore/ColDataModel";
+import ColViewModel from "../../viewModelStore/ColViewModel";
 
-import ColBooleanInput from "./inputs/boolean/ColBoolean.input";
-import ColImageInput from "./inputs/image/ColImage.input";
-import ColNumberInput from "./inputs/number/ColNumber.input";
-import ColTextInput from "./inputs/string/ColText.input";
-import ColTextAreaInput from "./inputs/string/ColTextArea.input";
+import ColBooleanInput from "../data/boolean/edit/ColBoolean.edit";
+import ColImageInput from "../data/image/edit/ColImage.edit";
+import ColNumberInput from "../data/number/edit/ColNumber.edit";
+import ColStringLongInput from "../data/string-long/edit/ColStringLong.edit";
+import ColStringInput from "../data/string/edit/ColString.edit";
 
-import "./ColForm.css";
-import "./ColInput.css";
+import "../data/ColData.edit.css";
+import "./ColModel.edit.css";
 
 export default ({
 	cancel,
@@ -30,7 +30,7 @@ export default ({
 }) => {
 	const [dataViews, setDataViews] = useState(viewModel.dataViews);
 	return (
-		<form id="col-form" className="col-form"
+		<form id="col-model-edit" className="col-model-edit"
 			onReset={() => viewModel.reset(reset)}
 			onSubmit={(event: SyntheticEvent) => {
 				event.preventDefault();
@@ -41,7 +41,7 @@ export default ({
 				(dataView) => {
 					const dataViewLayout = (input: ReactNode) => (
 						<ColCard key={dataView.key} clickable={true}>
-							<label htmlFor={dataView.key} className={`col-form__label-${dataView.key}`}>
+							<label htmlFor={dataView.key} className={`col-model-edit__label-${dataView.key}`}>
 								{dataView.key}
 								{input}
 							</label>
@@ -50,7 +50,7 @@ export default ({
 					switch (dataView.type) {
 						case "STRING":
 							return dataViewLayout(
-								<ColTextInput id={dataView.key}
+								<ColStringInput id={dataView.key}
 									autoFocus={true}
 									onChange={(value: string) => viewModel.update({
 										[dataView.key]: value,
@@ -63,7 +63,7 @@ export default ({
 							);
 						case "STRING_LONG":
 							return dataViewLayout(
-								<ColTextAreaInput id={dataView.key}
+								<ColStringLongInput id={dataView.key}
 									onChange={(value: string) => viewModel.update({
 										[dataView.key]: value,
 									}, ({dataViews: newDataViews}) =>
