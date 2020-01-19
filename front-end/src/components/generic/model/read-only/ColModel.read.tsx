@@ -13,14 +13,13 @@ import ColNumber from "../data/number/read-only/ColNumber";
 import ColStringLong from "../data/string-long/read-only/ColStringLong";
 import ColString from "../data/string/read-only/ColString";
 
-import "./ColModel.css";
+import "./ColModel.read.css";
 
 export default ({
 	viewModel,
 }: {
 	viewModel: ColViewModel<IColDataModel>,
 }) => {
-	console.log("view model", viewModel)
 	return (
 		<div className="col-model">
 			{map(
@@ -33,7 +32,6 @@ export default ({
 					);
 					switch (dataView.type) {
 						case "STRING":
-							console.log("data view type string", dataView.value)
 							return dataViewLayout(
 								<ColString text={dataView.value}/>,
 							);

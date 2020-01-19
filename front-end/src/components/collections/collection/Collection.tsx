@@ -1,20 +1,22 @@
-import { get } from "lodash/fp";
+import { useMutation } from "@apollo/react-hooks";
+import { filter, get } from "lodash/fp";
 import React, { useContext, useState } from "react";
 
+import { DELETE_COLLECTION, UPDATE_COLLECTION } from "../../../graphql/mutations";
+import { GET_COLLECTIONS } from "../../../graphql/queries";
 import { ICollection } from "../../../models/collection.model";
 
 import { AdminContext } from "../../admin/AdminContext";
 import ColButton from "../../generic/buttons/ColButton";
 import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
+import ColLoading from "../../generic/loading/ColLoading";
+import ColModel from "../../generic/model/ColModel";
 import ColViewModel from "../../generic/viewModelStore/ColViewModel";
 import Hoops from "../../hoops/Hoops";
 import { scrubData } from "../../utils/functions/scrubData";
 
 import { CollectionContext } from "../Collections";
-
-import CollectionEdit from "./edit/CollectionEdit";
-import CollectionReadOnly from "./read-only/CollectionReadOnly";
 
 import "./Collection.css";
 
@@ -42,6 +44,36 @@ export default ({
 			...placeholders,
 			id: collection.id,
 		});
+		const [
+			updateCollection,
+			{ loading: updateLoading },
+		] = useMutation(UPDATE_COLLECTION, {
+			variables: { id: collection.id },
+		});
+		const [
+			removeCollection,
+			{ loading: removeLoading },
+		] = useMutation(DELETE_COLLECTION, {
+			update(cache) {
+				const cachedData = cache.readQuery({
+					query: GET_COLLECTIONS,
+				});
+				const cachedCollections = get(
+					"Collection",
+					cachedData,
+				);
+				const updatedCollections = filter(
+					({ id }: ICollection) => collection.id !== id,
+					cachedCollections,
+				);
+				cache.writeQuery({
+					data: { Collection: updatedCollections },
+					query: GET_COLLECTIONS,
+				});
+			},
+			variables: { id: collection.id },
+		});
+		const loading = updateLoading || removeLoading;
 		return (
 			<div className={`collection${selectedClass}${editingClass}`}
 				onClick={() => setSelectedCollectionId(collection.id)}
@@ -60,17 +92,29 @@ export default ({
 							value="edit collection"
 							action={() => setIsEditing(true)}
 						/>}
-					{isLoggedInAndEditing &&
-						<CollectionEdit collectionModel={collectionModel}
+					<ColLoading text={"hallie's • hoops •"}
+						loading={loading}
+						fitChild={true}
+						preventClick={false}
+					>
+						<ColModel viewModel={collectionModel}
 							cancel={() => setIsEditing(false)}
+							isEditing={isLoggedInAndEditing}
 							remove={() => {
+								removeCollection();
 								setSelectedHoopId("");
 								setSelectedCollectionId("");
 							}}
-							submit={() => setIsEditing(false)}
-						/>}
-					{!isEditing &&
-						<CollectionReadOnly collectionModel={collectionModel}/>}
+							submit={() => {
+								updateCollection({
+									variables: {
+										...collectionModel.updatedDataModel,
+									},
+								});
+								setIsEditing(false);
+							}}
+						/>
+					</ColLoading>
 				</ColCard>
 				{isSelected &&
 					<Hoops collectionId={collection.id}/>}

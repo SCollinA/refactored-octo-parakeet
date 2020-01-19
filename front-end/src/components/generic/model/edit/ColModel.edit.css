@@ -15,3 +15,9 @@ label {
 	margin: 0 20px;
 	flex: 1;
 }
+
+.col-model-edit__buttons {
+    display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+}

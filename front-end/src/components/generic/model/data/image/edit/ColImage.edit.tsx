@@ -8,6 +8,7 @@ import React, {
 	useState,
 } from "react";
 
+import ColButton from "../../../../buttons/ColButton";
 import ColLoading from "../../../../loading/ColLoading";
 import { blobUrl } from "../../../../utils/blobs.utils";
 
@@ -126,18 +127,17 @@ export default ({
 		state.imageWidth,
 	]);
 	useEffect(startRotatingImage(state, dispatch), [state.imageRotating]);
-	useEffect(rotateImage(state, dispatch), [state.imageHeight, state.imageWidth]);
+	useEffect(rotateImage(state, dispatch, onChange), [state.imageHeight, state.imageWidth]);
 	useEffect(removeImage(state, dispatch), [state.imageRemoved]);
 	const [imageInput, setImageInput] = useState<HTMLInputElement | null>();
 	return (
-		<>
+		<div className="col-data-edit col-image-edit">
 			<p className="col-image-edit__file-name">
 				{state.imageFile?.name}
 			</p>
-			<input type="button"
-				className="col-image-edit__upload-button"
+			<ColButton type="button"
 				value="upload image"
-				onClick={() => !!imageInput && imageInput.click()}
+				action={() => !!imageInput && imageInput.click()}
 			/>
 			<input ref={(input) => setImageInput(input)}
 				type="file"
@@ -151,11 +151,18 @@ export default ({
 					type: EImageActionType.LoadImage,
 				})}
 			/>
-			<input type="button" value="remove image"
-				onClick={() => dispatch({
+			<ColButton type="button" value="remove image"
+				action={() => dispatch({
 					imageRemoved: true,
 					type: EImageActionType.RemoveImage,
 				})}
+			/>
+			<ColButton type="button"
+				action={() => dispatch({
+					imageRotating: true,
+					type: EImageActionType.RotateImage,
+				})}
+				value="rotate right"
 			/>
 			<canvas className="col-image-edit__canvas" ref={state.canvasRef}
 				width={state.imageWidth}
@@ -183,15 +190,7 @@ export default ({
 						src={blobUrl(state.imageFile || state.imageBlob)}
 					/>
 				</ColLoading>}
-				<input className="col-image-edit__rotate-image"
-					type="button"
-					onClick={() => dispatch({
-						imageRotating: true,
-						type: EImageActionType.RotateImage,
-					})}
-					value="rotate right"
-				/>
-		</>
+		</div>
 	);
 };
 
@@ -300,7 +299,7 @@ const resizeImage =
 		};
 
 const rotateImage =
-	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
+	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>, onChange: (image: string) => void) =>
 		() => {
 			if (state.imageRotating) {
 				// get canvas and image elements from page
@@ -332,6 +331,17 @@ const rotateImage =
 					);
 					canvasContext.restore();
 					imageCanvasNode.toBlob((imageBlob: Blob) => {
+						if (!imageBlob) {
+							return;
+						}
+						const fr = new FileReader();
+						fr.onload = () => {
+							const uploadedImage = btoa(`${fr.result}`);
+							if (!!uploadedImage) {
+								onChange(`data:image/jpeg;base64,${uploadedImage}`);
+							}
+						};
+						fr.readAsBinaryString(imageBlob);
 						dispatch({
 							imageBlob,
 							type: EImageActionType.LoadImage,

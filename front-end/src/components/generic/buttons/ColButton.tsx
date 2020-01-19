@@ -13,7 +13,7 @@ export default ({
 }) => {
 	switch (type) {
 		case "button":
-			return <button className={"col-button"}
+			return <button className="col-button"
 				type="button"
 				onClick={(event) => {
 					event.stopPropagation();
@@ -23,16 +23,14 @@ export default ({
 				{value}
 			</button>;
 		case "reset":
-			return <button className={"col-button-reset"}
+			return <input className="col-button col-button-reset"
 				type="reset"
-			>
-				{value}
-			</button>;
+				value={value}
+			/>;
 		case "submit":
-			return <button className={"col-button-submit"}
+			return <input className="col-button col-button-submit"
 				type="submit"
-			>
-				{value}
-			</button>;
+				value={value}
+			/>;
 	}
 };

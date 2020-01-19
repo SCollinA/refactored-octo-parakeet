@@ -12,14 +12,13 @@ import ColNumberInput from "../data/number/edit/ColNumber.edit";
 import ColStringLongInput from "../data/string-long/edit/ColStringLong.edit";
 import ColStringInput from "../data/string/edit/ColString.edit";
 
-import "../data/ColData.edit.css";
 import "./ColModel.edit.css";
 
 export default ({
-	cancel,
-	remove,
-	reset,
-	submit,
+	cancel = () => undefined,
+	remove = () => undefined,
+	reset = () => undefined,
+	submit = () => undefined,
 	viewModel,
 }: {
 	cancel?: () => void,
@@ -126,20 +125,22 @@ export default ({
 				},
 				dataViews,
 			)}
-			<ColButton type="button"
-				value="cancel"
-				action={() => viewModel.reset(cancel)}
-			/>
-			<ColButton type="button"
-				value="delete"
-				action={() => viewModel.remove(remove)}
-			/>
-			<ColButton type="reset"
-				value="reset"
-			/>
-			<ColButton type="submit"
-				value="submit"
-			/>
+			<div className="col-model-edit__buttons">
+				<ColButton type="button"
+					value="cancel"
+					action={() => viewModel.reset(cancel)}
+				/>
+				<ColButton type="button"
+					value="delete"
+					action={() => viewModel.remove(remove)}
+				/>
+				<ColButton type="reset"
+					value="reset"
+				/>
+				<ColButton type="submit"
+					value="submit"
+				/>
+			</div>
 		</form>
 	);
 };
