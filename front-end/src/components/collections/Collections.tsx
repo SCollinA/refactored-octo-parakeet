@@ -46,9 +46,8 @@ export default () => {
 		loading,
 	} = useQuery(GET_COLLECTIONS);
 	collections = get(["Collection"], data);
-	const selectedClass = !!selectedCollectionId ? " collections--selected" : "";
 	return (
-		<div className={`collections${selectedClass}`}>
+		<div className="collections">
 			<ColLoading text={"hallie's • hoops •"}
 				loading={loading}
 				fitChild={true}
@@ -67,7 +66,7 @@ export default () => {
 								<ColCard>
 									<ColPlaceholder text={"No collections found"}/>
 								</ColCard>}
-							{map(
+							{!selectedHoopId && map(
 								(collection) =>
 									<Collection key={collection.id}
 										collection={collection}

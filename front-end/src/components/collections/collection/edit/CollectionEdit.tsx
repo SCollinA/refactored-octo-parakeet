@@ -13,11 +13,13 @@ import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
 export default ({
 	cancel = () => undefined,
 	collectionModel,
+	remove = () => undefined,
 	reset = () => undefined,
 	submit = () => undefined,
 }: {
 	cancel: () => void,
 	collectionModel: ColViewModel<ICollection>,
+	remove?: () => void,
 	reset?: () => void,
 	submit?: () => void,
 }) => {
@@ -59,7 +61,10 @@ export default ({
 		>
 			<ColForm viewModel={collectionModel}
 				cancel={() => cancel()}
-				remove={() => removeCollection()}
+				remove={() => {
+					removeCollection();
+					remove();
+				}}
 				reset={() => reset()}
 				submit={() => {
 					updateCollection({

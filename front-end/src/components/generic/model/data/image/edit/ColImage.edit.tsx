@@ -157,14 +157,14 @@ export default ({
 					type: EImageActionType.RemoveImage,
 				})}
 			/>
-			<canvas id="imageCanvas" ref={state.canvasRef}
+			<canvas className="col-image-edit__canvas" ref={state.canvasRef}
 				width={state.imageWidth}
 				height={state.imageHeight}
 				style={{ display: "none" }}
 			/>
 			{(!!state.imageFile || !!state.imageBlob?.size) &&
 				<ColLoading loading={!state.imageVisible || state.imageRotating} fitChild={true}>
-					<img id="uploadedImage" ref={state.imageRef}
+					<img className="col-image-edit__uploaded-image" ref={state.imageRef}
 						style={{
 							display: state.imageVisible ?
 								"block" : "none",

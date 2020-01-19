@@ -1,0 +1,39 @@
+.hoop {
+	height: 200px;
+	flex-basis: 20%;
+}
+
+.hoop--selected {
+	height: unset;
+	flex-basis: 100%;
+}
+
+.hoop >
+.col-card {
+	min-height: 200px;
+    height: inherit;
+	margin: auto;
+	overflow: auto;
+}
+
+.hoop--selected >
+.col-card {
+    width: 80%;
+}
+
+.hoop
+.col-model >
+.col-card {
+	width: 100%;
+}
+
+.hoop--selected
+.col-model >
+.col-card {
+	width: unset;
+	min-width: 20%;
+}
+
+.col-image {
+	max-width: 100%;
+}

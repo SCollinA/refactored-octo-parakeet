@@ -16,6 +16,8 @@ import { CollectionContext } from "../Collections";
 import CollectionEdit from "./edit/CollectionEdit";
 import CollectionReadOnly from "./read-only/CollectionReadOnly";
 
+import "./Collection.css";
+
 export default ({
 	collection,
 }: {
@@ -25,8 +27,8 @@ export default ({
 	const { isLoggedIn } = useContext(AdminContext);
 	const {
 		selectedCollectionId,
-		selectedHoopId,
 		setSelectedCollectionId,
+		setSelectedHoopId,
 	} = useContext(CollectionContext);
 	const isSelected = selectedCollectionId === get("id", collection);
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
@@ -44,26 +46,32 @@ export default ({
 			<div className={`collection${selectedClass}${editingClass}`}
 				onClick={() => setSelectedCollectionId(collection.id)}
 			>
-				{!selectedHoopId &&
-					<ColCard clickable={!isSelected}>
-						{isSelected &&
-							<ColButton type="button"
-								value="Back"
-								action={() => setSelectedCollectionId("")}
-							/>}
-						{isLoggedIn && isSelected && !isEditing &&
-							<ColButton type="button"
-								value="edit collection"
-								action={() => setIsEditing(true)}
-							/>}
-						{isLoggedInAndEditing &&
-							<CollectionEdit collectionModel={collectionModel}
-								cancel={() => setIsEditing(false)}
-								submit={() => setIsEditing(false)}
-							/>}
-						{!isEditing &&
-							<CollectionReadOnly collectionModel={collectionModel}/>}
-					</ColCard>}
+				<ColCard clickable={!isSelected}>
+					{isSelected &&
+						<ColButton type="button"
+							value="Back"
+							action={() => {
+								setSelectedHoopId("");
+								setSelectedCollectionId("");
+							}}
+						/>}
+					{isLoggedIn && isSelected && !isEditing &&
+						<ColButton type="button"
+							value="edit collection"
+							action={() => setIsEditing(true)}
+						/>}
+					{isLoggedInAndEditing &&
+						<CollectionEdit collectionModel={collectionModel}
+							cancel={() => setIsEditing(false)}
+							remove={() => {
+								setSelectedHoopId("");
+								setSelectedCollectionId("");
+							}}
+							submit={() => setIsEditing(false)}
+						/>}
+					{!isEditing &&
+						<CollectionReadOnly collectionModel={collectionModel}/>}
+				</ColCard>
 				{isSelected &&
 					<Hoops collectionId={collection.id}/>}
 			</div>

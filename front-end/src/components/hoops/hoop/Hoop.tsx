@@ -11,8 +11,11 @@ import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
 import ColViewModel from "../../generic/viewModelStore/ColViewModel";
 import { imagePrefix } from "../../utils/functions/isStringImage";
 import { scrubData } from "../../utils/functions/scrubData";
+
 import HoopEdit from "./edit/HoopEdit";
 import HoopReadOnly from "./read-only/HoopReadOnly";
+
+import "./Hoop.css";
 
 export default ({
 	hoop,
@@ -28,6 +31,7 @@ export default ({
 	const isLoggedInAndEditing = isLoggedIn && isEditing;
 	const isSelected = selectedHoopId === get("id", hoop);
 	const editingClass = ` hoop--${isLoggedInAndEditing ? "edit" : "readonly"}`;
+	const selectedClass = isSelected ? " hoop--selected" : "";
 	if (!hoop) {
 		return <ColPlaceholder/>;
 	} else {
@@ -37,7 +41,7 @@ export default ({
 			id: hoop.id,
 		});
 		return (
-			<div className={`hoop${editingClass}`}
+			<div className={`hoop${editingClass}${selectedClass}`}
 				onClick={() => setSelectedHoopId(hoop.id)}
 			>
 				<ColCard clickable={!isSelected}>
@@ -53,6 +57,7 @@ export default ({
 					{isLoggedInAndEditing &&
 						<HoopEdit hoopModel={hoopModel}
 							cancel={() => setIsEditing(false)}
+							remove={() => setSelectedHoopId("")}
 							submit={() => setIsEditing(false)}
 						/>}
 					{!isEditing &&

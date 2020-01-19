@@ -18,11 +18,13 @@ import "./HoopEdit.css";
 export default ({
 	cancel = () => undefined,
 	hoopModel,
+	remove = () => undefined,
 	reset = () => undefined,
 	submit = () => undefined,
 }: {
 	hoopModel: ColViewModel<IHoop>,
 	cancel?: () => void,
+	remove?: () => void,
 	reset?: () => void,
 	submit?: () => void,
 }) => {
