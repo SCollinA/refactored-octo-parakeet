@@ -1,20 +1,16 @@
 import React from "react";
 
 import { ICollection } from "../../../../models/collection.model";
-import ColPlaceholder from "../../../generic/layout/placeholder/ColPlaceholder";
+
+import ColModel from "../../../generic/model/read-only/ColModel";
+import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
 
 export default ({
-	collection,
+	collectionModel,
 }: {
-	collection: ICollection,
+	collectionModel: ColViewModel<ICollection>,
 }) => {
 	return (
-		<>
-			{!!collection.name ?
-				<p className="collection__name">
-					{collection.name}
-				</p> :
-				<ColPlaceholder text="no collection name"/>}
-		</>
+		<ColModel viewModel={collectionModel}/>
 	);
 };

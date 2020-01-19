@@ -1,24 +1,40 @@
 import {
-	flow,
+	cloneDeep,
 	get,
 	has,
-	map,
+	isArray,
 	omit,
 	set,
 } from "lodash/fp";
+
+import {
+	reduce,
+} from "lodash";
+
 import { IDataModel } from "../../../models/models";
+
 import { imagePrefix } from "./isStringImage";
 
-export function scrubData<T extends IDataModel>(data: T): T {
-	const omittedData = omit<T, "__typename">([
+export function scrubData<T extends IDataModel>(data: T): any {
+	const omittedData = omit([
 			"__typename",
 		], data);
-	const setData = set<T>(
+	const setData = has("image", data) ?
+		set(
 			"image",
-			has("image", data) ?
-				`${imagePrefix}${get("image", data) || ""}` :
-				undefined,
+			`${imagePrefix}${get("image", data) || ""}`,
 			omittedData,
-		);
-	return setData;
+		) :
+		omittedData;
+	const dataWithoutArrays = reduce(
+		setData,
+		(acc, curr, key) => {
+			if (!isArray(curr)) {
+				acc = set(key, curr, acc);
+			}
+			return acc;
+		},
+		{ id: data.id },
+	);
+	return dataWithoutArrays;
 }

@@ -7,7 +7,9 @@ import { AdminContext } from "../../admin/AdminContext";
 import ColButton from "../../generic/buttons/ColButton";
 import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
+import ColViewModel from "../../generic/viewModelStore/ColViewModel";
 import Hoops from "../../hoops/Hoops";
+import { scrubData } from "../../utils/functions/scrubData";
 
 import { CollectionContext } from "../Collections";
 
@@ -33,6 +35,11 @@ export default ({
 	if (!collection) {
 		return <ColPlaceholder/>;
 	} else {
+		const scrubbedCollection = scrubData<ICollection>(collection);
+		const collectionModel = new ColViewModel<ICollection>(scrubbedCollection, {
+			...placeholders,
+			id: collection.id,
+		});
 		return (
 			<div className={`collection${selectedClass}${editingClass}`}
 				onClick={() => setSelectedCollectionId(collection.id)}
@@ -50,16 +57,21 @@ export default ({
 								action={() => setIsEditing(true)}
 							/>}
 						{isLoggedInAndEditing &&
-							<CollectionEdit collection={collection}
+							<CollectionEdit collectionModel={collectionModel}
 								cancel={() => setIsEditing(false)}
 								submit={() => setIsEditing(false)}
 							/>}
 						{!isEditing &&
-							<CollectionReadOnly collection={collection}/>}
+							<CollectionReadOnly collectionModel={collectionModel}/>}
 					</ColCard>}
 				{isSelected &&
 					<Hoops collectionId={collection.id}/>}
 			</div>
 		);
 	}
+};
+
+const placeholders =  {
+	id: "",
+	name: "",
 };

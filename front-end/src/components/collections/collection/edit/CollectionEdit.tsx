@@ -9,16 +9,15 @@ import { ICollection } from "../../../../models/collection.model";
 import ColLoading from "../../../generic/loading/ColLoading";
 import ColForm from "../../../generic/model/edit/ColModel.edit";
 import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
-import { scrubData } from "../../../utils/functions/scrubData";
 
 export default ({
 	cancel = () => undefined,
-	collection,
+	collectionModel,
 	reset = () => undefined,
 	submit = () => undefined,
 }: {
 	cancel: () => void,
-	collection: ICollection,
+	collectionModel: ColViewModel<ICollection>,
 	reset?: () => void,
 	submit?: () => void,
 }) => {
@@ -26,7 +25,7 @@ export default ({
 		updateCollection,
 		{ loading: updateLoading },
 	] = useMutation(UPDATE_COLLECTION, {
-		variables: { id: collection.id },
+		variables: { id: collectionModel.id },
 	});
 	const [
 		removeCollection,
@@ -41,7 +40,7 @@ export default ({
 				cachedData,
 			);
 			const updatedCollections = filter(
-				({ id }: ICollection) => collection.id !== id,
+				({ id }: ICollection) => collectionModel.id !== id,
 				cachedCollections,
 			);
 			cache.writeQuery({
@@ -49,28 +48,23 @@ export default ({
 				query: GET_COLLECTIONS,
 			});
 		},
-		variables: { id: collection.id },
+		variables: { id: collectionModel.id },
 	});
 	const loading = updateLoading || removeLoading;
-	const scrubbedCollection = scrubData(collection);
-	const viewModel = new ColViewModel(scrubbedCollection, {
-		...placeholders,
-		id: collection.id,
-	});
 	return (
 		<ColLoading text={"hallie's • hoops •"}
 			loading={loading}
 			fitChild={true}
 			preventClick={false}
 		>
-			<ColForm viewModel={viewModel}
+			<ColForm viewModel={collectionModel}
 				cancel={() => cancel()}
 				remove={() => removeCollection()}
 				reset={() => reset()}
 				submit={() => {
 					updateCollection({
 						variables: {
-							...viewModel.updatedDataModel,
+							...collectionModel.updatedDataModel,
 						},
 					});
 					submit();
@@ -78,9 +72,4 @@ export default ({
 			/>
 		</ColLoading>
 	);
-};
-
-const placeholders =  {
-	id: "",
-	name: "",
 };

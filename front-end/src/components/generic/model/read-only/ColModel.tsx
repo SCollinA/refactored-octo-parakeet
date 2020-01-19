@@ -20,6 +20,7 @@ export default ({
 }: {
 	viewModel: ColViewModel<IColDataModel>,
 }) => {
+	console.log("view model", viewModel)
 	return (
 		<div className="col-model">
 			{map(
@@ -32,6 +33,7 @@ export default ({
 					);
 					switch (dataView.type) {
 						case "STRING":
+							console.log("data view type string", dataView.value)
 							return dataViewLayout(
 								<ColString text={dataView.value}/>,
 							);
