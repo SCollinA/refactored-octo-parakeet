@@ -1,12 +1,19 @@
-import { get } from "lodash/fp";
-import React, { useState, createRef, useReducer, useEffect, RefObject } from "react";
+import {
+	get,
+} from "lodash/fp";
+import React, {
+	RefObject,
+	useEffect,
+	useReducer,
+	useState,
+} from "react";
 
+import ColLoading from "../../../loading/ColLoading";
 import { blobUrl } from "../../../utils/blobs.utils";
 
 import "../../ColInput.css";
 
 import "./ColImage.input.css";
-import ColLoading from "../../../loading/ColLoading";
 
 enum EImageActionType {
 	LoadImage = "LOAD_IMAGE",
@@ -19,7 +26,8 @@ enum EImageActionType {
 }
 interface IImageState {
 	canvasRef: RefObject<HTMLCanvasElement>;
-	imageFile: File | Blob | undefined;
+	imageBlob: Blob | undefined;
+	imageFile: File | undefined;
 	imageHeight: number;
 	imageRef: RefObject<HTMLImageElement>;
 	imageRemoved: boolean;
@@ -36,6 +44,7 @@ interface IImageAction extends Partial<IImageState> {
 
 const imageState: IImageState = {
 	canvasRef: React.createRef<HTMLCanvasElement>(),
+	imageBlob: undefined,
 	imageFile: undefined,
 	imageHeight: 0,
 	imageRef: React.createRef<HTMLImageElement>(),
@@ -54,12 +63,14 @@ const imageReducer: React.Reducer<Partial<IImageState>, IImageAction> =
 			case EImageActionType.LoadImage:
 				return {
 					...state,
+					imageBlob: action.imageBlob,
 					imageFile: action.imageFile,
 					imageWidthPercent: 0,
 				};
 			case EImageActionType.RemoveImage:
 				return {
 					...state,
+					imageBlob: undefined,
 					imageFile: undefined,
 					imageRemoved: action.imageRemoved,
 				};
@@ -96,8 +107,10 @@ const imageReducer: React.Reducer<Partial<IImageState>, IImageAction> =
 
 export default ({
 	image,
+	onChange = () => undefined,
 }: {
-	image: string | File,
+	image: string,
+	onChange: (value: string) => void,
 }) => {
 	const [state, dispatch] = useReducer(imageReducer, imageState);
 	useEffect(loadInitialImage(image, state, dispatch), [image]);
@@ -113,14 +126,7 @@ export default ({
 		state.imageHeight,
 		state.imageWidth,
 	]);
-	useEffect(() => {
-		if (!!state.imageWidthPercent) {
-			dispatch({
-				imageVisible: true,
-				type: EImageActionType.SetImageVisible,
-			});
-		}
-	}, [state.imageWidthPercent]);
+	useEffect(finishLoadingImage(state, dispatch, onChange), [state.imageWidthPercent]);
 	useEffect(() => {
 		if (state.imageRotated) {
 			dispatch({
@@ -132,9 +138,22 @@ export default ({
 	}, [state.imageRotated]);
 	useEffect(rotateImage(state, dispatch), [state.imageHeight, state.imageWidth]);
 	useEffect(removeImage(state, dispatch), [state.imageRemoved]);
+	const [imageInput, setImageInput] = useState<HTMLInputElement | null>();
 	return (
 		<>
-			<input type="file"
+			<p className="col-input-image__file-name">
+				{state.imageFile?.name}
+			</p>
+			<input type="button"
+				className="col-input-image__upload-button"
+				value="upload image"
+				onClick={() => !!imageInput && imageInput.click()}
+			/>
+			<input ref={(input) => setImageInput(input)}
+				type="file"
+				style={{
+					display: "none",
+				}}
 				name="image"
 				accept="image/*"
 				onChange={(event: any) => dispatch({
@@ -143,7 +162,7 @@ export default ({
 				})}
 			/>
 			<input type="button" value="remove image"
-				onClick={(event) => dispatch({
+				onClick={() => dispatch({
 					imageRemoved: true,
 					type: EImageActionType.RemoveImage,
 				})}
@@ -153,7 +172,7 @@ export default ({
 				height={state.imageHeight}
 				style={{ display: "none" }}
 			/>
-			{!!state.imageFile &&
+			{(!!state.imageFile || !!state.imageBlob) &&
 				<ColLoading loading={!state.imageVisible || !!state.imageRotated} fitChild={true}>
 					<img id="uploadedImage" ref={state.imageRef}
 						style={{
@@ -171,7 +190,7 @@ export default ({
 								});
 							}
 						}}
-						src={blobUrl(state.imageFile)}
+						src={blobUrl(state.imageFile || state.imageBlob)}
 					/>
 				</ColLoading>}
 				<input className="col-input-image__rotate-image"
@@ -186,22 +205,50 @@ export default ({
 	);
 };
 
-const loadInitialImage =
-	(image: string | File, state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
+const finishLoadingImage =
+	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>, callback: (value: string) => void) =>
 		() => {
-			if (!state.imageFile && !state.imageRemoved) {
-				if (!!image) {
-					if (typeof image === "string") {
-						fetch(`data:image/jpeg;base64,${image}`)
-							.then((res) => res.blob())
-							.then((stuff) => {
-								return stuff;
-							})
-							.then((imageFile) => dispatch({
-								imageFile,
-								type: EImageActionType.LoadImage,
-							}));
+			if (!!state.imageWidthPercent) {
+				if (!!state.imageFile && !!state.imageRef?.current && !!state.canvasRef?.current) {
+					const imageCanvasNode = state.canvasRef.current;
+					const uploadedImageNode = state.imageRef.current;
+					const canvasContext = imageCanvasNode.getContext("2d");
+					if (!canvasContext) {
+						return;
 					}
+					canvasContext.drawImage(uploadedImageNode, 0, 0, state.imageWidth || 0, state.imageHeight || 0);
+					imageCanvasNode.toBlob((imageBlob) => {
+						if (!imageBlob) {
+							return;
+						}
+						const fr = new FileReader();
+						fr.onload = () => {
+							const uploadedImage = btoa(`${fr.result}`);
+							if (!!uploadedImage) {
+								callback(`data:image/jpeg;base64,${uploadedImage}`);
+							}
+						};
+						fr.readAsBinaryString(imageBlob);
+					}, "image/jpeg");
+				}
+				dispatch({
+					imageVisible: true,
+					type: EImageActionType.SetImageVisible,
+				});
+			}
+		};
+
+const loadInitialImage =
+	(image: string, state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
+		() => {
+			if ((!state.imageFile || !state.imageBlob) && !state.imageRemoved) {
+				if (!!image) {
+					fetch(image)
+						.then((res) => res.blob())
+						.then((imageBlob) => dispatch({
+							imageBlob,
+							type: EImageActionType.LoadImage,
+						}));
 				}
 			}
 		};
@@ -247,7 +294,7 @@ const rotateImage =
 				// get canvas and image elements from page
 				const imageCanvasNode = get(["canvasRef", "current"], state);
 				const rotatingImage =  get(["imageRef", "current"], state);
-				if (!imageCanvasNode || rotatingImage) {
+				if (!imageCanvasNode || !rotatingImage) {
 					return;
 				}
 				const canvasContext = imageCanvasNode.getContext("2d");
@@ -272,9 +319,9 @@ const rotateImage =
 						state.imageWidth,
 					);
 					canvasContext.restore();
-					imageCanvasNode.toBlob((imageBlob: any) => {
+					imageCanvasNode.toBlob((imageBlob: Blob) => {
 						dispatch({
-							imageFile: imageBlob,
+							imageBlob,
 							type: EImageActionType.LoadImage,
 						});
 					}, "image/jpeg", 1.0);

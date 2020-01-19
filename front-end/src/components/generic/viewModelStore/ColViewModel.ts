@@ -27,10 +27,10 @@ export type DataViews = Dictionary<ColViewModelValues>;
 
 export default class ColViewModel<T extends IColDataModel> {
 
+	public dataModel: T;
 	public dataViews: DataViews;
 	public updatedDataModel: T;
 
-	private dataModel: T;
 	private placeholders: T;
 
 	constructor(
@@ -50,7 +50,8 @@ export default class ColViewModel<T extends IColDataModel> {
 	}
 
 	public reset = (onReset?: (viewModel: ColViewModel<T>) => void) => {
-		this.updatedDataModel = this.dataModel;
+		this.updatedDataModel = cloneDeep(this.dataModel);
+		this.dataViews = this.getDataViews(this.updatedDataModel);
 		if (!!onReset) {
 			onReset(this);
 		}
@@ -99,7 +100,7 @@ export default class ColViewModel<T extends IColDataModel> {
 					return "STRING_LONG";
 				}
 			default:
-				return "FILE";
+				return "STRING";
 		}
 
 	}
@@ -163,15 +164,6 @@ export default class ColViewModel<T extends IColDataModel> {
 								isValid: true, // TODO: implement validation
 								key,
 								placeholder: "data:image/jpeg;base64,",
-								type: dataType,
-								value,
-							};
-							break;
-						case "FILE":
-							dataView = {
-								isValid: true, // TODO: implement validation
-								key,
-								placeholder: "",
 								type: dataType,
 								value,
 							};

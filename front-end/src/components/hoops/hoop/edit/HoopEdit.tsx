@@ -11,6 +11,7 @@ import ColLoading from "../../../generic/loading/ColLoading";
 import ColViewModel from "../../../generic/viewModelStore/ColViewModel";
 import { imagePrefix } from "../../../utils/functions/isStringImage";
 import { scrubData } from "../../../utils/functions/scrubData";
+import { washData } from "../../../utils/functions/washData";
 
 import "./HoopEdit.css";
 
@@ -55,9 +56,11 @@ export default ({
 		variables: { id: hoop.id },
 	});
 	const loading = updateLoading || removeLoading;
-	const scrubbedHoop = scrubData<IHoop>(hoop);
-	const placeholders = washCollection(scrubbedHoop);
-	const viewModel = new ColViewModel(scrubbedHoop, placeholders);
+	const scrubbedHoop = scrubData(hoop);
+	const viewModel = new ColViewModel(scrubbedHoop, {
+		...placeholders,
+		id: hoop.id,
+	});
 	return (
 		<ColLoading text={"hallie's • hoops •"}
 			loading={loading}
@@ -70,9 +73,7 @@ export default ({
 				reset={() => reset()}
 				submit={() => {
 					updateHoop({
-						variables: {
-							...viewModel.updatedDataModel,
-						},
+						variables: washData(viewModel.updatedDataModel),
 					});
 					submit();
 				}}
@@ -81,18 +82,15 @@ export default ({
 	);
 };
 
-const washCollection = (hoop: IHoop): IHoop => {
-	return {
-		collections: hoop.collections || [],
-		description: hoop.description || "",
-		diameter: hoop.diameter || 0,
-		file: hoop.file || undefined,
-		id: hoop.id,
-		image: hoop.image || imagePrefix,
-		price: hoop.price || 0,
-		recentlyupdatedimage:
-			hoop.recentlyupdatedimage || false,
-		sold: hoop.sold || false,
-		title: hoop.title || "",
-	};
+const placeholders: IHoop = {
+	collections: [],
+	description: "",
+	diameter: 0,
+	file: undefined,
+	id: "",
+	image: imagePrefix,
+	price: 0,
+	recentlyupdatedimage: false,
+	sold: false,
+	title: "",
 };

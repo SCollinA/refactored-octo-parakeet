@@ -113,7 +113,13 @@ export default ({
 							);
 						case "IMAGE":
 							return dataViewLayout(
-								<ColImageInput image={dataView.value}/>,
+								<ColImageInput image={dataView.value}
+									onChange={(value: string) => viewModel.update({
+										[dataView.key]: value,
+									}, ({dataViews: newDataViews}) =>
+										setDataViews(newDataViews),
+									)}
+								/>,
 							);
 					}
 				},
