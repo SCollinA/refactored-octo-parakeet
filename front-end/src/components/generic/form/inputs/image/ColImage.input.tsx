@@ -89,6 +89,7 @@ const imageReducer: React.Reducer<Partial<IImageState>, IImageAction> =
 				return {
 					...state,
 					imageRotating: action.imageRotating,
+					imageVisible: false,
 				};
 			case EImageActionType.SetImageVisible:
 				return {
@@ -114,12 +115,9 @@ export default ({
 	const [state, dispatch] = useReducer(imageReducer, imageState);
 	useEffect(createImageBlob(image, state, dispatch), [image]);
 	useEffect(resetImageWidthPercent(dispatch), [state.imageBlob]);
+	useEffect(resetImageVisible(dispatch), [state.imageFile, state.imageBlob]);
 	useEffect(drawImage(state, dispatch, onChange), [state.imageWidthPercent]);
 	useEffect(resizeWindow(dispatch), [state.windowHeight, state.windowWidth]);
-	useEffect(() => dispatch({
-		imageVisible: false,
-		type: EImageActionType.SetImageVisible,
-	}), [state.imageFile]);
 	useEffect(resizeImage(state, dispatch), [
 		state.imageVisible,
 		state.windowWidth,
@@ -260,14 +258,21 @@ const resizeWindow = (dispatch: React.Dispatch<IImageAction>) => {
 	};
 };
 
-const resetImageWidthPercent =
-(dispatch: React.Dispatch<IImageAction>) =>
-	() => {
-		dispatch({
-			imageWidthPercent: 0,
-			type: EImageActionType.SetImageWidthPercent,
+const resetImageVisible =
+	(dispatch: React.Dispatch<IImageAction>) =>
+		() => dispatch({
+			imageVisible: false,
+			type: EImageActionType.SetImageVisible,
 		});
-	};
+
+const resetImageWidthPercent =
+	(dispatch: React.Dispatch<IImageAction>) =>
+		() => {
+			dispatch({
+				imageWidthPercent: 0,
+				type: EImageActionType.SetImageWidthPercent,
+			});
+		};
 
 const resizeImage =
 	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
