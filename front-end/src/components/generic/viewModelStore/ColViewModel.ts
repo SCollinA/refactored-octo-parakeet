@@ -96,7 +96,7 @@ export default class ColViewModel<T extends IColDataModel> {
 			case "string":
 				if (isStringImage(value)) {
 					return "IMAGE";
-				} else if (get(["length"], value) < 140) {
+				} else if (get(["length"], value) < 20) {
 					return "STRING";
 				} else {
 					return "STRING_LONG";

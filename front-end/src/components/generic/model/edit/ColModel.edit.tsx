@@ -64,6 +64,7 @@ export default ({
 						case "STRING_LONG":
 							return dataViewLayout(
 								<ColStringLongInput id={dataView.key}
+									autoFocus={true}
 									onChange={(value: string) => viewModel.update({
 										[dataView.key]: value,
 									}, ({dataViews: newDataViews}) =>

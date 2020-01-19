@@ -20,9 +20,19 @@ export default ({
 	onChange: (value: boolean) => void,
 }) => {
 	const value = checked ? affirmativeText : negativeText;
+	const checkedClass = ` col-boolean-edit${checked ? "--true" : "--false"}`;
 	return (
-		<>
-			<input className="col-data-edit col-boolean-edit"
+		<div className={`col-data-edit col-boolean-edit${checkedClass}`}>
+			<p className="col-boolean-edit__true-text">
+				{affirmativeText}
+			</p>
+			<div className="col-boolean-edit__switch">
+				<div className="col-boolean-edit__switch-current"></div>
+			</div>
+			<p className="col-boolean-edit__false-text">
+				{negativeText}
+			</p>
+			<input className="col-data-edit col-boolean-edit__input"
 				type="checkbox"
 				id={id}
 				name="checkbox"
@@ -31,7 +41,6 @@ export default ({
 				checked={checked}
 				onChange={(event) => onChange(event.target.checked)}
 			/>
-			<p>{value}</p>
-		</>
+		</div>
 	);
 };
