@@ -17,12 +17,16 @@ export default ({
 	value: string,
 	placeholder: string,
 }) => {
+	console.log({value});
 	return (
 		<input className="col-data-edit col-string-edit"
 			id={id}
 			autoFocus={autoFocus}
 			name="text"
-			onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
+			onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+				console.log("on change input", event.target.value);
+				onChange(event.target.value);
+			}}
 			placeholder={placeholder}
 			type="text"
 			value={value}

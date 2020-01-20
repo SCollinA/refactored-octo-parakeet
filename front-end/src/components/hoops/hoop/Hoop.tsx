@@ -25,24 +25,17 @@ export default ({
 }: {
 	hoop?: IHoop,
 }) => {
-	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
 	const {
 		selectedHoopId,
 		setSelectedHoopId,
 	} = useContext(CollectionContext);
-	const isLoggedInAndEditing = isLoggedIn && isEditing;
 	const isSelected = selectedHoopId === get("id", hoop);
-	const editingClass = ` hoop--${isLoggedInAndEditing ? "edit" : "readonly"}`;
 	const selectedClass = isSelected ? " hoop--selected" : "";
 	if (!hoop) {
 		return <ColPlaceholder/>;
 	} else {
 		const scrubbedHoop = scrubData<IHoop>(hoop);
-		const hoopModel = new ColViewModel<IHoop>(scrubbedHoop, {
-			...placeholders,
-			id: hoop.id,
-		});
 		const [
 			updateHoop,
 			{ loading: updateLoading },
@@ -74,40 +67,31 @@ export default ({
 		});
 		const loading = updateLoading || removeLoading;
 		return (
-			<div className={`hoop${editingClass}${selectedClass}`}
-				onClick={() => setSelectedHoopId(hoop.id)}
-			>
-				<ColCard clickable={!isSelected}>
-					{isSelected && !isEditing &&
-						<ColButton type="button"
-							value="Back"
-							action={() => setSelectedHoopId("")}
-						/>}
-					{isLoggedIn && isSelected && !isEditing && <ColButton type="button"
-						value="edit hoop"
-						action={() => setIsEditing(true)}
-					/>}
-					<ColLoading text={"hallie's • hoops •"}
-						loading={loading}
-						fitChild={true}
-						preventClick={false}
-					>
-						<ColModel viewModel={hoopModel}
-							cancel={() => setIsEditing(false)}
-							isEditing={isLoggedInAndEditing}
-							remove={() => {
-								removeHoop();
-								setSelectedHoopId("");
-							}}
-							submit={() => {
-								updateHoop({
-									variables: washData(hoopModel.updatedDataModel),
-								});
-								setIsEditing(false);
-							}}
-						/>
-					</ColLoading>
-				</ColCard>
+			<div className={`hoop${selectedClass}`}>
+				<ColLoading text={"hallie's • hoops •"}
+					loading={loading}
+					fitChild={true}
+					preventClick={false}
+				>
+					<ColModel dataModel={scrubbedHoop}
+						isSelectable={true}
+						isSelected={isSelected}
+						placeholders={{
+							...placeholders,
+							id: hoop.id,
+						}}
+						select={() => setSelectedHoopId(hoop.id)}
+						unselect={() => setSelectedHoopId("")}
+						isEditable={isLoggedIn && isSelected}
+						remove={() => {
+							removeHoop();
+							setSelectedHoopId("");
+						}}
+						submit={(updatedHoop: IHoop) => updateHoop({
+							variables: washData(updatedHoop),
+						})}
+					/>
+				</ColLoading>
 			</div>
 		);
 	}

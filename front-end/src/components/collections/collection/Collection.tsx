@@ -15,6 +15,7 @@ import ColModel from "../../generic/model/ColModel";
 import ColViewModel from "../../generic/viewModelStore/ColViewModel";
 import Hoops from "../../hoops/Hoops";
 import { scrubData } from "../../utils/functions/scrubData";
+import { washData } from "../../utils/functions/washData";
 
 import { CollectionContext } from "../Collections";
 
@@ -25,7 +26,6 @@ export default ({
 }: {
 	collection?: ICollection,
 }) => {
-	const [isEditing, setIsEditing] = useState(false);
 	const { isLoggedIn } = useContext(AdminContext);
 	const {
 		selectedCollectionId,
@@ -33,17 +33,11 @@ export default ({
 		setSelectedHoopId,
 	} = useContext(CollectionContext);
 	const isSelected = selectedCollectionId === get("id", collection);
-	const isLoggedInAndEditing = isLoggedIn && isEditing;
 	const selectedClass = isSelected ? " collection--selected" : "";
-	const editingClass = ` collection--${isLoggedInAndEditing ? "edit" : "readonly"}`;
 	if (!collection) {
 		return <ColPlaceholder/>;
 	} else {
 		const scrubbedCollection = scrubData<ICollection>(collection);
-		const collectionModel = new ColViewModel<ICollection>(scrubbedCollection, {
-			...placeholders,
-			id: collection.id,
-		});
 		const [
 			updateCollection,
 			{ loading: updateLoading },
@@ -75,47 +69,39 @@ export default ({
 		});
 		const loading = updateLoading || removeLoading;
 		return (
-			<div className={`collection${selectedClass}${editingClass}`}
+			<div className={`collection${selectedClass}`}
 				onClick={() => setSelectedCollectionId(collection.id)}
 			>
-				<ColCard clickable={!isSelected}>
-					{isSelected &&
-						<ColButton type="button"
-							value="Back"
-							action={() => {
-								setSelectedHoopId("");
-								setSelectedCollectionId("");
-							}}
-						/>}
-					{isLoggedIn && isSelected && !isEditing &&
-						<ColButton type="button"
-							value="edit collection"
-							action={() => setIsEditing(true)}
-						/>}
-					<ColLoading text={"hallie's • hoops •"}
-						loading={loading}
-						fitChild={true}
-						preventClick={false}
-					>
-						<ColModel viewModel={collectionModel}
-							cancel={() => setIsEditing(false)}
-							isEditing={isLoggedInAndEditing}
-							remove={() => {
-								removeCollection();
-								setSelectedHoopId("");
-								setSelectedCollectionId("");
-							}}
-							submit={() => {
-								updateCollection({
-									variables: {
-										...collectionModel.updatedDataModel,
-									},
-								});
-								setIsEditing(false);
-							}}
-						/>
-					</ColLoading>
-				</ColCard>
+				<ColLoading text={"hallie's • hoops •"}
+					loading={loading}
+					fitChild={true}
+					preventClick={false}
+				>
+					<ColModel dataModel={scrubbedCollection}
+						isSelectable={true}
+						isSelected={isSelected}
+						placeholders={{
+							...placeholders,
+							id: collection.id,
+						}}
+						select={() => setSelectedCollectionId(collection.id)}
+						unselect={() => {
+							setSelectedHoopId("");
+							setSelectedCollectionId("");
+						}}
+						isEditable={isLoggedIn && isSelected}
+						remove={() => {
+							removeCollection();
+							setSelectedHoopId("");
+							setSelectedCollectionId("");
+						}}
+						submit={(updatedCollection: ICollection) => updateCollection({
+							variables: {
+								...washData(updatedCollection),
+							},
+						})}
+					/>
+				</ColLoading>
 				{isSelected &&
 					<Hoops collectionId={collection.id}/>}
 			</div>

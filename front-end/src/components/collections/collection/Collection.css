@@ -1,5 +1,5 @@
 .collection {
-	height: 200px;
+	min-height: 200px;
 	flex-basis: 20%;
 }
 
@@ -9,14 +9,24 @@
 }
 
 .collection >
+.col-model {
+	min-height: inherit;
+	height: 100%;
+	margin: auto;
+}
+
+.collection >
+.col-model >
 .col-card {
-	min-height: 200px;
+	min-height: inherit;
     height: inherit;
 	margin: auto;
 }
 
 .collection--selected >
-.col-card {
+.col-model {
+	min-height: inherit;
+	min-height: 200px;
     width: 20%;
 }
 

@@ -1,5 +1,5 @@
 import { map } from "lodash/fp";
-import React, { ReactNode, SyntheticEvent, useState } from "react";
+import React, { ReactNode, SyntheticEvent } from "react";
 
 import ColButton from "../../buttons/ColButton";
 import ColCard from "../../layout/card/ColCard";
@@ -19,21 +19,22 @@ export default ({
 	remove = () => undefined,
 	reset = () => undefined,
 	submit = () => undefined,
+	update = () => undefined,
 	viewModel,
 }: {
 	cancel?: () => void,
 	remove?: () => void,
 	reset?: () => void,
 	submit?: () => void,
+	update: (value: Partial<IColDataModel>) => void,
 	viewModel: ColViewModel<IColDataModel>,
 }) => {
-	const [dataViews, setDataViews] = useState(viewModel.dataViews);
 	return (
 		<form id="col-model-edit" className="col-model-edit"
 			onReset={() => viewModel.reset(reset)}
 			onSubmit={(event: SyntheticEvent) => {
 				event.preventDefault();
-				return viewModel.submit(submit);
+				viewModel.submit(submit);
 			}}
 		>
 			{map(
@@ -51,11 +52,10 @@ export default ({
 							return dataViewLayout(
 								<ColStringInput id={dataView.key}
 									autoFocus={true}
-									onChange={(value: string) => viewModel.update({
-										[dataView.key]: value,
-									}, ({dataViews: newDataViews}) =>
-										setDataViews(newDataViews),
-									)}
+									onChange={(value: string) => {
+										console.log("on change col model", value);
+										update({ [dataView.key]: value });
+									}}
 									value={dataView.value || dataView.placeholder}
 									placeholder={dataView.placeholder}
 								/>,
@@ -64,11 +64,7 @@ export default ({
 							return dataViewLayout(
 								<ColStringLongInput id={dataView.key}
 									autoFocus={true}
-									onChange={(value: string) => viewModel.update({
-										[dataView.key]: value,
-									}, ({dataViews: newDataViews}) =>
-										setDataViews(newDataViews),
-									)}
+									onChange={(value: string) => update({ [dataView.key]: value })}
 									value={dataView.value || dataView.placeholder}
 									placeholder={dataView.key}
 								/>,
@@ -77,11 +73,7 @@ export default ({
 							return dataViewLayout(
 								<ColBooleanInput id={dataView.key}
 									affirmativeText={dataView.key}
-									onChange={(value: boolean) => viewModel.update({
-										[dataView.key]: value,
-									}, ({dataViews: newDataViews}) =>
-										setDataViews(newDataViews),
-									)}
+									onChange={(value: boolean) => update({ [dataView.key]: value })}
 									checked={dataView.value || dataView.placeholder}
 								/>,
 							);
@@ -89,11 +81,7 @@ export default ({
 							return dataViewLayout(
 								<ColNumberInput id={dataView.key}
 									autoFocus={true}
-									onChange={(value: number) => viewModel.update({
-										[dataView.key]: value,
-									}, ({dataViews: newDataViews}) =>
-										setDataViews(newDataViews),
-									)}
+									onChange={(value: number) => update({ [dataView.key]: value })}
 									value={dataView.value || dataView.placeholder}
 									placeholder={dataView.key}
 								/>,
@@ -102,11 +90,7 @@ export default ({
 							return dataViewLayout(
 								<ColNumberInput id={dataView.key}
 									autoFocus={true}
-									onChange={(value: number) => viewModel.update({
-										[dataView.key]: value,
-									}, ({dataViews: newDataViews}) =>
-										setDataViews(newDataViews),
-									)}
+									onChange={(value: number) => update({ [dataView.key]: value })}
 									value={dataView.value || dataView.placeholder}
 									placeholder={dataView.key}
 								/>,
@@ -114,16 +98,12 @@ export default ({
 						case "IMAGE":
 							return dataViewLayout(
 								<ColImageInput image={dataView.value}
-									onChange={(value: string) => viewModel.update({
-										[dataView.key]: value,
-									}, ({dataViews: newDataViews}) =>
-										setDataViews(newDataViews),
-									)}
+									onChange={(value: string) => update({ [dataView.key]: value })}
 								/>,
 							);
 					}
 				},
-				dataViews,
+				viewModel.dataViews,
 			)}
 			<div className="col-model-edit__buttons">
 				<ColButton type="button"

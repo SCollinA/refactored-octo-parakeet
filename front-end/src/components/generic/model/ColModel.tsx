@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
+import ColButton from "../buttons/ColButton";
+import ColCard from "../layout/card/ColCard";
 import { IColDataModel } from "../viewModelStore/ColDataModel";
 import ColViewModel from "../viewModelStore/ColViewModel";
 
@@ -10,23 +12,67 @@ import "./ColModel.css";
 
 export default ({
 	cancel = () => undefined,
-	isEditing,
+	dataModel,
+	isEditable,
+	isSelectable,
+	isSelected,
+	placeholders,
 	remove = () => undefined,
 	reset = () => undefined,
+	select = () => undefined,
 	submit = () => undefined,
-	viewModel,
+	unselect = () => undefined,
 }: {
 	cancel?: () => void,
-	isEditing: boolean,
+	dataModel: IColDataModel,
+	isEditable?: boolean,
+	isSelectable?: boolean,
+	isSelected?: boolean,
+	placeholders: IColDataModel,
 	remove?: () => void,
 	reset?: () => void,
-	submit?: () => void,
-	viewModel: ColViewModel<IColDataModel>,
-}) => isEditing ?
-	<ColModelEdit viewModel={viewModel}
-		cancel={() => cancel()}
-		remove={() => remove()}
-		reset={() => reset()}
-		submit={() => submit()}
-	/> :
-	<ColModelRead viewModel={viewModel}/>;
+	select?: () => void,
+	submit?: (updatedModel: any) => void,
+	unselect?: () => void,
+}) => {
+	const [isEditing, setIsEditing] = useState(false);
+	const viewModel = new ColViewModel(dataModel, placeholders);
+	console.log({viewModel})
+	return (
+		<div className="col-model"
+			onClick={() => isSelectable && select()}
+		>
+			<ColCard clickable={!isSelected && isSelectable}>
+				{isSelected && !isEditing &&
+					<ColButton type="button"
+						value="Back"
+						action={() => unselect()}
+					/>}
+				{isEditable && !isEditing &&
+					<ColButton type="button"
+						value="edit"
+						action={() => setIsEditing(true)}
+					/>}
+				{isEditable && isEditing ?
+					<ColModelEdit viewModel={viewModel}
+						cancel={() => {
+							viewModel.reset(cancel);
+							setIsEditing(false);
+						}}
+						remove={() => viewModel.remove(remove)}
+						reset={() => viewModel.reset(reset)}
+						submit={() => {
+							submit(viewModel.updatedDataModel);
+							viewModel.submit();
+							setIsEditing(false);
+						}}
+						update={(value: Partial<IColDataModel>) => {
+							console.log("col model top update", value);
+							viewModel.update(value);
+						}}
+					/> :
+					<ColModelRead viewModel={viewModel}/>}
+			</ColCard>
+		</div>
+	);
+};

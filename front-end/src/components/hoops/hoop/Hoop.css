@@ -9,15 +9,21 @@
 }
 
 .hoop >
+.col-model {
+	height: 100%;
+	margin: auto;
+}
+
+.hoop >
+.col-model >
 .col-card {
-	min-height: 200px;
     height: inherit;
 	margin: auto;
 	overflow: auto;
 }
 
 .hoop--selected >
-.col-card {
+.col-model {
     width: 80%;
 }
 

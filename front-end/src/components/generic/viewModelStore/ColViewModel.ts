@@ -55,6 +55,7 @@ export default class ColViewModel<T extends IColDataModel> {
 		this.updatedDataModel = cloneDeep(this.dataModel);
 		this.dataViews = this.getDataViews(this.updatedDataModel);
 		if (!!onReset) {
+			console.log("resetting data model", this.dataModel, this.updatedDataModel, this.dataViews);
 			onReset(this);
 		}
 	}
@@ -74,6 +75,7 @@ export default class ColViewModel<T extends IColDataModel> {
 		};
 		this.updatedDataModel = updatedDataModel;
 		this.dataViews = this.getDataViews(this.updatedDataModel);
+		console.log("view model update", this.updatedDataModel, this.dataViews);
 		if (!!onUpdate) {
 			onUpdate(this);
 		}

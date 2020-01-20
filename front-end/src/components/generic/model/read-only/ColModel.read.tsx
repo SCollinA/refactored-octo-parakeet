@@ -21,7 +21,7 @@ export default ({
 	viewModel: ColViewModel<IColDataModel>,
 }) => {
 	return (
-		<div className="col-model">
+		<div className="col-model-read">
 			{map(
 				(dataView) => {
 					const dataViewLayout = (view: ReactNode) => (
