@@ -1,12 +1,7 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { map } from "lodash/fp";
-import { neo4jgraphql } from "neo4j-graphql-js";
 
 import { checkPassword } from "../utils";
-
-import { ICollection } from "../../front-end/src/models/collection.model";
-import { IHoop } from "../../front-end/src/models/hoop.model";
 
 dotenv.config();
 
@@ -42,20 +37,4 @@ export default {
 			}
 		},
 	},
-	// UpdateCollections: (obj: any, collections: ICollection[], context: any, info: any) => {
-	// 	return map(
-	// 		(collection) => {
-	// 			neo4jgraphql(obj, collection, context, info);
-	// 		},
-	// 		collections,
-	// 	);
-	// },
-	// UpdateHoops: (obj: any, hoops: IHoop[], context: any, info: any) => {
-	// 	return map(
-	// 		(hoop) => {
-	// 			neo4jgraphql(obj, hoop, context, info);
-	// 		},
-	// 		hoops,
-	// 	);
-	// },
 };

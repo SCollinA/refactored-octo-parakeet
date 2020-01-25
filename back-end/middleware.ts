@@ -30,7 +30,7 @@ export const getBasicAuth = (req: Request, res: Response, next: NextFunction) =>
 		req.headers.authorization = `Bearer ${token}`;
 	} else {
 		try {
-			const token = replace("Bearer", "", req.headers.authorization);
+			const token = replace("Bearer ", "", req.headers.authorization);
 			jwt.verify(token, jwtSecret);
 		} catch (err) {
 			if (err instanceof JsonWebTokenError) {
