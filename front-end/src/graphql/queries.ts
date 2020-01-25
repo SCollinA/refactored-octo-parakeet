@@ -99,3 +99,9 @@ export const GET_COLLECTION_WITH_HOOPS = gql`
 	${COLLECTION_FULL_FRAGMENT}
 	${HOOP_FULL_FRAGMENT}
 `;
+
+export const IS_LOGGED_IN = gql`
+	query {
+		IsLoggedIn
+	}
+`;

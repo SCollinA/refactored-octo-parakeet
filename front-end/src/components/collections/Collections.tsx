@@ -40,12 +40,11 @@ export default () => {
 		setSelectedCollectionId,
 		setSelectedHoopId,
 	};
-	let collections: ICollection[];
 	const {
 		data,
 		loading,
 	} = useQuery(GET_COLLECTIONS);
-	collections = get(["Collection"], data);
+	const collections: ICollection[] = get(["Collection"], data);
 	return (
 		<div className="collections">
 			<ColLoading text={"hallie's • hoops •"}

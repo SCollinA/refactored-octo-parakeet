@@ -64,7 +64,7 @@ export default ({
 		}
 	};
 	const submit = (callback?: (updatedDataModel: IColDataModel) => void) => {
-		const dataViews = getDataViews(dataModel, placeholders);
+		const dataViews = getDataViews(viewModel.updatedDataModel, placeholders);
 		setViewModel({
 			...viewModel,
 			dataViews,

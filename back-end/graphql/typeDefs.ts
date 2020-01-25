@@ -32,8 +32,11 @@ export default `
 	type AuthPayload {
 		token: String!
 	}
+	type Query {
+		IsLoggedIn: Boolean!
+	}
 	type Mutation {
-		login(password: String!): AuthPayload
+		Login(password: String!): AuthPayload
 		UpdateHoops(hoops: [HoopInput]): [Hoop] @cypher(statement:
 		"""
 			UNWIND $hoops AS updateHoop

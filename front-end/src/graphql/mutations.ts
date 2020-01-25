@@ -40,7 +40,7 @@ const HoopInputArgs = `
 
 export const LOGIN = gql`
 	mutation login($password: String!) {
-		login(password: $password) {
+		Login(password: $password) {
 			token
 		}
 	}

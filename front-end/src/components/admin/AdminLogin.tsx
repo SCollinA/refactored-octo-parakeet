@@ -16,7 +16,7 @@ export default () => {
 		setIsLoggedIn,
 	} = useContext(AdminContext);
 	const [adminLogin, { loading }] = useMutation(LOGIN, {
-		onCompleted({ login: { token }}: any) {
+		onCompleted({ Login: { token }}: any) {
 			localStorage.setItem("auth-token", token);
 			setIsLoggedIn(true);
 			setShowAdmin(false);

@@ -12,7 +12,6 @@ import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
 import ColLoading from "../../generic/loading/ColLoading";
 import ColModel from "../../generic/model/ColModel";
-import ColViewModel from "../../generic/viewModelStore/ColViewModel";
 import Hoops from "../../hoops/Hoops";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";

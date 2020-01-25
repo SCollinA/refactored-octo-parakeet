@@ -1,7 +1,11 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import {
+	find,
+	get,
+} from "lodash/fp";
 
-import { checkPassword } from "../utils";
+import { checkPassword, checkScopes } from "../utils";
 
 dotenv.config();
 
@@ -11,7 +15,7 @@ const {
 
 export default {
 	Mutation: {
-		login: (obj: any, {password}: any, context: any, info: any) => {
+		Login: (obj: any, {password}: any, context: any, info: any) => {
 			if (checkPassword(password)) {
 				const token = jwt.sign({
 					scopes: [
@@ -35,6 +39,12 @@ export default {
 			} else {
 				throw new Error("bad password");
 			}
+		},
+	},
+	Query: {
+		IsLoggedIn: (obj: any, {password}: any, context: any, info: any) => {
+			const scopes = checkScopes(get(["headers", "authorization"], context));
+			return !!find((scope) => scope === "Hoop: Update", scopes);
 		},
 	},
 };
