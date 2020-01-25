@@ -4,8 +4,10 @@ import {
 	Request,
 	Response,
 } from "express";
-import jwt from "jsonwebtoken";
-import { has, replace } from "lodash/fp";
+import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import {
+	replace,
+} from "lodash/fp";
 import redisClient from "./redis/client";
 
 dotenv.config();
@@ -31,7 +33,7 @@ export const getBasicAuth = (req: Request, res: Response, next: NextFunction) =>
 			const token = replace("Bearer", "", req.headers.authorization);
 			jwt.verify(token, jwtSecret);
 		} catch (err) {
-			if (!!has(["TokenExpiredError"], err)) {
+			if (err instanceof JsonWebTokenError) {
 				const token = createBasicToken();
 				req.headers.authorization = `Bearer ${token}`;
 			}
