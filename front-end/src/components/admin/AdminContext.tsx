@@ -23,12 +23,10 @@ export default ({
 	const context = {
 		isLoggedIn,
 		setIsLoggedIn: (newIsLoggedIn: boolean) => {
-			if (!newIsLoggedIn) {
-				client.writeQuery({
-					data: { IsLoggedIn: newIsLoggedIn },
-					query: IS_LOGGED_IN,
-				});
-			}
+			client.writeQuery({
+				data: { IsLoggedIn: newIsLoggedIn },
+				query: IS_LOGGED_IN,
+			});
 			setIsLoggedIn(newIsLoggedIn);
 		},
 	};
