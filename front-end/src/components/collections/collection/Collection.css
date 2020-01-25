@@ -1,0 +1,38 @@
+.collection {
+	min-height: 200px;
+	flex-basis: 20%;
+}
+
+.collection--selected {
+	height: unset;
+	flex-basis: 100%;
+}
+
+.collection >
+.col-model {
+	min-height: inherit;
+	height: 100%;
+	margin: auto;
+}
+
+.collection >
+.col-model >
+.col-card {
+	min-height: inherit;
+    height: inherit;
+	margin: auto;
+}
+
+.collection--selected >
+.col-model {
+	min-height: inherit;
+	min-height: 200px;
+    width: 20%;
+}
+
+@media (max-width: 500px) {
+
+	.collection {
+		flex-basis: 100%;
+	}
+}

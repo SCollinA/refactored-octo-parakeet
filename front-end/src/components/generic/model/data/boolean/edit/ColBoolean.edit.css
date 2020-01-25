@@ -1,0 +1,47 @@
+.col-boolean-edit {
+	display: inline-flex;
+}
+
+.col-boolean-edit > .col-boolean-edit__true-text,
+.col-boolean-edit > .col-boolean-edit__false-text {
+	margin: 0 10px;
+}
+
+.col-boolean-edit--false
+.col-boolean-edit__true-text,
+.col-boolean-edit--true
+.col-boolean-edit__false-text {
+	color: lightslategrey;
+}
+
+.col-boolean-edit__switch {
+	width: 50px;
+	background: palegoldenrod;
+	position: relative;
+}
+
+.col-boolean-edit__switch-current {
+	height: 100%;
+	width: 20px;
+	background: lightskyblue;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	transition: right, left 100ms ease-in-out;
+}
+
+.col-boolean-edit--true
+.col-boolean-edit__switch-current {
+	left: 0;
+	right: 30px;
+}
+
+.col-boolean-edit--false
+.col-boolean-edit__switch-current {
+	right: -20px;
+	left: 30px;
+}
+
+.col-boolean-edit__input {
+	display: none;
+}

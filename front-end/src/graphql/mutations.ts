@@ -4,8 +4,15 @@ import {
 	HOOP_FULL_FRAGMENT,
 } from "./fragments";
 
-const CollectionInputParams = `
+const RequiredId = `
 	$id: ID!,
+`;
+
+const OptionalId = `
+	$id: ID,
+`;
+
+const CollectionInputParams = `
 	$name: String,
 `;
 const CollectionInputArgs = `
@@ -14,8 +21,7 @@ const CollectionInputArgs = `
 `;
 
 const HoopInputParams = `
-	$id: ID!,
-	$name: String,
+	$title: String,
 	$description: String,
 	$diameter: Float,
 	$image: String,
@@ -24,7 +30,7 @@ const HoopInputParams = `
 `;
 const HoopInputArgs = `
 	id: $id,
-	name: $name,
+	title: $title,
 	description: $description,
 	diameter: $diameter,
 	image: $image,
@@ -34,14 +40,14 @@ const HoopInputArgs = `
 
 export const LOGIN = gql`
 	mutation login($password: String!) {
-		login(password: $password) {
+		Login(password: $password) {
 			token
 		}
 	}
 `;
 
 export const CREATE_COLLECTION = gql`
-	mutation createCollection(${CollectionInputParams}) {
+	mutation createCollection(${OptionalId}${CollectionInputParams}) {
 		CreateCollection(${CollectionInputArgs}) {
 			...CollectionFull
 		}
@@ -50,31 +56,34 @@ export const CREATE_COLLECTION = gql`
 `;
 
 export const MERGE_COLLECTION = gql`
-	mutation mergeCollection(${CollectionInputParams}) {
+	mutation mergeCollection(${OptionalId}${CollectionInputParams}) {
 		MergeCollection(${CollectionInputArgs}) {
 			...CollectionFull
 		}
 	}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const UPDATE_COLLECTION = gql`
-	mutation updateCollection(${CollectionInputParams}) {
+	mutation updateCollection(${RequiredId}${CollectionInputParams}) {
 		UpdateCollection(${CollectionInputArgs}) {
 			...CollectionFull
 		}
 	}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const DELETE_COLLECTION = gql`
-	mutation deleteCollection($id: ID!) {
+	mutation deleteCollection(${RequiredId}) {
 		DeleteCollection(id: $id) {
-			id
+			...CollectionFull
 		}
 	}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const CREATE_HOOP = gql`
-	mutation createHoop(${HoopInputParams}) {
+	mutation createHoop(${OptionalId}${HoopInputParams}) {
 		CreateHoop(${HoopInputArgs}) {
 			...HoopFull
 		}
@@ -83,27 +92,30 @@ export const CREATE_HOOP = gql`
 `;
 
 export const MERGE_HOOP = gql`
-	mutation mergeHoop(${HoopInputParams}) {
+	mutation mergeHoop(${OptionalId}${HoopInputParams}) {
 		MergeHoop(${HoopInputArgs}) {
 			...HoopFull
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
 `;
 
 export const UPDATE_HOOP = gql`
-	mutation updateHoop(${HoopInputParams}) {
+	mutation updateHoop(${RequiredId}${HoopInputParams}) {
 		UpdateHoop(${HoopInputArgs}) {
 			...HoopFull
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
 `;
 
 export const DELETE_HOOP = gql`
-	mutation deleteHoop($id: ID!) {
+	mutation deleteHoop(${RequiredId}) {
 		DeleteHoop(id: $id) {
-			id
+			...HoopFull
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
 `;
 
 export const ADD_COLLECTION_HOOPS = gql`
@@ -123,6 +135,8 @@ export const ADD_COLLECTION_HOOPS = gql`
 			}
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const MERGE_COLLECTION_HOOPS = gql`
@@ -136,12 +150,17 @@ export const MERGE_COLLECTION_HOOPS = gql`
 		) {
 			from {
 				...CollectionFull
+				hoops {
+					...HoopFull
+				}
 			}
 			to {
 				...HoopFull
 			}
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
+	${COLLECTION_FULL_FRAGMENT}
 `;
 
 export const REMOVE_COLLECTION_HOOPS = gql`
@@ -161,4 +180,6 @@ export const REMOVE_COLLECTION_HOOPS = gql`
 			}
 		}
 	}
+	${HOOP_FULL_FRAGMENT}
+	${COLLECTION_FULL_FRAGMENT}
 `;

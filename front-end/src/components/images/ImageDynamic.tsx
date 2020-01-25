@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import ImageDB from "./image-db/ImageDB";
 import ImageFile from "./image-file/ImageFile";
 
-import Placeholder from "../generic/placeholder/Placeholder";
+import Placeholder from "../generic/layout/placeholder/ColPlaceholder";
 
 import { GET_HOOP_WITH_IMAGE } from "../../graphql/queries";
 import { IHoop } from "../../models/hoop.model";
@@ -13,13 +13,6 @@ export default ({
 }: {
 	hoop: IHoop,
 }) => {
-	const [windowAspectRatio, setWindowAspectRatio] = useState();
-	useEffect(() => {
-		const updateWindowDimensions = () =>
-			setWindowAspectRatio(window.innerWidth / window.innerHeight);
-		window.addEventListener("resize", updateWindowDimensions);
-		return () => window.removeEventListener("resize", updateWindowDimensions);
-	});
 	if (!!hoop) {
 		const loadingText = "hallie's • hoops •";
 		if (
@@ -28,7 +21,6 @@ export default ({
 		) {
 			return (
 				<ImageDB id={hoop.id}
-					windowAspectRatio={windowAspectRatio}
 					image={hoop.image}
 					imageAltText={hoop.title}
 					imageQuery={GET_HOOP_WITH_IMAGE}
@@ -39,7 +31,6 @@ export default ({
 		} else if (!!hoop.file) {
 			return (
 				<ImageFile file={hoop.file}
-					windowAspectRatio={windowAspectRatio}
 					loadingText={loadingText}
 				/>
 			);

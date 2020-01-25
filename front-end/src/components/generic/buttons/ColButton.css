@@ -1,0 +1,11 @@
+
+.col-button {
+    margin: 10px;
+    padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.col-button:hover {
+	background-color: lightgrey;
+}

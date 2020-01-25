@@ -1,15 +1,15 @@
-import { ICollection } from "./collection.model";
 import { IImageFile } from "./file.model";
 
-export interface IHoop {
-	id: string;
-	title: string;
-	collections: ICollection[];
+import { IColDataModel } from "../components/generic/viewModelStore/ColDataModel";
+
+export interface IHoop extends IColDataModel {
+	collections: string[];
 	description: string;
+	diameter: number;
 	file?: IImageFile;
 	image: string;
-	recentlyupdatedimage: boolean;
-	diameter: number;
 	price: number;
+	title: string;
+	recentlyupdatedimage: boolean;
 	sold: boolean;
 }

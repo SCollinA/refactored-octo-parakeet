@@ -4,7 +4,10 @@ import {
 	Request,
 	Response,
 } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import {
+	replace,
+} from "lodash/fp";
 import redisClient from "./redis/client";
 
 dotenv.config();
@@ -23,15 +26,28 @@ if (
 }
 export const getBasicAuth = (req: Request, res: Response, next: NextFunction) => {
 	if (!req.headers.authorization) {
-		const token = jwt.sign({
-			scopes: ["Hoop: Read", "Collection: Read"],
-		}, jwtSecret, {
-			expiresIn: "1d",
-		});
+		const token = createBasicToken();
 		req.headers.authorization = `Bearer ${token}`;
+	} else {
+		try {
+			const token = replace("Bearer ", "", req.headers.authorization);
+			jwt.verify(token, jwtSecret);
+		} catch (err) {
+			if (err instanceof JsonWebTokenError) {
+				const token = createBasicToken();
+				req.headers.authorization = `Bearer ${token}`;
+			}
+		}
 	}
 	next();
 };
+
+const createBasicToken = () =>
+	jwt.sign({
+		scopes: ["Hoop: Read", "Collection: Read"],
+	}, jwtSecret, {
+		expiresIn: "1d",
+	});
 
 export const rateLimiter = (req: Request, res: Response, next: NextFunction) => {
 	// receive request

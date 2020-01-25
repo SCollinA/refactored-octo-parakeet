@@ -1,25 +1,36 @@
-.HamburgerLinks {
-    display: none;
+.hamburger-links {
+	display: flex;
+	justify-content: space-around;
 }
 
-.HamburgerLinks > svg {
+.hamburger-links > svg {
+	margin: auto;
     transform: rotate(45deg);
     transition: transform .5s;
 }
 
-.expandedMenu > svg {
+.hamburger-links--expanded > svg {
     transform: rotate(405deg);
     transition: transform .5s;
 }
 
-.HamburgerLinks > .section-wrapper {
-    width: 100%;
+.hamburger-links__content {
+	width: 100%;
+	display: none;
+}
+
+.hamburger-links--expanded
+.hamburger-links__content {
+	display: flex;
+	flex: 1;
 }
 
 @media (max-width: 500px) {
-    .HamburgerLinks {
-        display: flex;
+    .hamburger-links--expanded {
         flex-direction: column;
         align-items: center;
-    }
+	}
+	.hamburger-links__content {
+		flex-direction: column;
+	}
 }

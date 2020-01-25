@@ -3,7 +3,7 @@ import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-import "./Placeholder.css";
+import "./ColPlaceholder.css";
 
 export default ({ text = "Oops!", icon = faEyeSlash }: {text?: string, icon?: IconDefinition}) =>
 	<div className="Placeholder">

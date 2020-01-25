@@ -1,6 +1,6 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
-import "./Loading.css";
+import "./ColLoading.css";
 
 export default ({
 	children,
@@ -9,17 +9,17 @@ export default ({
 	fitChild = false,
 	preventClick = true,
 }: {
-	children: any,
-	loading: boolean,
-	text: string,
+	children: ReactNode,
+	loading?: boolean,
+	text?: string,
 	fitChild?: boolean,
 	preventClick?: boolean,
 }) => {
 	const height = 29 * text.length;
 	return (
-		<div className={`loading-wrapper`}>
+		<>
 			{loading &&
-				<div className={`Loading${fitChild ? " fit-child" : ""}`}
+				<div className={`loading${fitChild ? " fit-child" : ""}`}
 					onClick={(event) =>
 						preventClick && event.stopPropagation()}
 				>
@@ -42,6 +42,6 @@ export default ({
 					</svg>
 				</div>}
 			{children}
-		</div>
+		</>
 	);
 };

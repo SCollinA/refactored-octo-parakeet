@@ -1,10 +1,10 @@
-.loading-wrapper {
+/* .loading-wrapper {
     height: inherit;
     width: inherit;
     position: relative;
-}
+} */
 
-.Loading {
+.loading {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -25,7 +25,7 @@
 .fit-child {
     position: absolute;
 }
-.Loading > svg {
+.loading > svg {
     animation: loading 10s linear infinite;
 }
 @keyframes loading {

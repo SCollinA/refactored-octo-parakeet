@@ -3,9 +3,9 @@ import React, { useContext, useState } from "react";
 
 import { LOGIN } from "../../graphql/mutations";
 
-import { LayoutContext } from "../layout/Layout";
+import ColLoading from "../generic/loading/ColLoading";
 
-import Loading from "../generic/loading/Loading";
+import { AdminContext } from "./AdminContext";
 
 import "./AdminLogin.css";
 
@@ -13,13 +13,12 @@ export default () => {
 	const [showAdmin, setShowAdmin] = useState(false);
 	const {
 		isLoggedIn,
-		login,
-		logout,
-	}: any = useContext(LayoutContext);
+		setIsLoggedIn,
+	} = useContext(AdminContext);
 	const [adminLogin, { loading }] = useMutation(LOGIN, {
-		onCompleted({ login: { token }}: any) {
+		onCompleted({ Login: { token }}: any) {
 			localStorage.setItem("auth-token", token);
-			login();
+			setIsLoggedIn(true);
 			setShowAdmin(false);
 		},
 		onError(err: any) {
@@ -27,19 +26,24 @@ export default () => {
 			setShowAdmin(false);
 		},
 	});
+	const logout = () => {
+		localStorage.clear();
+		setIsLoggedIn(false);
+		setShowAdmin(false);
+	};
 	return (
-		<Loading loading={loading}
+		<ColLoading loading={loading}
 			text={"hallie's • hoops •"}
 		>
 			{isLoggedIn &&
-				<div className="logout clickable">
+				<div className="admin-logout clickable">
 					<input type="button" value="logout"
 						onClick={() => logout()}
 					/>
 				</div>}
 			{!isLoggedIn &&
 				(showAdmin ?
-					<form className="AdminLogin"
+					<form className="admin-login"
 						onSubmit={(event: any) => {
 							event.preventDefault();
 							adminLogin({
@@ -49,22 +53,45 @@ export default () => {
 							});
 						}}
 					>
-						<label style={{ display: "none" }}>admin password
-							<input autoComplete={"username"} type="text" name="adminUsername" placeholder="no username"/>
+						<label htmlFor="username">
+								admin password
 						</label>
-						<label>admin password
-							<input autoFocus autoComplete={"current-password"} type="password" placeholder="not 'password1'" name="adminPassword"/>
+						<input id="username"
+							autoComplete={"username"}
+							type="text"
+							name="adminUsername"
+							placeholder="no username"
+							style={{ display: "none" }}
+						/>
+						<label htmlFor="password">
+							admin password
 						</label>
-						<label>submit
-							<input type="submit" value="proceed"/>
+						<input id="password"
+							autoFocus
+							autoComplete={"current-password"}
+							type="password"
+							placeholder="not 'password1'"
+							name="adminPassword"
+						/>
+						<label htmlFor="submit">
+							submit
 						</label>
+						<input id="submit" type="submit" value="submit"/>
+						<label htmlFor="cancel">
+							cancel
+						</label>
+						<input id="cancel"
+							type="button"
+							value="cancel"
+							onClick={() => setShowAdmin(false)}
+						/>
 					</form> :
-					<p className="adminLoginButton"
+					<p className="admin-login__button"
 						onClick={() => setShowAdmin(true)}
 					>
 						admin
 					</p>)
 			}
-		</Loading>
+		</ColLoading>
 	);
 };
