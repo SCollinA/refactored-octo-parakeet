@@ -1,4 +1,9 @@
+import {
+	Dictionary,
+} from "lodash";
 import { ColDataModelSingle } from "./ColDataModel";
+
+export type DataViews = Dictionary<ColViewModelValues>;
 
 export type ColViewModelDataType =
 	"STRING" |

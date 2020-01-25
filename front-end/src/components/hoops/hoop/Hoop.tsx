@@ -83,11 +83,11 @@ export default ({
 						select={() => setSelectedHoopId(hoop.id)}
 						unselect={() => setSelectedHoopId("")}
 						isEditable={isLoggedIn && isSelected}
-						remove={() => {
+						onRemove={() => {
 							removeHoop();
 							setSelectedHoopId("");
 						}}
-						submit={(updatedHoop: IHoop) => updateHoop({
+						onSubmit={(updatedHoop: IHoop) => updateHoop({
 							variables: washData(updatedHoop),
 						})}
 					/>

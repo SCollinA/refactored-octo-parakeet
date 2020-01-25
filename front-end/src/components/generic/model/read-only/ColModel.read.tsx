@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 
 import ColCard from "../../layout/card/ColCard";
 import { IColDataModel } from "../../viewModelStore/ColDataModel";
-import ColViewModel from "../../viewModelStore/ColViewModel";
+import ColViewModel, { DataViews } from "../../viewModelStore/ColViewModelValue";
 
 import ColBoolean from "../data/boolean/read-only/ColBoolean";
 import ColImage from "../data/image/read-only/ColImage";
@@ -16,9 +16,9 @@ import ColString from "../data/string/read-only/ColString";
 import "./ColModel.read.css";
 
 export default ({
-	viewModel,
+	dataViews,
 }: {
-	viewModel: ColViewModel<IColDataModel>,
+	dataViews: DataViews,
 }) => {
 	return (
 		<div className="col-model-read">
@@ -59,7 +59,7 @@ export default ({
 							);
 					}
 				},
-				viewModel.dataViews,
+				dataViews,
 			)}
 		</div>
 	);

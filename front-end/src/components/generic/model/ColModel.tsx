@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import {
+	cloneDeep, entries, flow, get, isNull, isUndefined, map, omit, reduce, set,
+} from "lodash/fp";
+import React, { useReducer, useState } from "react";
+
+import isStringImage from "../../utils/functions/isStringImage";
 
 import ColButton from "../buttons/ColButton";
 import ColCard from "../layout/card/ColCard";
-import { IColDataModel } from "../viewModelStore/ColDataModel";
-import ColViewModel from "../viewModelStore/ColViewModel";
+import { ColDataModelValue, IColDataModel } from "../viewModelStore/ColDataModel";
+import { DataViews } from "../viewModelStore/ColViewModelValue";
+import { ColViewModelDataType, ColViewModelValues } from "../viewModelStore/ColViewModelValue";
 
 import ColModelEdit from "./edit/ColModel.edit";
 import ColModelRead from "./read-only/ColModel.read";
@@ -17,10 +23,10 @@ export default ({
 	isSelectable,
 	isSelected,
 	placeholders,
-	remove = () => undefined,
-	reset = () => undefined,
+	onRemove = () => undefined,
+	onReset = () => undefined,
 	select = () => undefined,
-	submit = () => undefined,
+	onSubmit = () => undefined,
 	unselect = () => undefined,
 }: {
 	cancel?: () => void,
@@ -29,15 +35,58 @@ export default ({
 	isSelectable?: boolean,
 	isSelected?: boolean,
 	placeholders: IColDataModel,
-	remove?: () => void,
-	reset?: () => void,
+	onRemove?: () => void,
+	onReset?: () => void,
 	select?: () => void,
-	submit?: (updatedModel: any) => void,
+	onSubmit?: (updatedModel: any) => void,
 	unselect?: () => void,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
-	const viewModel = new ColViewModel(dataModel, placeholders);
-	console.log({viewModel})
+	const initialState = {
+		dataViews: getDataViews(dataModel, placeholders),
+		updatedDataModel: cloneDeep(dataModel),
+	};
+	const [viewModel, setViewModel] = useState(initialState);
+	const remove = (callback?: () => void) => {
+		if (!!callback) {
+			callback();
+		}
+	};
+	const reset = (callback?: () => void) => {
+		const updatedDataModel = cloneDeep(dataModel);
+		const dataViews = getDataViews(updatedDataModel, placeholders);
+		setViewModel({
+			dataViews,
+			updatedDataModel,
+		});
+		if (!!callback) {
+			callback();
+		}
+	};
+	const submit = (callback?: (updatedDataModel: IColDataModel) => void) => {
+		const dataViews = getDataViews(dataModel, placeholders);
+		setViewModel({
+			...viewModel,
+			dataViews,
+		});
+		if (!!callback) {
+			callback(viewModel.updatedDataModel);
+		}
+	};
+	const update = (updates: Partial<IColDataModel>, callback?: () => void) => {
+		const updatedDataModel = {
+			...cloneDeep(viewModel.updatedDataModel),
+			...updates,
+		};
+		const dataViews = getDataViews(updatedDataModel, placeholders);
+		setViewModel({
+			dataViews,
+			updatedDataModel,
+		});
+		if (!!callback) {
+			callback();
+		}
+	};
 	return (
 		<div className="col-model"
 			onClick={() => isSelectable && select()}
@@ -54,25 +103,125 @@ export default ({
 						action={() => setIsEditing(true)}
 					/>}
 				{isEditable && isEditing ?
-					<ColModelEdit viewModel={viewModel}
+					<ColModelEdit dataViews={viewModel.dataViews}
 						cancel={() => {
-							viewModel.reset(cancel);
+							reset(cancel);
 							setIsEditing(false);
 						}}
-						remove={() => viewModel.remove(remove)}
-						reset={() => viewModel.reset(reset)}
+						remove={() => remove(onRemove)}
+						reset={() => reset(onReset)}
 						submit={() => {
-							submit(viewModel.updatedDataModel);
-							viewModel.submit();
+							submit(onSubmit);
 							setIsEditing(false);
 						}}
 						update={(value: Partial<IColDataModel>) => {
-							console.log("col model top update", value);
-							viewModel.update(value);
+							update(value);
 						}}
 					/> :
-					<ColModelRead viewModel={viewModel}/>}
+					<ColModelRead dataViews={viewModel.dataViews}/>}
 			</ColCard>
 		</div>
 	);
+};
+
+const getDataType =
+	(key: string, value: ColDataModelValue, placeholders: IColDataModel): ColViewModelDataType => {
+		const placeholder = placeholders[key];
+		if (!value && !isNull(placeholder) && !isUndefined(placeholder)) {
+			value = placeholder;
+		}
+		switch (typeof value) {
+			case "boolean":
+				return "BOOLEAN";
+		case "number":
+				if (value % 1 === 0) {
+					return "INTEGER";
+				} else {
+					return "FLOAT";
+				}
+			case "string":
+				if (isStringImage(value)) {
+					return "IMAGE";
+				} else if (get(["length"], value) < 20) {
+					return "STRING";
+				} else {
+					return "STRING_LONG";
+				}
+			default:
+				return "STRING";
+		}
+	};
+
+export const getDataViews = (dataModel: IColDataModel, placeholders: IColDataModel): DataViews => {
+	const newDataViews: DataViews = {};
+	return flow(
+		omit(["id"]),
+		entries,
+		map(([key, value]): ColViewModelValues => {
+				const dataType = getDataType(key, value, placeholders);
+				let dataView: ColViewModelValues;
+				switch (dataType) {
+					case "BOOLEAN":
+						dataView = {
+							isValid: true, // TODO: implement validation
+							key,
+							placeholder: false,
+							type: dataType,
+							value,
+						};
+						break;
+					case "INTEGER":
+						dataView = {
+							isValid: true, // TODO: implement validation
+							key,
+							placeholder: 0,
+							type: dataType,
+							value,
+						};
+						break;
+					case "FLOAT":
+						dataView = {
+							isValid: true, // TODO: implement validation
+							key,
+							placeholder: 0.0,
+							type: dataType,
+							value,
+						};
+						break;
+					case "STRING":
+						dataView = {
+							isValid: true, // TODO: implement validation
+							key,
+							placeholder: "",
+							type: dataType,
+							value,
+						};
+						break;
+					case "STRING_LONG":
+						dataView = {
+							isValid: true, // TODO: implement validation
+							key,
+							placeholder: "",
+							type: dataType,
+							value,
+						};
+						break;
+					case "IMAGE":
+						dataView = {
+							isValid: true, // TODO: implement validation
+							key,
+							placeholder: "data:image/jpeg;base64,",
+							type: dataType,
+							value,
+						};
+						break;
+				}
+				return dataView;
+			},
+		),
+		reduce(
+			(acc, dataView) => set(dataView.key, dataView, acc),
+			newDataViews,
+		),
+	)(dataModel);
 };

@@ -4,7 +4,7 @@ import React, { ReactNode, SyntheticEvent } from "react";
 import ColButton from "../../buttons/ColButton";
 import ColCard from "../../layout/card/ColCard";
 import { IColDataModel } from "../../viewModelStore/ColDataModel";
-import ColViewModel from "../../viewModelStore/ColViewModel";
+import { DataViews } from "../../viewModelStore/ColViewModelValue";
 
 import ColBooleanInput from "../data/boolean/edit/ColBoolean.edit";
 import ColImageInput from "../data/image/edit/ColImage.edit";
@@ -20,21 +20,21 @@ export default ({
 	reset = () => undefined,
 	submit = () => undefined,
 	update = () => undefined,
-	viewModel,
+	dataViews: dataViews,
 }: {
 	cancel?: () => void,
 	remove?: () => void,
 	reset?: () => void,
 	submit?: () => void,
-	update: (value: Partial<IColDataModel>) => void,
-	viewModel: ColViewModel<IColDataModel>,
+	update?: (value: Partial<IColDataModel>) => void,
+	dataViews: DataViews,
 }) => {
 	return (
 		<form id="col-model-edit" className="col-model-edit"
-			onReset={() => viewModel.reset(reset)}
+			onReset={() => reset()}
 			onSubmit={(event: SyntheticEvent) => {
 				event.preventDefault();
-				viewModel.submit(submit);
+				submit();
 			}}
 		>
 			{map(
@@ -53,7 +53,6 @@ export default ({
 								<ColStringInput id={dataView.key}
 									autoFocus={true}
 									onChange={(value: string) => {
-										console.log("on change col model", value);
 										update({ [dataView.key]: value });
 									}}
 									value={dataView.value || dataView.placeholder}
@@ -103,16 +102,16 @@ export default ({
 							);
 					}
 				},
-				viewModel.dataViews,
+				dataViews,
 			)}
 			<div className="col-model-edit__buttons">
 				<ColButton type="button"
 					value="cancel"
-					action={() => viewModel.reset(cancel)}
+					action={() => cancel()}
 				/>
 				<ColButton type="button"
 					value="delete"
-					action={() => viewModel.remove(remove)}
+					action={() => remove()}
 				/>
 				<ColButton type="reset"
 					value="reset"

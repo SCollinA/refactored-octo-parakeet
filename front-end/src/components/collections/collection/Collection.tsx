@@ -90,12 +90,12 @@ export default ({
 							setSelectedCollectionId("");
 						}}
 						isEditable={isLoggedIn && isSelected}
-						remove={() => {
+						onRemove={() => {
 							removeCollection();
 							setSelectedHoopId("");
 							setSelectedCollectionId("");
 						}}
-						submit={(updatedCollection: ICollection) => updateCollection({
+						onSubmit={(updatedCollection: ICollection) => updateCollection({
 							variables: {
 								...washData(updatedCollection),
 							},
