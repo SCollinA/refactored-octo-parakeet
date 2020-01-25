@@ -11,6 +11,9 @@ import {
 	reduce,
 	set,
 } from "lodash/fp";
+import {
+	BehaviorSubject,
+} from "rxjs";
 
 import isStringImage from "../../utils/functions/isStringImage";
 
@@ -28,10 +31,19 @@ export type DataViews = Dictionary<ColViewModelValues>;
 export default class ColViewModel<T extends IColDataModel> {
 
 	public id: string;
-	public dataModel: T;
-	public dataViews: DataViews;
-	public updatedDataModel: T;
+	public get dataModel() {
+		return this._dataModel.asObservable();
+	}
+	public get dataViews() {
+		return this._dataViews.asObservable();
+	}
+	public get updatedDataModel() {
+		return this._updatedDataModel.asObservable();
+	}
 
+	private _dataModel: BehaviorSubject<T>;
+	private _dataViews: BehaviorSubject<DataViews>;
+	private _updatedDataModel: BehaviorSubject<T>;
 	private placeholders: T;
 
 	constructor(
@@ -39,10 +51,10 @@ export default class ColViewModel<T extends IColDataModel> {
 		placeholders: T,
 	) {
 		this.id = dataModel.id;
-		this.dataModel = dataModel;
 		this.placeholders = placeholders;
-		this.dataViews = this.getDataViews(dataModel);
-		this.updatedDataModel = cloneDeep(dataModel);
+		this._dataModel = new BehaviorSubject(dataModel);
+		this._dataViews = new BehaviorSubject(this.getDataViews(dataModel));
+		this._updatedDataModel = new BehaviorSubject(cloneDeep(dataModel));
 	}
 
 	public remove = (onRemove?: (viewModel: ColViewModel<T>) => void) => {
@@ -52,17 +64,22 @@ export default class ColViewModel<T extends IColDataModel> {
 	}
 
 	public reset = (onReset?: (viewModel: ColViewModel<T>) => void) => {
-		this.updatedDataModel = cloneDeep(this.dataModel);
-		this.dataViews = this.getDataViews(this.updatedDataModel);
+		this._updatedDataModel.next(cloneDeep(this._dataModel.getValue()));
+		this._dataViews.next(this.getDataViews(this._updatedDataModel.getValue()));
 		if (!!onReset) {
-			console.log("resetting data model", this.dataModel, this.updatedDataModel, this.dataViews);
+			console.log(
+				"resetting data model",
+				this._dataModel.getValue(),
+				this._updatedDataModel.getValue(),
+				this._dataViews.getValue(),
+			);
 			onReset(this);
 		}
 	}
 
 	public submit = (onSubmit?: (viewModel: ColViewModel<T>) => void) => {
-		this.dataModel = cloneDeep(this.updatedDataModel);
-		this.dataViews = this.getDataViews(this.dataModel);
+		this._dataModel.next(cloneDeep(this._updatedDataModel.getValue()));
+		this._dataViews.next(this.getDataViews(this._dataModel.getValue()));
 		if (!!onSubmit) {
 			onSubmit(this);
 		}
@@ -70,12 +87,12 @@ export default class ColViewModel<T extends IColDataModel> {
 
 	public update = (updates: Partial<T>, onUpdate?: (viewModel: ColViewModel<T>) => void) => {
 		const updatedDataModel = {
-			...cloneDeep(this.updatedDataModel),
+			...cloneDeep(this._updatedDataModel.getValue()),
 			...updates,
 		};
-		this.updatedDataModel = updatedDataModel;
-		this.dataViews = this.getDataViews(this.updatedDataModel);
-		console.log("view model update", this.updatedDataModel, this.dataViews);
+		this._updatedDataModel.next(updatedDataModel);
+		this._dataViews.next(this.getDataViews(updatedDataModel));
+		console.log("view model update", this._updatedDataModel.getValue(), this._dataViews.getValue());
 		if (!!onUpdate) {
 			onUpdate(this);
 		}
