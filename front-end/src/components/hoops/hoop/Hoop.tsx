@@ -73,7 +73,7 @@ export default ({
 					<ColModel dataModel={scrubbedHoop}
 						isSelectable={true}
 						isSelected={isSelected}
-						unselectedKeys={["id", "title"]}
+						unselectedKeys={["id", "title", "image"]}
 						placeholders={{
 							...placeholders,
 							id: hoop.id,

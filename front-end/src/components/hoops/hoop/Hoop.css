@@ -1,6 +1,5 @@
 .hoop {
-	height: 200px;
-	flex-basis: 20%;
+	flex-basis: 50%;
 }
 
 .hoop--selected {
@@ -8,23 +7,10 @@
 	flex-basis: 100%;
 }
 
-.hoop >
-.col-model {
-	height: 100%;
-	margin: auto;
-}
-
-.hoop >
-.col-model >
-.col-card {
-    height: inherit;
-	margin: auto;
-	overflow: auto;
-}
-
 .hoop--selected >
 .col-model {
-    width: 80%;
+	width: 80%;
+	margin: auto;
 }
 
 .hoop--selected
