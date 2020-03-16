@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ReactNode, useEffect, useState } from "react";
 
-import SectionWrapper from "../../generic/layout/section-wrapper/ColSectionWrapper";
-
 import "./HamburgerLinks.css";
 
 export default ({
@@ -10,6 +8,9 @@ export default ({
 }: {
 	children: ReactNode,
 }) => {
+	if (typeof window === `undefined`) {
+		return null;
+	}
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [isWindowWide, setIsWindowWide] = useState(window.innerWidth > 500);
 	useEffect(() => {
