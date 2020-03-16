@@ -5,8 +5,8 @@
   "main": "build/server.js",
   "scripts": {
     "build": "tsc",
-	"dev": "nodemon server.ts",
-	"serve": "npm run build && node ./build/server.js",
+    "dev": "nodemon server.ts",
+    "serve": "npm run build && node ./build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -35,6 +35,7 @@
     "express": "^4.17.1",
     "googleapis": "^46.0.0",
     "graphql": "^14.5.8",
+    "graphql-tools": "^4.0.7",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
     "neo4j-driver": "^4.0.1",
