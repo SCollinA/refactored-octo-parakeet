@@ -9,7 +9,7 @@ export default ({
 	children: ReactNode,
 	clickable?: boolean,
 }) => {
-	const clickableClass = clickable ? " col-card--clickable" : "";
+	const clickableClass = clickable ? " clickable" : "";
 	return (
 		<div className={`col-card${clickableClass}`}>
 			{children}

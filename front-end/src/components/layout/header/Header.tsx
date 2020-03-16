@@ -1,6 +1,5 @@
 import { graphql, Link, useStaticQuery } from "gatsby";
-import Img from "gatsby-image";
-import React, { useState } from "react";
+import React from "react";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
@@ -9,7 +8,6 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 import "./Header.css";
 
-import Loading from "../../generic/loading/ColLoading";
 import PageLinks from "../../links/page-links/PageLinks";
 import SocialLinks from "../../links/social-links/SocialLinks";
 
@@ -24,8 +22,8 @@ export default () => {
 	return (
 		<div className="header">
 			<Link to="/"
-				className="clickable header__home-link"
-				activeClassName="activeLink"
+				className="header__home-link clickable selectable"
+				activeClassName="selected"
 				style={{
 					color: `white`,
 					textDecoration: `none`,
@@ -37,7 +35,7 @@ export default () => {
 			</Link>
 			<HamburgerLinks>
 				<PageLinks/>
-				<SocialLinks/>
+				<SocialLinks instagramUsername={"hallieshoops"}/>
 			</HamburgerLinks>
 		</div>
 	);

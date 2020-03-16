@@ -5,8 +5,10 @@
   "main": "build/server.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon server.ts",
-    "dev": "concurrently --kill-others \"npm run start\" \"cd ../front-end && gatsby develop\"",
+    "dev": "nodemon server.ts",
+	"lint": "tslint -p .",
+	"lint-fix": "tslint -p . --fix",
+    "serve": "npm run build && node ./build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -19,10 +21,12 @@
     "@types/jsonwebtoken": "^8.3.5",
     "@types/lodash": "^4.14.149",
     "@types/neo4j": "^2.0.2",
+    "@types/node-fetch": "^2.5.5",
     "@types/redis": "^2.8.14",
-    "concurrently": "^5.0.2",
     "nodemon": "^2.0.2",
-    "ts-node": "^8.5.4"
+    "ts-node": "^8.5.4",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "apollo-server": "^2.9.15",
@@ -33,14 +37,12 @@
     "express": "^4.17.1",
     "googleapis": "^46.0.0",
     "graphql": "^14.5.8",
+    "graphql-tools": "^4.0.7",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
     "neo4j-driver": "^4.0.1",
     "neo4j-graphql-js": "^2.11.2",
     "nodemailer": "^6.4.2",
-    "prettier": "^1.19.1",
-    "redis": "^2.8.0",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.4"
+    "redis": "^2.8.0"
   }
 }

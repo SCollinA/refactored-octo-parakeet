@@ -24,7 +24,7 @@ if (
 ) {
 	throw new Error(`environment variables missing ${process.env}`);
 }
-export const getBasicAuth = (req: Request, res: Response, next: NextFunction) => {
+export const getBasicAuth = (req: Request, _res: Response, next: NextFunction) => {
 	if (!req.headers.authorization) {
 		const token = createBasicToken();
 		req.headers.authorization = `Bearer ${token}`;

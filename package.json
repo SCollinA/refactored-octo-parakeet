@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	"dev": "cd back-end && npm run dev",
-	"check": "tsc --noEmit",
+    "build": "concurrently \"cd ./back-end && npm run build\" \"cd ./front-end && gatsby build\"",
+    "dev": "concurrently --kill-others \"cd ./back-end && npm run dev\" \"cd ./front-end && gatsby develop\"",
+    "serve": "concurrently --kill-others \"cd ./back-end && npm run serve\" \"cd ./front-end && gatsby serve\"",
+    "lint": "concurrently \"cd ./back-end && npm run lint\" \"cd ./front-end && npm run lint\"",
+    "lint-fix": "concurrently \"cd ./back-end && npm run lint-fix\" \"cd ./front-end && npm run lint-fix\"",
+    "check": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +22,17 @@
   "bugs": {
     "url": "https://github.com/SCollinA/refactored-octo-parakeet/issues"
   },
-  "homepage": "https://github.com/SCollinA/refactored-octo-parakeet#readme"
+  "homepage": "https://github.com/SCollinA/refactored-octo-parakeet#readme",
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "husky": "^4.2.3",
+    "prettier": "^1.19.1",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3"
+  },
+  "husky": {
+		"hooks": {
+			"pre-push": "npm run lint"
+		}
+  }
 }

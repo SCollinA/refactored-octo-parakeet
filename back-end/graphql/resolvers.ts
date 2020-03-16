@@ -6,6 +6,7 @@ import {
 } from "lodash/fp";
 
 import { checkPassword, checkScopes } from "../utils";
+import { IResolvers } from "graphql-tools";
 
 dotenv.config();
 
@@ -13,9 +14,9 @@ const {
 	JWT_SECRET: jwtSecret = "",
 } = process.env;
 
-export default {
+const resolvers: IResolvers = {
 	Mutation: {
-		Login: (obj: any, {password}: any, context: any, info: any) => {
+		Login: (_obj: any, {password}: any, _context: any, _info: any) => {
 			if (checkPassword(password)) {
 				const token = jwt.sign({
 					scopes: [
@@ -42,9 +43,11 @@ export default {
 		},
 	},
 	Query: {
-		IsLoggedIn: (obj: any, {password}: any, context: any, info: any) => {
+		IsLoggedIn: (_obj: any, _args: any, context: any, _info: any) => {
 			const scopes = checkScopes(get(["headers", "authorization"], context));
 			return !!find((scope) => scope === "Hoop: Update", scopes);
 		},
 	},
 };
+
+export default resolvers;

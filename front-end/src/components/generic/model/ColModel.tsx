@@ -1,7 +1,7 @@
 import {
-	cloneDeep, entries, flow, get, isNull, isUndefined, map, omit, reduce, set,
+	entries, flow, get, isNull, isUndefined, map, omit, reduce, set, pick,
 } from "lodash/fp";
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 
 import isStringImage from "../../utils/functions/isStringImage";
 
@@ -23,6 +23,7 @@ export default ({
 	isSelectable,
 	isSelected,
 	placeholders,
+	unselectedKeys,
 	onRemove = () => undefined,
 	onReset = () => undefined,
 	select = () => undefined,
@@ -35,6 +36,7 @@ export default ({
 	isSelectable?: boolean,
 	isSelected?: boolean,
 	placeholders: IColDataModel,
+	unselectedKeys?: (keyof IColDataModel)[] | ["id"],
 	onRemove?: () => void,
 	onReset?: () => void,
 	select?: () => void,
@@ -42,9 +44,12 @@ export default ({
 	unselect?: () => void,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
+	if (!!unselectedKeys && !isSelected) {
+		dataModel = pick(unselectedKeys, dataModel) as IColDataModel;
+	}
 	const initialState = {
 		dataViews: getDataViews(dataModel, placeholders),
-		updatedDataModel: cloneDeep(dataModel),
+		updatedDataModel: dataModel,
 	};
 	const [viewModel, setViewModel] = useState(initialState);
 	const remove = (callback?: () => void) => {
@@ -53,11 +58,10 @@ export default ({
 		}
 	};
 	const reset = (callback?: () => void) => {
-		const updatedDataModel = cloneDeep(dataModel);
-		const dataViews = getDataViews(updatedDataModel, placeholders);
+		const dataViews = getDataViews(dataModel, placeholders);
 		setViewModel({
 			dataViews,
-			updatedDataModel,
+			updatedDataModel: dataModel,
 		});
 		if (!!callback) {
 			callback();
@@ -75,7 +79,7 @@ export default ({
 	};
 	const update = (updates: Partial<IColDataModel>, callback?: () => void) => {
 		const updatedDataModel = {
-			...cloneDeep(viewModel.updatedDataModel),
+			...viewModel.updatedDataModel,
 			...updates,
 		};
 		const dataViews = getDataViews(updatedDataModel, placeholders);
