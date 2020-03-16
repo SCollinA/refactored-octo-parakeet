@@ -1,5 +1,5 @@
 import {
-	entries, flow, get, isNull, isUndefined, map, omit, reduce, set,
+	entries, flow, get, isNull, isUndefined, map, omit, reduce, set, pick,
 } from "lodash/fp";
 import React, { useState } from "react";
 
@@ -23,6 +23,7 @@ export default ({
 	isSelectable,
 	isSelected,
 	placeholders,
+	unselectedKeys,
 	onRemove = () => undefined,
 	onReset = () => undefined,
 	select = () => undefined,
@@ -35,6 +36,7 @@ export default ({
 	isSelectable?: boolean,
 	isSelected?: boolean,
 	placeholders: IColDataModel,
+	unselectedKeys?: (keyof IColDataModel)[] | ["id"],
 	onRemove?: () => void,
 	onReset?: () => void,
 	select?: () => void,
@@ -42,6 +44,9 @@ export default ({
 	unselect?: () => void,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
+	if (!!unselectedKeys && !isSelected) {
+		dataModel = pick(unselectedKeys, dataModel) as IColDataModel;
+	}
 	const initialState = {
 		dataViews: getDataViews(dataModel, placeholders),
 		updatedDataModel: dataModel,

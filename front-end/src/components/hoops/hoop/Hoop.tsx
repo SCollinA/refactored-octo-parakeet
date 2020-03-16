@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/react-hooks";
 import { filter, get } from "lodash/fp";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { DELETE_HOOP, UPDATE_HOOP } from "../../../graphql/mutations";
 import { GET_HOOPS_FULL } from "../../../graphql/queries";
@@ -8,8 +8,6 @@ import { IHoop } from "../../../models/hoop.model";
 
 import { AdminContext } from "../../admin/AdminContext";
 import { CollectionContext } from "../../collections/Collections";
-import ColButton from "../../generic/buttons/ColButton";
-import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
 import ColLoading from "../../generic/loading/ColLoading";
 import ColModel from "../../generic/model/ColModel";
@@ -75,6 +73,7 @@ export default ({
 					<ColModel dataModel={scrubbedHoop}
 						isSelectable={true}
 						isSelected={isSelected}
+						unselectedKeys={["id", "title"]}
 						placeholders={{
 							...placeholders,
 							id: hoop.id,
