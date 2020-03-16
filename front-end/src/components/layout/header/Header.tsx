@@ -18,7 +18,7 @@ import HamburgerLinks from "../../links/hamburger-links/HamburgerLinks";
 library.add(faInstagram, faFacebook, faEnvelope, faAngleLeft, faAngleRight, faTimesCircle);
 
 export default () => {
-	const { brandImage }: { brandImage: IImageFile } = useStaticQuery(brandImageQuery);
+	const { brandNameImage }: { brandNameImage: IImageFile } = useStaticQuery(brandNameImageQuery);
 	return (
 		<div className="header">
 			<Link to="/"
@@ -29,7 +29,7 @@ export default () => {
 					textDecoration: `none`,
 				}}
 			>
-				<ImageFile file={brandImage}
+				<ImageFile file={brandNameImage}
 					loadingText={"hallie's • hoops •"}
 				/>
 			</Link>
@@ -41,9 +41,9 @@ export default () => {
 	);
 };
 
-const brandImageQuery = graphql`
+const brandNameImageQuery = graphql`
 	query {
-		brandImage: file(relativePath: { eq: "brand.png" }) {
+		brandNameImage: file(relativePath: { eq: "brand-name.png" }) {
 			childImageSharp {
 				fluid(maxWidth: 2000) {
 					...GatsbyImageSharpFluid_tracedSVG
