@@ -18,21 +18,17 @@ a {
 	display: block;
 	padding: 0 5px;
 }
-.clickable:not(.activeLink) {
+/* .clickable:not(.activeLink) {
     box-sizing: content-box;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-}
+} */
 
 .clickable:hover {
     cursor: pointer;
-    border-left: 5px solid black;
-    border-right: 5px solid black;
-    border-radius: 10px;
+	background-color: lightgrey;
 }
 
 .selected {
-    border-left: 5px solid black;
-    border-right: 5px solid black;
-    border-radius: 10px;
+    border-bottom: .5px solid black;
 }
