@@ -24,8 +24,8 @@ export default () => {
 	return (
 		<div className="header">
 			<Link to="/"
-				className="clickable header__home-link"
-				activeClassName="activeLink"
+				className="header__home-link clickable selectable"
+				activeClassName="selected"
 				style={{
 					color: `white`,
 					textDecoration: `none`,

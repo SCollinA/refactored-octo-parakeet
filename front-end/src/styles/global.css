@@ -14,21 +14,3 @@ a {
     text-decoration: none;
 }
 
-.clickable {
-	display: block;
-	padding: 0 5px;
-}
-/* .clickable:not(.activeLink) {
-    box-sizing: content-box;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-} */
-
-.clickable:hover {
-    cursor: pointer;
-	background-color: lightgrey;
-}
-
-.selected {
-    border-bottom: .5px solid black;
-}

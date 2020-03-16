@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
 
+import "../generic/styles/effects.css";
 import "./Layout.css";
 
 import AdminContext from "../admin/AdminContext";

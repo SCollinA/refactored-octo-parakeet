@@ -3,8 +3,9 @@
 	align-items: center;
 }
 
-.header__home-link.clickable {
+.header__home-link {
 	width: 100px;
+	padding: 5px 10px;
 }
 
 .hamburger-links,
@@ -20,7 +21,7 @@
 		flex-direction: column;
 	}
 
-	.header__home-link.clickable {
+	.header__home-link {
 		width: 80%;
 	}
 
