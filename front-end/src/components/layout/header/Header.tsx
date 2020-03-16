@@ -37,7 +37,7 @@ export default () => {
 			</Link>
 			<HamburgerLinks>
 				<PageLinks/>
-				<SocialLinks/>
+				<SocialLinks instagramUsername={"hallieshoops"}/>
 			</HamburgerLinks>
 		</div>
 	);
