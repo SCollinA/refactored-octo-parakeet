@@ -1,4 +1,10 @@
 {
+	"include": ["./src"],
+	"exclude": [
+		"./public",
+		"./node_modules",
+		"./.cache"
+	],
 	"compilerOptions": {
 		"jsx": "react",
 		/* Basic Options */
