@@ -1,6 +1,9 @@
 .collection {
 	min-height: 200px;
 	flex-basis: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .collection--selected {
@@ -8,26 +11,17 @@
 	flex-basis: 100%;
 }
 
-.collection >
-.col-model {
-	min-height: inherit;
-	height: 100%;
-	margin: auto;
-}
-
-.collection >
+.collection--selected >
 .col-model >
 .col-card {
-	min-height: inherit;
-    height: inherit;
-	margin: auto;
+	display: flex;
 }
 
 .collection--selected >
-.col-model {
-	min-height: inherit;
-	min-height: 200px;
-    width: 20%;
+.col-model >
+.col-card >
+.col-model-read {
+	flex: 1;
 }
 
 @media (max-width: 500px) {
