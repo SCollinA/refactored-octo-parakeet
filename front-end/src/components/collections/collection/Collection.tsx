@@ -1,14 +1,12 @@
 import { useMutation } from "@apollo/react-hooks";
 import { filter, get } from "lodash/fp";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { DELETE_COLLECTION, UPDATE_COLLECTION } from "../../../graphql/mutations";
 import { GET_COLLECTIONS } from "../../../graphql/queries";
 import { ICollection } from "../../../models/collection.model";
 
 import { AdminContext } from "../../admin/AdminContext";
-import ColButton from "../../generic/buttons/ColButton";
-import ColCard from "../../generic/layout/card/ColCard";
 import ColPlaceholder from "../../generic/layout/placeholder/ColPlaceholder";
 import ColLoading from "../../generic/loading/ColLoading";
 import ColModel from "../../generic/model/ColModel";

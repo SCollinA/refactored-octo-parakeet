@@ -42,12 +42,12 @@ export default class ColViewModelStore<T extends IColDataModel> {
 	}
 
 	public batchUpdate = (
-		paths: Array<[string, ...Array<(keyof T)>]>,
+		paths: [string, ...(keyof T)[]][],
 	) => {
 		return keyBy(
 			"id",
 			map(
-				(path: [string, ...Array<(keyof T)>]) => ({
+				(path: [string, ...(keyof T)[]]) => ({
 					id: path[0],
 					update: (updates: Partial<T>, onUpdate?: (dataModel: T) => void) => {
 						const updatedDataModel = {
