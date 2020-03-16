@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	"build": "concurrently --kill-others \"cd ./back-end && tsc\" \"cd ./front-end && gatsby build\"",
-	"dev": "concurrently --kill-others \"cd ./back-end && npm run start\" \"cd ./front-end && gatsby develop\"",
+	"build": "concurrently \"cd ./back-end && npm run build\" \"cd ./front-end && gatsby build\"",
+	"dev": "concurrently --kill-others \"cd ./back-end && npm run dev\" \"cd ./front-end && gatsby develop\"",
+	"serve": "concurrently --kill-others \"cd ./back-end && npm run serve\" \"cd ./front-end && gatsby serve\"",
     "check": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
