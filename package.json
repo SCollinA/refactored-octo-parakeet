@@ -31,6 +31,8 @@
     "typescript": "^3.8.3"
   },
   "husky": {
-	  "pre-push": "npm run lint"
+		"hooks": {
+			"pre-push": "npm run lint"
+		}
   }
 }
