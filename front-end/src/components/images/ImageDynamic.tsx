@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import ImageDB from "./image-db/ImageDB";
 import ImageFile from "./image-file/ImageFile";
@@ -35,7 +35,6 @@ export default ({
 				/>
 			);
 		}
-	} else {
-		return <Placeholder text="No image found"/>;
 	}
+	return <Placeholder text="No image found"/>;
 };
