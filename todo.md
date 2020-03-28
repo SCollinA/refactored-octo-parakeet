@@ -4,3 +4,5 @@ save images to file on the back-end (or not)
 		add resolver to typedefs
 	front end
 		query images in collection or layout and pass down
+
+add read/edit custom template inputs to col model

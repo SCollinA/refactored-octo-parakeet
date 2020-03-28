@@ -1,0 +1,22 @@
+.hoop {
+	flex-basis: 25%;
+
+	&--selected {
+		height: unset;
+		flex-basis: 100%;
+		
+		& > .col-model {
+			width: 80%;
+			margin: auto;
+
+			& > .col-card {
+				width: unset;
+				min-width: 20%;
+			}
+		}
+	}
+	
+	.col-image {
+		max-width: 100%;
+	}
+}

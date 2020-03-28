@@ -14,7 +14,7 @@ import ColModel from "../../../components-collin/model/ColModel";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
 
-import "./Hoop.css";
+import "./Hoop.scss";
 
 export default ({
 	hoop,

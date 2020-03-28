@@ -1,0 +1,6 @@
+@mixin create-item {
+    flex: 1;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+}

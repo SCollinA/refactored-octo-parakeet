@@ -16,7 +16,7 @@ import { washData } from "../../utils/functions/washData";
 
 import { CollectionContext } from "../Collections";
 
-import "./Collection.css";
+import "./Collection.scss";
 
 export default ({
 	collection,
