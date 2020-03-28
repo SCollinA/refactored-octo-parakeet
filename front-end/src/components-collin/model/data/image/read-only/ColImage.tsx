@@ -10,7 +10,7 @@ export default ({
 	imageAlt,
 	imageSrc,
 	initialLoading = false,
-	loadingText = "* * * * * * *",
+	loadingText = "loading...",
 }: {
 	imageAlt: string,
 	imageSrc: string,
@@ -18,7 +18,7 @@ export default ({
 	loadingText: string,
 }) => {
 	const imageRef = createRef<HTMLImageElement>();
-	const [windowAspectRatio, setWindowAspectRatio] = useState<number>(1);
+	const [windowAspectRatio, setWindowAspectRatio] = useState<number>(window.innerWidth / window.innerHeight);
 	const [imageWidthPercent, setImageWidthPercent] = useState(0);
 	const [loading, setLoading] = useState(initialLoading || !imageWidthPercent);
 	const imageOnLoad = (image: HTMLImageElement | null) => {

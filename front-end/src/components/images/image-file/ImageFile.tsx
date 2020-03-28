@@ -8,6 +8,8 @@ import Loading from "../../../components-collin/loading/ColLoading";
 
 import { IImageFile } from "../../../models/file.model";
 
+import "./ImageFile.scss";
+
 export default ({
 	file,
 	loadingText,
@@ -32,7 +34,7 @@ export default ({
 				fitChild={true}
 				preventClick={false}
 			>
-				<Img className="ImageFile"
+				<Img className="image-file"
 					fluid={file.childImageSharp.fluid}
 					onStartLoad={() => setLoading(true)}
 					onLoad={() => setLoading(false)}

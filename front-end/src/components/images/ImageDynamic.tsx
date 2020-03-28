@@ -8,6 +8,8 @@ import Placeholder from "../../components-collin/layout/placeholder/ColPlacehold
 import { GET_HOOP_WITH_IMAGE } from "../../graphql/queries";
 import { IHoop } from "../../models/hoop.model";
 
+import "./ImageDynamic.scss";
+
 export default ({
 	hoop,
 }: {
