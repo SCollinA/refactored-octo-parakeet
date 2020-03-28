@@ -1,4 +1,4 @@
-@use "./shared/colors";
+@import "./shared/colors";
 
 html, body, #___gatsby, #___gatsby > div {
     width: 100%;
@@ -9,7 +9,7 @@ html, body, #___gatsby, #___gatsby > div {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	color: $hallieBlue;
+	color: $primary-color;
 }
 
 a {

@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { get } from "lodash/fp";
 import React, { createRef, useEffect, useState } from "react";
 
-import Loading from "../../generic/loading/ColLoading";
+import Loading from "../../../generic/loading/ColLoading";
 
 export default ({
 	id,
@@ -28,7 +28,7 @@ export default ({
 	});
 	image = image || get(imageQueryImagePath, data) || "";
 	const imageRef = createRef<HTMLImageElement>();
-	const [windowAspectRatio, setWindowAspectRatio] = useState();
+	const [windowAspectRatio, setWindowAspectRatio] = useState<number>(1);
 	useEffect(() => {
 		const updateWindowDimensions = () =>
 			setWindowAspectRatio(window.innerWidth / window.innerHeight);

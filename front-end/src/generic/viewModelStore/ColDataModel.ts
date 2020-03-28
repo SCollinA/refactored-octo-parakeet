@@ -1,4 +1,4 @@
-import { IImageFile } from "../../../models/file.model";
+import { IImageFile } from "../../models/file.model";
 
 export type ColDataModelSingle =
 	string |

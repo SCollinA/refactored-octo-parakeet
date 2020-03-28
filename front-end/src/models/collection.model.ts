@@ -1,4 +1,4 @@
-import { IColDataModel } from "../components/generic/viewModelStore/ColDataModel";
+import { IColDataModel } from "../generic/viewModelStore/ColDataModel";
 
 export interface ICollection extends IColDataModel {
 	name: string;

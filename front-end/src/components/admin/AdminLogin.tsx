@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 
 import { LOGIN } from "../../graphql/mutations";
 
-import ColLoading from "../generic/loading/ColLoading";
+import ColLoading from "../../generic/loading/ColLoading";
 
 import { AdminContext } from "./AdminContext";
 

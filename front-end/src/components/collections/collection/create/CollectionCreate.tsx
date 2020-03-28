@@ -5,8 +5,8 @@ import React from "react";
 import { CREATE_COLLECTION } from "../../../../graphql/mutations";
 import { GET_COLLECTIONS } from "../../../../graphql/queries";
 
-import ColButton from "../../../generic/buttons/ColButton";
-import ColLoading from "../../../generic/loading/ColLoading";
+import ColButton from "../../../../generic/buttons/ColButton";
+import ColLoading from "../../../../generic/loading/ColLoading";
 
 import "./CollectionCreate.css";
 
