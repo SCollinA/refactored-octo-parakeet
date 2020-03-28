@@ -5,7 +5,7 @@ import {
 	set,
 } from "lodash/fp";
 import { IDataModel } from "../../../models/models";
-import { imagePrefix } from "./isStringImage";
+import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 export function washData(data: IDataModel): IDataModel {
 	return flow(

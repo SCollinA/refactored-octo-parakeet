@@ -5,6 +5,8 @@ import ColLoading from "../../../../loading/ColLoading";
 import "../../ColData.scss";
 
 import "./ColImage.scss";
+import { isImageEmpty } from "../../../../utils/image.utils";
+import ColPlaceholder from "../../../../layout/placeholder/ColPlaceholder";
 
 export default ({
 	imageAlt,
@@ -17,6 +19,9 @@ export default ({
 	initialLoading: boolean,
 	loadingText: string,
 }) => {
+	if (isImageEmpty(imageSrc)) {
+		return <ColPlaceholder></ColPlaceholder>
+	}
 	const imageRef = createRef<HTMLImageElement>();
 	const [windowAspectRatio, setWindowAspectRatio] = useState<number>(window.innerWidth / window.innerHeight);
 	const [imageWidthPercent, setImageWidthPercent] = useState(0);

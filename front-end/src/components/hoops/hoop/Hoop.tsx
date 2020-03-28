@@ -15,6 +15,7 @@ import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
 
 import "./Hoop.scss";
+import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 export default ({
 	hoop,
@@ -100,7 +101,7 @@ const placeholders: IHoop = {
 	diameter: 0,
 	file: undefined,
 	id: "",
-	image: "",
+	image: `${imagePrefix}`,
 	price: 0,
 	recentlyupdatedimage: false,
 	sold: false,

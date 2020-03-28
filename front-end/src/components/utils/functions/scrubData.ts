@@ -12,7 +12,7 @@ import {
 
 import { IDataModel } from "../../../models/models";
 
-import { imagePrefix } from "./isStringImage";
+import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 export function scrubData<T extends IDataModel>(data: T): any {
 	return flow(

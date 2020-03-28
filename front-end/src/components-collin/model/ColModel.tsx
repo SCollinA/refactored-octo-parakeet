@@ -3,7 +3,7 @@ import {
 } from "lodash/fp";
 import React, { useState } from "react";
 
-import isStringImage from "../../components/utils/functions/isStringImage";
+import isStringImage from "../utils/image.utils";
 
 import ColButton from "../buttons/ColButton";
 import ColCard from "../layout/card/ColCard";
