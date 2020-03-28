@@ -6,22 +6,23 @@
 }
 
 .page-link {
-    margin: auto;
+    flex: auto;
     display: flex;
     justify-content: center;
-}
+	
+	.clickable {
+		width: 100%;
 
-.page-link h2 {
-    margin: auto;
-    white-space: nowrap;
-    text-align: center;
-}
+		&:hover {
+			background-color: lightgrey;
+		}
 
-.page-link--active {
-    display: block;
-    border-left: 5px solid black;
-    border-right: 5px solid black;
-    border-radius: 10px;
+		h2 {
+			margin: auto;
+			white-space: nowrap;
+			text-align: center;
+		}
+	}
 }
 
 @media (max-width: 500px) {
@@ -31,9 +32,9 @@
 
     .page-link {
         width: 100%;
-    }
-
-    .page-link > a {
-        flex: 1;
+	
+		& > a {
+			flex: 1;
+		}
     }
 }

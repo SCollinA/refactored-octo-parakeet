@@ -1,16 +1,15 @@
 @import "../layout-child";
 
 .header {
-	@include layout-child;
 	@include header-footer;
 	display: flex;
 	align-items: center;
 	width: 100%;
 	margin: 0 auto;
-}
-
-.header__home-link {
-	width: $header-footer-height;
+	
+	&__home-link {
+		width: $header-footer-height;
+	}
 }
 
 .hamburger-links,
@@ -24,10 +23,10 @@
 @media (max-width: 500px) {
 	.header {
 		flex-direction: column;
-	}
-
-	.header__home-link {
-		width: 80%;
+	
+		&__home-link {
+			width: 80%;
+		}
 	}
 
 	.hamburger-links {

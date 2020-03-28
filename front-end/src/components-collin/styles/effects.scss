@@ -1,7 +1,7 @@
 @import "./colors";
 
-.clickable {
-	display: block;
+.clickable,
+.selectable {
 	cursor: pointer;
 }
 

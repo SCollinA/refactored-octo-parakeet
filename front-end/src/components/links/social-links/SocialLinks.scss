@@ -9,6 +9,10 @@
 .social-link {
 	margin: 5px;
 	padding: 5px;
+
+	&.clickable:hover {
+		background-color: lightgrey;
+	}
 }
 
 @media (max-width: 500px) {

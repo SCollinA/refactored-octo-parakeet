@@ -1,7 +1,6 @@
 @import "../layout-child";
 
 .footer {
-	@include layout-child;
 	@include header-footer;
     text-align: center;
     white-space: nowrap;

@@ -12,7 +12,7 @@
 	background-image: url("../../images/hallies-hoops.png");
 	
 	&__content {
-		@include layout-child;
+		padding: 10px;
 		flex: 1;
 		display: flex;
 		flex-direction: column;

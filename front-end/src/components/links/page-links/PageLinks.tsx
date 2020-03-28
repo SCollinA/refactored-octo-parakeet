@@ -3,7 +3,7 @@ import React from "react";
 
 import SectionWrapper from "../../../components-collin/layout/section-wrapper/ColSectionWrapper";
 
-import "./PageLinks.css";
+import "./PageLinks.scss";
 
 export default () =>
 	<SectionWrapper>
