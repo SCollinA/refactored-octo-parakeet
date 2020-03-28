@@ -12,7 +12,7 @@ export default ({
 	file: IImageFile,
 	loadingText: string,
 }) => {
-	const [windowAspectRatio, setWindowAspectRatio] = useState();
+	const [windowAspectRatio, setWindowAspectRatio] = useState<number>(1);
 	useEffect(() => {
 		const updateWindowDimensions = () =>
 			setWindowAspectRatio(window.innerWidth / window.innerHeight);
