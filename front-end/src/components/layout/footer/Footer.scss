@@ -1,4 +1,7 @@
+@import "../layout-child";
+
 .footer {
+	@include layout-child;
     text-align: center;
     white-space: nowrap;
 	font-size: .75em;

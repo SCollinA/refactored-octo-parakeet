@@ -4,7 +4,7 @@ import SectionWrapper from "../../../components-collin/layout/section-wrapper/Co
 
 import AdminLogin from "../../admin/AdminLogin";
 
-import "./Footer.css";
+import "./Footer.scss";
 
 export default () =>
 	<footer className="footer">

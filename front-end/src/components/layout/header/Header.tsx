@@ -6,7 +6,7 @@ import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
-import "./Header.css";
+import "./Header.scss";
 
 import PageLinks from "../../links/page-links/PageLinks";
 import SocialLinks from "../../links/social-links/SocialLinks";

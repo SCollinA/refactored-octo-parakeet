@@ -4,7 +4,7 @@ import Footer from "./footer/Footer";
 import Header from "./header/Header";
 
 import "../../components-collin/styles/effects.css";
-import "./Layout.css";
+import "./Layout.scss";
 
 import AdminContext from "../admin/AdminContext";
 
