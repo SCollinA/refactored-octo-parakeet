@@ -8,8 +8,8 @@ import { ICollection } from "../../../../models/collection.model";
 import { IHoop } from "../../../../models/hoop.model";
 
 import { CollectionContext } from "../../../collections/Collections";
-import ColButton from "../../../../generic/buttons/ColButton";
-import ColLoading from "../../../../generic/loading/ColLoading";
+import ColButton from "../../../../components-collin/buttons/ColButton";
+import ColLoading from "../../../../components-collin/loading/ColLoading";
 
 import "./HoopCreate.css";
 

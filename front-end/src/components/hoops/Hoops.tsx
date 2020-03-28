@@ -7,7 +7,7 @@ import { IHoop } from "../../models/hoop.model";
 
 import { AdminContext } from "../admin/AdminContext";
 import { CollectionContext } from "../collections/Collections";
-import ColLoading from "../../generic/loading/ColLoading";
+import ColLoading from "../../components-collin/loading/ColLoading";
 
 import HoopCreate from "./hoop/create/HoopCreate";
 import Hoop from "./hoop/Hoop";

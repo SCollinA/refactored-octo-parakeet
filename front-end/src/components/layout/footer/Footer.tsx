@@ -1,6 +1,6 @@
 import React from "react";
 
-import SectionWrapper from "../../../generic/layout/section-wrapper/ColSectionWrapper";
+import SectionWrapper from "../../../components-collin/layout/section-wrapper/ColSectionWrapper";
 
 import AdminLogin from "../../admin/AdminLogin";
 

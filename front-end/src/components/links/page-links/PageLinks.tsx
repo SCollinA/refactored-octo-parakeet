@@ -1,7 +1,7 @@
 import { Link } from "gatsby";
 import React from "react";
 
-import SectionWrapper from "../../../generic/layout/section-wrapper/ColSectionWrapper";
+import SectionWrapper from "../../../components-collin/layout/section-wrapper/ColSectionWrapper";
 
 import "./PageLinks.css";
 

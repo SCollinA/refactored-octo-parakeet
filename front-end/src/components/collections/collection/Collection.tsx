@@ -7,9 +7,9 @@ import { GET_COLLECTIONS } from "../../../graphql/queries";
 import { ICollection } from "../../../models/collection.model";
 
 import { AdminContext } from "../../admin/AdminContext";
-import ColPlaceholder from "../../../generic/layout/placeholder/ColPlaceholder";
-import ColLoading from "../../../generic/loading/ColLoading";
-import ColModel from "../../../generic/model/ColModel";
+import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPlaceholder";
+import ColLoading from "../../../components-collin/loading/ColLoading";
+import ColModel from "../../../components-collin/model/ColModel";
 import Hoops from "../../hoops/Hoops";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";

@@ -1,7 +1,7 @@
 import Img from "gatsby-image";
 import React, { useEffect, useState } from "react";
 
-import Loading from "../../../generic/loading/ColLoading";
+import Loading from "../../../components-collin/loading/ColLoading";
 
 import { IImageFile } from "../../../models/file.model";
 

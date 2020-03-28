@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { get } from "lodash/fp";
 import React, { createRef, useEffect, useState } from "react";
 
-import Loading from "../../../generic/loading/ColLoading";
+import Loading from "../../../components-collin/loading/ColLoading";
 
 export default ({
 	id,
