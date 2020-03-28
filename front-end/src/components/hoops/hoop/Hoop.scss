@@ -1,6 +1,12 @@
 .hoop {
 	flex-basis: 25%;
 
+	& > .col-model 
+	  > .col-card 
+	  > .col-model-read {
+		flex-direction: column;
+	}
+
 	&--selected {
 		height: unset;
 		flex-basis: 100%;
@@ -12,11 +18,15 @@
 			& > .col-card {
 				width: unset;
 				min-width: 20%;
+
+				& > .col-model-read {
+					flex-direction: initial;
+
+					.col-card:last-child {
+						flex-basis: unset;
+					}
+				}
 			}
 		}
-	}
-	
-	.col-image {
-		max-width: 100%;
 	}
 }

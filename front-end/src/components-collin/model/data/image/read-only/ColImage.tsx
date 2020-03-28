@@ -2,7 +2,7 @@ import React from "react";
 
 import "../../ColData.css";
 
-import "./ColImage.css";
+import "./ColImage.scss";
 
 export default ({
 	imageAlt,

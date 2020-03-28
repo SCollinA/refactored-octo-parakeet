@@ -4,8 +4,7 @@ import {
 import React, { ReactNode } from "react";
 
 import ColCard from "../../layout/card/ColCard";
-import { IColDataModel } from "../../viewModelStore/ColDataModel";
-import ColViewModel, { DataViews } from "../../viewModelStore/ColViewModelValue";
+import { DataViews } from "../../viewModelStore/ColViewModelValue";
 
 import ColBoolean from "../data/boolean/read-only/ColBoolean";
 import ColImage from "../data/image/read-only/ColImage";
@@ -13,7 +12,7 @@ import ColNumber from "../data/number/read-only/ColNumber";
 import ColStringLong from "../data/string-long/read-only/ColStringLong";
 import ColString from "../data/string/read-only/ColString";
 
-import "./ColModel.read.css";
+import "./ColModel.read.scss";
 
 export default ({
 	dataViews,

@@ -1,0 +1,11 @@
+.col-model-read {
+	display: flex;
+    flex-wrap: wrap;
+	justify-content: space-around;
+	
+	& > .col-card {
+		flex: 1 0 10%;
+		display: flex;
+		flex-direction: column;
+	}
+}
