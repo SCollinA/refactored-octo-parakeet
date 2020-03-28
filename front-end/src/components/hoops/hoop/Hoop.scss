@@ -9,22 +9,19 @@
 
 	&--selected {
 		height: unset;
-		flex-basis: 100%;
+		margin: auto;
+		flex-basis: 50%;
 		
 		& > .col-model {
 			width: 80%;
 			margin: auto;
 
-			& > .col-card {
-				width: unset;
-				min-width: 20%;
+			& > .col-card 
+			  > .col-model-read {
+				flex-direction: initial;
 
-				& > .col-model-read {
-					flex-direction: initial;
-
-					.col-card:last-child {
-						flex-basis: 100%;
-					}
+				.col-image {
+					width: 75%;
 				}
 			}
 		}

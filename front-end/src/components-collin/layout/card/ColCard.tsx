@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import "./ColCard.css";
+import "./ColCard.scss";
 
 export default ({
 	children,

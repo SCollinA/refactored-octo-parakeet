@@ -1,4 +1,4 @@
-import React, { createRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	throttle,
 } from "lodash/fp";
@@ -20,9 +20,9 @@ export default ({
 	if (isImageEmpty(imageSrc)) {
 		return <ColPlaceholder></ColPlaceholder>
 	}
-	const imageRef = createRef<HTMLImageElement>();
+	let imageRef: HTMLImageElement;
 	const [imageWidthPercent, setImageWidthPercent] = useState(1);
-	const imageOnLoad = throttle(250, (image: HTMLImageElement | null) => {
+	const imageOnLoad = throttle(250, (image: HTMLImageElement) => {
 		if (!!image) {
 			const aspectRatio = image.width / image.height;
 			let newWidth = image.width;
@@ -39,17 +39,15 @@ export default ({
 		}
 	});
 	useEffect(() => {
-		const resizeImage = () => imageOnLoad(imageRef.current);
+		const resizeImage = () => imageOnLoad(imageRef);
 		window.addEventListener("resize", resizeImage);
 		return () => window.removeEventListener("resize", resizeImage);
 	});
-	return (
-		<img className="col-image"
-			ref={imageRef}
-			src={imageSrc}
-			alt={imageAlt}
-			onLoad={() => imageOnLoad(imageRef.current)}
-			style={{ width: `${imageWidthPercent * 100}%` }}
-		/>
-	);
+	return <img className="col-image"
+		ref={(ref) => !!ref && (imageRef = ref)}
+		src={imageSrc}
+		alt={imageAlt}
+		onLoad={() => imageOnLoad(imageRef)}
+		style={{ maxWidth: `${imageWidthPercent * 100}%` }}
+	/>;
 };

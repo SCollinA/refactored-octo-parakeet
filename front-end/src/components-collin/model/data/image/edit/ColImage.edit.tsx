@@ -1,5 +1,6 @@
 import {
 	get,
+	throttle,
 } from "lodash/fp";
 import React, {
 	RefObject,
@@ -53,7 +54,7 @@ const imageState: IImageState = {
 	imageRotating: false,
 	imageVisible: false,
 	imageWidth: 0,
-	imageWidthPercent: 0,
+	imageWidthPercent: 1,
 	windowHeight: 0,
 	windowWidth: 0,
 };
@@ -175,9 +176,9 @@ export default ({
 						style={{
 							display: state.imageVisible ?
 								"block" : "none",
-							width: `${state.imageWidthPercent}%`,
+							width: `${(state.imageWidthPercent || 1) * 100}%`,
 						}}
-						alt="uploaded profile"
+						alt="uploaded image"
 						onLoad={() => {
 							if (!state.imageVisible) {
 								dispatch({
@@ -243,11 +244,11 @@ const createImageBlob =
 		};
 
 const resizeWindow = (dispatch: React.Dispatch<IImageAction>) => {
-	const updateWindowDimensions = () => dispatch({
+	const updateWindowDimensions = throttle(250, () => dispatch({
 		type: EImageActionType.ResizeWindow,
 		windowHeight: window.innerHeight,
 		windowWidth: window.innerWidth,
-	});
+	}));
 	return () => {
 		updateWindowDimensions();
 		window.addEventListener("resize", updateWindowDimensions);
@@ -278,6 +279,7 @@ const resizeImage =
 		() => {
 			const {
 				imageWidth,
+				imageWidthPercent,
 				imageHeight,
 				imageVisible,
 				windowWidth,
@@ -287,12 +289,19 @@ const resizeImage =
 				!!imageWidth && !!imageHeight &&
 				!!windowWidth && !!windowHeight
 			) {
-				const imageAspectRatio = imageWidth / imageHeight;
-				const screenAspectRatio = windowWidth / windowHeight;
-				const correctedImageAspectRatio = imageAspectRatio / screenAspectRatio;
-				const imageWidthPercent = correctedImageAspectRatio * 100;
+				const aspectRatio = imageWidth / imageHeight;
+				let newWidth = imageWidth;
+				let newHeight = imageHeight;
+				newWidth = window.innerWidth;
+				newHeight = newWidth / aspectRatio;
+				newHeight = window.innerHeight;
+				newWidth = aspectRatio * newHeight;
+				let newImageWidthPercent = (newWidth / imageWidth) * (imageWidthPercent || 1);
+				if (newImageWidthPercent > 1) {
+					newImageWidthPercent = 1;
+				}
 				dispatch({
-					imageWidthPercent,
+					imageWidthPercent: newImageWidthPercent,
 					type: EImageActionType.SetImageWidthPercent,
 				});
 			}

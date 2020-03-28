@@ -4,9 +4,13 @@
 	justify-content: space-around;
 	
 	& > .col-card {
-		flex: 1 0 10%;
+		flex: 1 1 auto;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+
+		span {
+			text-decoration: underline;
+		}
 	}
 }
