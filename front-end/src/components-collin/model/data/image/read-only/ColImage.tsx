@@ -2,7 +2,7 @@ import React, { createRef, useState, useEffect } from "react";
 
 import ColLoading from "../../../../loading/ColLoading";
 
-import "../../ColData.css";
+import "../../ColData.scss";
 
 import "./ColImage.scss";
 

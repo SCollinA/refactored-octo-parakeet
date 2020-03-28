@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../../ColData.edit.css";
+import "../../ColData.edit.scss";
 
 import "./ColNumber.edit.css";
 

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import "../../ColData.edit.css";
+import "../../ColData.edit.scss";
 
 import "./ColString.edit.css";
 

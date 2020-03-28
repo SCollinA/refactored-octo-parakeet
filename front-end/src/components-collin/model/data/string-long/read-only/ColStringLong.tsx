@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../../ColData.css";
+import "../../ColData.scss";
 
 import "./ColStringLong.css";
 

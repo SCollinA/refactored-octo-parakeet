@@ -12,9 +12,9 @@ import ColButton from "../../../../buttons/ColButton";
 import ColLoading from "../../../../loading/ColLoading";
 import { blobUrl } from "../../../../utils/blobs.utils";
 
-import "../../ColData.edit.css";
+import "../../ColData.edit.scss";
 
-import "./ColImage.edit.css";
+import "./ColImage.edit.scss";
 
 enum EImageActionType {
 	LoadImage = "LOAD_IMAGE",
