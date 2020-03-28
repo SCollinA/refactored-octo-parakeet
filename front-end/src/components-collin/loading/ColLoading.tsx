@@ -1,24 +1,34 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 
-import "./ColLoading.css";
+import sleepUtils from "../utils/sleep.utils";
+
+import "./ColLoading.scss";
 
 export default ({
 	children,
 	loading,
+	loadingTimeout = 1000,
 	text = "loading",
 	fitChild = false,
 	preventClick = true,
 }: {
 	children: ReactNode,
 	loading?: boolean,
+	loadingTimeout?: number,
 	text?: string,
 	fitChild?: boolean,
 	preventClick?: boolean,
 }) => {
 	const height = 29 * text.length;
+	const [innerLoading, setInnerLoading] = useState<boolean>(loading || false);
+	useEffect(() => {
+		sleepUtils(loadingTimeout).then(() =>
+			setInnerLoading(false)
+		);
+	}, [loading]);
 	return (
 		<>
-			{loading &&
+			{innerLoading &&
 				<div className={`loading${fitChild ? " fit-child" : ""}`}
 					onClick={(event) =>
 						preventClick && event.stopPropagation()}
