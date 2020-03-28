@@ -11,7 +11,6 @@ import { CollectionContext } from "../../collections/Collections";
 import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPlaceholder";
 import ColLoading from "../../../components-collin/loading/ColLoading";
 import ColModel from "../../../components-collin/model/ColModel";
-import { imagePrefix } from "../../utils/functions/isStringImage";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
 
@@ -101,7 +100,7 @@ const placeholders: IHoop = {
 	diameter: 0,
 	file: undefined,
 	id: "",
-	image: imagePrefix,
+	image: "",
 	price: 0,
 	recentlyupdatedimage: false,
 	sold: false,
