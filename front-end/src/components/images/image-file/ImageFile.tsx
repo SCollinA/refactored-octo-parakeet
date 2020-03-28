@@ -1,5 +1,8 @@
 import Img from "gatsby-image";
-import React, { useEffect, useState } from "react";
+import React, {
+	// useEffect,
+	useState,
+} from "react";
 
 import Loading from "../../../components-collin/loading/ColLoading";
 
@@ -12,15 +15,15 @@ export default ({
 	file: IImageFile,
 	loadingText: string,
 }) => {
-	const [windowAspectRatio, setWindowAspectRatio] = useState<number>(1);
-	useEffect(() => {
-		const updateWindowDimensions = () =>
-			setWindowAspectRatio(window.innerWidth / window.innerHeight);
-		window.addEventListener("resize", updateWindowDimensions);
-		return () => window.removeEventListener("resize", updateWindowDimensions);
-	});
-	const correctedAspectRatio = file.childImageSharp.fluid.aspectRatio / windowAspectRatio;
-	const imageWidthPercent = correctedAspectRatio * 100;
+	// const [windowAspectRatio, setWindowAspectRatio] = useState<number>(1);
+	// useEffect(() => {
+		// const updateWindowDimensions = () =>
+			// setWindowAspectRatio(window.innerWidth / window.innerHeight);
+	// 	window.addEventListener("resize", updateWindowDimensions);
+	// 	return () => window.removeEventListener("resize", updateWindowDimensions);
+	// });
+	// const correctedAspectRatio = file.childImageSharp.fluid.aspectRatio / windowAspectRatio;
+	// const imageWidthPercent = correctedAspectRatio * 100;
 	const [loading, setLoading] = useState(false);
 	if (!!file) {
 		return (
@@ -33,7 +36,7 @@ export default ({
 					fluid={file.childImageSharp.fluid}
 					onStartLoad={() => setLoading(true)}
 					onLoad={() => setLoading(false)}
-					style={{ width: `${imageWidthPercent}%` }}
+					// style={{ width: `${imageWidthPercent}%` }}
 				/>
 			</Loading>
 		);

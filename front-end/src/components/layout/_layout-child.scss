@@ -1,3 +1,9 @@
 @mixin layout-child {
-	padding: 0 10px;
+	padding: 10px;
 }
+
+@mixin header-footer {
+	height: $header-footer-height;
+}
+
+$header-footer-height: 48px;

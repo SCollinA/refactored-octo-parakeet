@@ -2,6 +2,7 @@
 
 .header {
 	@include layout-child;
+	@include header-footer;
 	display: flex;
 	align-items: center;
 	width: 100%;
@@ -9,8 +10,7 @@
 }
 
 .header__home-link {
-	width: 100px;
-	padding: 10px;
+	width: $header-footer-height;
 }
 
 .hamburger-links,
