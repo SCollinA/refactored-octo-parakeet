@@ -6,9 +6,9 @@ import { GET_COLLECTIONS } from "../../graphql/queries";
 import { ICollection } from "../../models/collection.model";
 
 import { AdminContext } from "../admin/AdminContext";
-import ColCard from "../generic/layout/card/ColCard";
-import ColPlaceholder from "../generic/layout/placeholder/ColPlaceholder";
-import ColLoading from "../generic/loading/ColLoading";
+import ColCard from "../../components-collin/layout/card/ColCard";
+import ColPlaceholder from "../../components-collin/layout/placeholder/ColPlaceholder";
+import ColLoading from "../../components-collin/loading/ColLoading";
 import Hoops from "../hoops/Hoops";
 
 import Collection from "./collection/Collection";

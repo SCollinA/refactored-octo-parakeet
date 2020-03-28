@@ -1,0 +1,19 @@
+.admin-login__button {
+    cursor: pointer;
+    margin: auto;
+}
+
+.admin-login {
+	display: flex;
+}
+
+.admin-login
+label {
+	display: none;
+}
+
+@media (max-width: 500px) {
+	.admin-login {
+		flex-direction: row;
+	}
+}

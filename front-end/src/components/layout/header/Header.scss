@@ -1,0 +1,36 @@
+@import "../layout-child";
+
+.header {
+	@include layout-child;
+	@include header-footer;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.header__home-link {
+	width: $header-footer-height;
+}
+
+.hamburger-links,
+.hamburger-links__content > .section-wrapper {
+	flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 500px) {
+	.header {
+		flex-direction: column;
+	}
+
+	.header__home-link {
+		width: 80%;
+	}
+
+	.hamburger-links {
+		width: 100%;
+	}
+}

@@ -8,10 +8,10 @@ import { ICollection } from "../../../../models/collection.model";
 import { IHoop } from "../../../../models/hoop.model";
 
 import { CollectionContext } from "../../../collections/Collections";
-import ColButton from "../../../generic/buttons/ColButton";
-import ColLoading from "../../../generic/loading/ColLoading";
+import ColButton from "../../../../components-collin/buttons/ColButton";
+import ColLoading from "../../../../components-collin/loading/ColLoading";
 
-import "./HoopCreate.css";
+import "./HoopCreate.scss";
 
 export default () => {
 	const {
@@ -82,15 +82,17 @@ export default () => {
 	});
 	const loading = createLoading || connectLoading;
 	return (
-		<ColLoading text={"hallie's • hoops •"}
-			loading={loading}
-			fitChild={true}
-			preventClick={false}
-		>
-			<ColButton type="button"
-				value="add hoop"
-				action={() => createHoop()}
-			/>
-		</ColLoading>
+		<div className={`hoop-create`}>
+			<ColLoading text={"hallie's • hoops •"}
+				loading={loading}
+				fitChild={true}
+				preventClick={false}
+			>
+				<ColButton type="button"
+					value="add hoop"
+					action={() => createHoop()}
+				/>
+			</ColLoading>
+		</div>
 	);
 };

@@ -1,0 +1,29 @@
+@import "../layout-child";
+
+.footer {
+	@include layout-child;
+	@include header-footer;
+    text-align: center;
+    white-space: nowrap;
+	font-size: .75em;
+}
+
+.footer > .section-wrapper {
+    display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer p {
+	margin: 0;
+}
+
+.footer__copyright {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.footer__copyright-message {
+    white-space: normal;
+}

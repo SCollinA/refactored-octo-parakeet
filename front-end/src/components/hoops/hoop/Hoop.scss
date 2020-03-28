@@ -1,0 +1,29 @@
+.hoop {
+	flex-basis: 25%;
+
+	& > .col-model 
+	  > .col-card 
+	  > .col-model-read {
+		flex-direction: column;
+	}
+
+	&--selected {
+		height: unset;
+		margin: auto;
+		flex-basis: 50%;
+		
+		& > .col-model {
+			width: 80%;
+			margin: auto;
+
+			& > .col-card 
+			  > .col-model-read {
+				flex-direction: initial;
+
+				.col-image {
+					width: 75%;
+				}
+			}
+		}
+	}
+}

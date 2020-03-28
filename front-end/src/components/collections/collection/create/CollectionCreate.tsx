@@ -5,10 +5,10 @@ import React from "react";
 import { CREATE_COLLECTION } from "../../../../graphql/mutations";
 import { GET_COLLECTIONS } from "../../../../graphql/queries";
 
-import ColButton from "../../../generic/buttons/ColButton";
-import ColLoading from "../../../generic/loading/ColLoading";
+import ColButton from "../../../../components-collin/buttons/ColButton";
+import ColLoading from "../../../../components-collin/loading/ColLoading";
 
-import "./CollectionCreate.css";
+import "./CollectionCreate.scss";
 
 export default () => {
 	const [
@@ -38,15 +38,17 @@ export default () => {
 		},
 	});
 	return (
-		<ColLoading text={"hallie's • hoops •"}
-			loading={loading}
-			fitChild={true}
-			preventClick={false}
-		>
-			<ColButton type="button"
-				value="add collection"
-				action={() => createCollection()}
-			/>
-		</ColLoading>
+		<div className={`collection-create`}>
+			<ColLoading text={"hallie's • hoops •"}
+				loading={loading}
+				fitChild={true}
+				preventClick={false}
+			>
+				<ColButton type="button"
+					value="add collection"
+					action={() => createCollection()}
+				/>
+			</ColLoading>
+		</div>
 	);
 };

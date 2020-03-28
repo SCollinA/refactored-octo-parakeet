@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import ImageDB from "./image-db/ImageDB";
 import ImageFile from "./image-file/ImageFile";
 
-import Placeholder from "../generic/layout/placeholder/ColPlaceholder";
+import Placeholder from "../../components-collin/layout/placeholder/ColPlaceholder";
 
 import { GET_HOOP_WITH_IMAGE } from "../../graphql/queries";
 import { IHoop } from "../../models/hoop.model";
+
+import "./ImageDynamic.scss";
 
 export default ({
 	hoop,
@@ -35,7 +37,6 @@ export default ({
 				/>
 			);
 		}
-	} else {
-		return <Placeholder text="No image found"/>;
 	}
+	return <Placeholder text="No image found"/>;
 };

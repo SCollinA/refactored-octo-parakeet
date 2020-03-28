@@ -1,10 +1,10 @@
 import React from "react";
 
-import SectionWrapper from "../../generic/layout/section-wrapper/ColSectionWrapper";
+import SectionWrapper from "../../../components-collin/layout/section-wrapper/ColSectionWrapper";
 
 import AdminLogin from "../../admin/AdminLogin";
 
-import "./Footer.css";
+import "./Footer.scss";
 
 export default () =>
 	<footer className="footer">

@@ -1,0 +1,14 @@
+@import "./shared/variables";
+
+*, *::before, *::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: $primary-color;
+	font-family: $primary-font;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}

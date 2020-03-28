@@ -3,10 +3,12 @@ import React, { ReactNode } from "react";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
 
-import "../generic/styles/effects.css";
-import "./Layout.css";
+import "../../components-collin/styles/effects.scss";
+import "./Layout.scss";
 
 import AdminContext from "../admin/AdminContext";
+import LinkImports from "../utils/components/LinkImports";
+import SEO from "../utils/components/SEO";
 
 export default ({
 	children,
@@ -15,6 +17,8 @@ export default ({
 }) => {
 	return (
 		<AdminContext>
+			<SEO title="Hallie's Hoops"></SEO>
+			<LinkImports></LinkImports>
 			<div className="layout">
 				<Header/>
 				<div className="layout__content">

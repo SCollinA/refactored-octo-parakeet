@@ -1,7 +1,6 @@
 import {
-	cloneDeep,
+	flow,
 	get,
-	has,
 	isArray,
 	omit,
 	set,
@@ -13,28 +12,29 @@ import {
 
 import { IDataModel } from "../../../models/models";
 
-import { imagePrefix } from "./isStringImage";
+import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 export function scrubData<T extends IDataModel>(data: T): any {
-	const omittedData = omit([
+	return flow(
+		omit([
 			"__typename",
-		], data);
-	const setData = has("image", data) ?
-		set(
-			"image",
-			`${imagePrefix}${get("image", data) || ""}`,
-			omittedData,
-		) :
-		omittedData;
-	const dataWithoutArrays = reduce(
-		setData,
-		(acc, curr, key) => {
-			if (!isArray(curr)) {
-				acc = set(key, curr, acc);
-			}
-			return acc;
-		},
-		{ id: data.id },
-	);
-	return dataWithoutArrays;
+		]),
+		(dirtyImageData) => !!get("image", data) ?
+			set(
+				"image",
+				`${imagePrefix}${get("image", data)}`,
+				dirtyImageData,
+			) :
+			dirtyImageData,
+		(dirtyJoinedData) => reduce(
+			dirtyJoinedData,
+			(acc, curr, key) => {
+				if (!isArray(curr)) {
+					acc = set(key, curr, acc);
+				}
+				return acc;
+			},
+			{ id: data.id },
+		),
+	)(data)
 }

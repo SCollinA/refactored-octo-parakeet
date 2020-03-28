@@ -3,11 +3,11 @@ import React, { useContext, useState } from "react";
 
 import { LOGIN } from "../../graphql/mutations";
 
-import ColLoading from "../generic/loading/ColLoading";
+import ColLoading from "../../components-collin/loading/ColLoading";
 
 import { AdminContext } from "./AdminContext";
 
-import "./AdminLogin.css";
+import "./AdminLogin.scss";
 
 export default () => {
 	const [showAdmin, setShowAdmin] = useState(false);
