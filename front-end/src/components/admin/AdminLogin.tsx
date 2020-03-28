@@ -7,7 +7,7 @@ import ColLoading from "../../components-collin/loading/ColLoading";
 
 import { AdminContext } from "./AdminContext";
 
-import "./AdminLogin.css";
+import "./AdminLogin.scss";
 
 export default () => {
 	const [showAdmin, setShowAdmin] = useState(false);
