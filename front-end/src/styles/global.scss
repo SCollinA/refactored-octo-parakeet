@@ -1,15 +1,11 @@
-@import "./shared/colors";
-
-html, body, #___gatsby, #___gatsby > div {
-    width: 100%;
-	min-height: 100%;
-}
+@import "./shared/variables";
 
 *, *::before, *::after {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	color: $primary-color;
+	font-family: $primary-font;
 }
 
 a {
