@@ -1,10 +1,12 @@
+@import "./colors";
+
 .clickable {
 	display: block;
 	cursor: pointer;
 }
 
 .clickable:hover {
-	background-color: lightgrey;
+	background-color: $clickable-hover;
 }
 
 .selectable:hover {
