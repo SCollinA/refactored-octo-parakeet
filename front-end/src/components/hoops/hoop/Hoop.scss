@@ -2,9 +2,22 @@
 	flex-basis: 25%;
 
 	& > .col-model 
-	  > .col-card 
-	  > .col-model-read {
-		flex-direction: column;
+	  > .col-card {
+		background-color: unset;
+		box-shadow: unset;
+		transition: border 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
+
+		&.clickable:hover {
+			border: solid whitesmoke 1px;
+		}
+
+		& > .col-model-read {
+			flex-direction: column;
+
+			.col-image {
+				padding: 10px;
+			}
+		}
 	}
 
 	&--selected {
@@ -16,10 +29,10 @@
 			width: 80%;
 			margin: auto;
 
-			& > .col-card 
+			& > .col-card
 			  > .col-model-read {
 				flex-direction: initial;
-
+				
 				.col-image {
 					width: 75%;
 				}
