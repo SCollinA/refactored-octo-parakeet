@@ -1,5 +1,9 @@
 .col-image {
 	display: flex;
 	justify-content: center;
-	max-width: 100%;
+	align-self: center;
+
+	img {
+		max-width: 100%;
+	}
 }

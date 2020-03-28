@@ -23,12 +23,11 @@ export default ({
 		<div className="col-model-read">
 			{map(
 				(dataView) => {
-					const dataViewLayout = (view: ReactNode) => (
-						<ColCard key={dataView.key}>
-							<span>{dataView.key}</span>
-							{view}
-						</ColCard>
-					);
+					const dataViewLayout = (view: ReactNode) =>
+							<ColCard key={dataView.key}>
+								<span>{dataView.key}</span>
+								{view}
+							</ColCard>;
 					switch (dataView.type) {
 						case "STRING":
 							return dataViewLayout(
