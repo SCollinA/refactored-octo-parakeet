@@ -1,8 +1,8 @@
-make hallies hoops logo just plain text
+**To Do:**
+remove section wrappers
 
 create splash page with random image and brief text
 
-align text in footer
 
 make admin login thing not so jumpy
 
@@ -52,3 +52,8 @@ fix upload image
 
 fix delete hoop
 	still mapped to collection?
+
+**Done:**
+make hallies hoops logo just plain text
+
+align text in footer

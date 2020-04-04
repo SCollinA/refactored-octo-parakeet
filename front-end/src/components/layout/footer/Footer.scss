@@ -1,17 +1,11 @@
-@import "../layout-child";
-
 .footer {
-	@include header-footer;
-    text-align: center;
-    white-space: nowrap;
+	background-color: whitesmoke;
+	height: 42px;
 	font-size: .75em;
-}
-
-.footer > .section-wrapper {
-    display: flex;
+	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-    flex-wrap: wrap;
+	flex-wrap: wrap;
 }
 
 .footer p {

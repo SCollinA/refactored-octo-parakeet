@@ -1,15 +1,15 @@
-@import "../layout-child";
 @import "../../../styles/shared/variables";
 
 .header {
-	@include header-footer;
+	background-color: whitesmoke;
+	height: 48px;
 	display: flex;
 	align-items: center;
 	width: 100%;
 	margin: 0 auto;
 	
 	&__home-link {
-		width: $header-footer-height;
+		width: 48px;
 		color: $primary-color;
 		font-family: $primary-font;
 		text-align: center;
@@ -20,12 +20,15 @@
 	}
 }
 
-.hamburger-links,
-.hamburger-links__content > .section-wrapper {
+.hamburger-links {
+	height: 48px;
 	flex: 1;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
+	justify-content: center;
+	
+	&__content > .page-links {
+		flex: 1;
+	}
 }
 
 @media (max-width: 500px) {

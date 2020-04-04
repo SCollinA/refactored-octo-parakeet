@@ -30,9 +30,7 @@ export default ({
 				<FontAwesomeIcon icon={["far", "times-circle"]} size="3x" />}
 			{shouldShowLinks &&
 				<div className="hamburger-links__content">
-					{/* <SectionWrapper> */}
-						{children}
-					{/* </SectionWrapper> */}
+					{children}
 				</div>
 			}
 		</div>
