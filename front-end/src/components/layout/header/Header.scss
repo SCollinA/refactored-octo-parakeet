@@ -1,4 +1,5 @@
 @import "../layout-child";
+@import "../../../styles/shared/variables";
 
 .header {
 	@include header-footer;
@@ -9,6 +10,13 @@
 	
 	&__home-link {
 		width: $header-footer-height;
+		color: $primary-color;
+		font-family: $primary-font;
+		text-align: center;
+
+		&.clickable:hover {
+			background-color: $secondary-color;
+		}
 	}
 }
 

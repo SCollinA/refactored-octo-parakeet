@@ -18,20 +18,14 @@ import HamburgerLinks from "../../links/hamburger-links/HamburgerLinks";
 library.add(faInstagram, faFacebook, faEnvelope, faAngleLeft, faAngleRight, faTimesCircle);
 
 export default () => {
-	const { brandNameImage }: { brandNameImage: IImageFile } = useStaticQuery(brandNameImageQuery);
+	// const { brandNameImage }: { brandNameImage: IImageFile } = useStaticQuery(brandNameImageQuery);
 	return (
 		<div className="header">
 			<Link to="/"
 				className="header__home-link clickable selectable"
 				activeClassName="selected"
-				style={{
-					color: `white`,
-					textDecoration: `none`,
-				}}
 			>
-				<ImageFile file={brandNameImage}
-					loadingText={"hallie's • hoops •"}
-				/>
+				Hallie's Hoops
 			</Link>
 			<HamburgerLinks>
 				<PageLinks/>
