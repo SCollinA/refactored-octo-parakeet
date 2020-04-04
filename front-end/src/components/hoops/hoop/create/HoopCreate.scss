@@ -1,5 +1,6 @@
 @import "../../../../styles/shared/create-item";
 
 .hoop-create {
+	position: relative;
 	@include create-item;
 }

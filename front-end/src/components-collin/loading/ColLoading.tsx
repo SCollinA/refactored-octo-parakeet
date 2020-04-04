@@ -10,7 +10,7 @@ export default ({
 	loadingTimeout = 1000,
 	text = "loading...",
 	fitChild = false,
-	preventClick = true,
+	preventClick = false,
 }: {
 	children: ReactNode,
 	loading?: boolean,

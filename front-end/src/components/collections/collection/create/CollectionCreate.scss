@@ -1,5 +1,6 @@
 @import "../../../../styles/shared/create-item";
 
 .collection-create {
+	position: relative;
 	@include create-item;
 }

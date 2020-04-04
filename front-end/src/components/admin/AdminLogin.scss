@@ -1,15 +1,16 @@
-.admin-login__button {
-    cursor: pointer;
-    margin: auto;
-}
 
 .admin-login {
+	position: relative;
 	display: flex;
-}
-
-.admin-login
-label {
-	display: none;
+	
+	&__button {
+		cursor: pointer;
+		margin: auto;
+	}
+	
+	label {
+		display: none;
+	}
 }
 
 @media (max-width: 500px) {
