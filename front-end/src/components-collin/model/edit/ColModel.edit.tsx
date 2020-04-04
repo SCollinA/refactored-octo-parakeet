@@ -12,7 +12,7 @@ import ColNumberInput from "../data/number/edit/ColNumber.edit";
 import ColStringLongInput from "../data/string-long/edit/ColStringLong.edit";
 import ColStringInput from "../data/string/edit/ColString.edit";
 
-import "./ColModel.edit.css";
+import "./ColModel.edit.scss";
 
 export default ({
 	cancel = () => undefined,

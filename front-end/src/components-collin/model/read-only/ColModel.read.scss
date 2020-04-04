@@ -4,10 +4,11 @@
 	justify-content: space-around;
 	
 	& > .col-card {
-		flex: 1 1 auto;
+		flex: 1 1 32%;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		margin: 2px;
 
 		span {
 			text-decoration: underline;

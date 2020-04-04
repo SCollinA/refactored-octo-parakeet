@@ -23,6 +23,9 @@ export default () => {
 	let hoops: IHoop[];
 	let loading: boolean;
 	if (!selectedCollectionId) {
+		if (!isLoggedIn) {
+			return null;
+		}
 		const {
 			data,
 			loading: hoopsLoading,

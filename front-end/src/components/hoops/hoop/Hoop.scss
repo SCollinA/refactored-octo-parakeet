@@ -10,13 +10,13 @@
 		
 		& > .col-card {
 			background-color: unset;
-		}
-
-		&-read {
-			flex-direction: column;
 	
-			.col-image {
-				padding: 10px;
+			& > .col-model-read {
+				flex-direction: column;
+		
+				.col-image {
+					padding: 10px;
+				}
 			}
 		}
 	}
@@ -34,8 +34,12 @@
 			  > .col-model-read {
 				flex-direction: initial;
 				
-				.col-image {
-					width: 75%;
+				& > .col-card:last-child {
+					flex-basis: 100%;
+					
+					.col-image {
+						width: 75%;
+					}
 				}
 			}
 		}
