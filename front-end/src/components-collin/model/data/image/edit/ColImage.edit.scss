@@ -1,4 +1,13 @@
-.col-image-edit__uploaded-image {
-	position: relative;
-	margin: auto;
+.col-image-edit {
+
+	&__actions {
+		display: flex;
+		justify-content: center;
+	}
+
+	&__uploaded-image {
+		position: relative;
+		margin: auto;
+		max-width: 100%;
+	}
 }

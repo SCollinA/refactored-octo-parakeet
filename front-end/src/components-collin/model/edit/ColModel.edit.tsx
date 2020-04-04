@@ -95,6 +95,7 @@ export default ({
 								/>,
 							);
 						case "IMAGE":
+							console.log("returning data view mapped to image input", dataView)
 							return dataViewLayout(
 								<ColImageInput image={dataView.value}
 									onChange={(value: string) => update({ [dataView.key]: value })}

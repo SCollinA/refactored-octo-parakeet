@@ -43,6 +43,7 @@ export default ({
 	onSubmit?: (updatedModel: any) => void,
 	unselect?: () => void,
 }) => {
+	console.log("setting up col model")
 	const [isEditing, setIsEditing] = useState(false);
 	if (!!unselectedKeys && !isSelected) {
 		dataModel = pick(unselectedKeys, dataModel) as IColDataModel;
@@ -99,7 +100,7 @@ export default ({
 				{isSelected && !isEditing &&
 					<div className="col-model__buttons">
 						<ColButton type="button"
-							value="Back"
+							value="back"
 							action={() => unselect()}
 						/>
 						<ColButton type="button"
