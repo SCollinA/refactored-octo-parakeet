@@ -1,3 +1,6 @@
+@import "../../../components-collin/styles/effects";
+@import "../../../styles/shared/variables";
+
 .collection {
 	position: relative;
 	flex-basis: 30%;
@@ -5,13 +8,11 @@
     flex-direction: column;
 	justify-content: center;
 	
-	& > .col-model > .col-card {
-		background-color: unset;
-		box-shadow: unset;
-		transition: border 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
-
-		&.clickable:hover {
-			border: solid whitesmoke 1px;
+	& > .col-model {
+		@include clickable($primary-color, 1px);
+		
+		& > .col-card {
+			background-color: unset;
 		}
 	}
 	

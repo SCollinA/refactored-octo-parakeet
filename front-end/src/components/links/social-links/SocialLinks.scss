@@ -2,20 +2,27 @@
 @import "../../../components-collin/styles/effects";
 
 .social-links {
-    display: flex;
-}
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	@include selectable($primary-color, .5px);
+	
+	.social-link {
+		flex: 0;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		padding: 5px;
 
-.social-link {
-	padding: 5px;
-
-	@include clickable($primary-color, .5px);
+		a {
+			display: flex;
+		}
+	}
 }
 
 @media (max-width: 500px) {
     .social-links {
         width: 100%;
-        display: flex;
-        justify-content: space-around;
         flex-direction: row;
     }
 }

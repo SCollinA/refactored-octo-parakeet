@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ReactNode, useEffect, useState } from "react";
 
-import "./HamburgerLinks.css";
+import "./HamburgerLinks.scss";
 
 export default ({
 	children,

@@ -1,8 +1,3 @@
-import {
-	// graphql,
-	Link,
-	// useStaticQuery,
-} from "gatsby";
 import React from "react";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -25,12 +20,6 @@ export default () => {
 	// const { brandNameImage }: { brandNameImage: IImageFile } = useStaticQuery(brandNameImageQuery);
 	return (
 		<div className="header">
-			<Link to="/"
-				className="header__home-link clickable selectable"
-				activeClassName="selectable--selected"
-			>
-				Hallie's Hoops
-			</Link>
 			<HamburgerLinks>
 				<PageLinks/>
 				<SocialLinks instagramUsername={"hallieshoops"}/>

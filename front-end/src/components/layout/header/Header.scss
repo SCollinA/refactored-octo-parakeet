@@ -8,16 +8,7 @@
 	align-items: center;
 	width: 100%;
 	margin: 0 auto;
-	
-	&__home-link {
-		width: 48px;
-		color: $primary-color;
-		font-family: $primary-font;
-		text-align: center;
-
-		@include clickable($primary-color, .5px);
-		@include selectable($primary-color, .5px);
-	}
+	padding: 0 5px;
 }
 
 .hamburger-links {
@@ -34,10 +25,6 @@
 @media (max-width: 500px) {
 	.header {
 		flex-direction: column;
-	
-		&__home-link {
-			width: 80%;
-		}
 	}
 
 	.hamburger-links {

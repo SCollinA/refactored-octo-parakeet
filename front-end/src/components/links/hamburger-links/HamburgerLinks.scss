@@ -1,0 +1,40 @@
+.hamburger-links {
+	display: flex;
+	justify-content: space-around;
+	
+	& > svg {
+		margin: auto;
+		transform: rotate(45deg);
+		transition: transform .5s;
+	}
+	
+	&--expanded {
+
+		& > svg {
+			transform: rotate(405deg);
+			transition: transform .5s;
+		}
+		
+		.hamburger-links__content {
+			display: flex;
+			flex: 1;
+		}
+	}
+	
+	&__content {
+		width: 100%;
+		display: none;
+	}
+}
+
+@media (max-width: 500px) {
+
+    .hamburger-links--expanded {
+        flex-direction: column;
+        align-items: center;
+	}
+
+	.hamburger-links__content {
+		flex-direction: column;
+	}
+}
