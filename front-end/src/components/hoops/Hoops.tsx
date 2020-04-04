@@ -39,7 +39,6 @@ export default () => {
 		hoops = get(["Collection", "0", "hoops"], data);
 		loading = collectionsLoading;
 	}
-	console.log("stuff", selectedCollectionId, selectedHoopId)
 	return (
 		<div className="hoops">
 			<Loading loading={loading}>
