@@ -10,11 +10,10 @@ import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPla
 import ColModel from "../../../components-collin/model/ColModel";
 
 import Loading from "../../loading/Loading";
-import Hoops from "../../hoops/Hoops";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
 
-import { CollectionContext } from "../Collections";
+import { CollectionContext } from "../CollectionContext";
 
 import "./Collection.scss";
 
@@ -95,8 +94,6 @@ export default ({
 						})}
 					/>
 				</Loading>
-				{isSelected &&
-					<Hoops collectionId={collection.id}/>}
 			</div>
 		);
 	}

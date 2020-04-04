@@ -10,7 +10,7 @@ import ColModel from "../../../components-collin/model/ColModel";
 import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 import { AdminContext } from "../../admin/AdminContext";
-import { CollectionContext } from "../../collections/Collections";
+import { CollectionContext } from "../../collections/CollectionContext";
 import Loading from "../../loading/Loading";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";

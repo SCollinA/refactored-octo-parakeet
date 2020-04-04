@@ -6,7 +6,7 @@ import { IS_LOGGED_IN } from "../../graphql/queries";
 
 export const AdminContext = createContext({
 	isLoggedIn: false,
-	setIsLoggedIn: (isLoggedIn: boolean) => { return; },
+	setIsLoggedIn: (_isLoggedIn: boolean) => { return; },
 });
 
 export default ({

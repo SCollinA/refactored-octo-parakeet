@@ -6,6 +6,7 @@ import Header from "./header/Header";
 import "./Layout.scss";
 
 import AdminContext from "../admin/AdminContext";
+import CollectionContext from "../collections/CollectionContext";
 import LinkImports from "../utils/components/LinkImports";
 import SEO from "../utils/components/SEO";
 
@@ -16,15 +17,17 @@ export default ({
 }) => {
 	return (
 		<AdminContext>
-			<SEO title="Hallie's Hoops"></SEO>
-			<LinkImports></LinkImports>
-			<div className="layout">
-				<Header/>
-				<div className="layout__content">
-					<main>{children}</main>
+			<CollectionContext>
+				<SEO title="Hallie's Hoops"></SEO>
+				<LinkImports></LinkImports>
+				<div className="layout">
+					<Header/>
+					<div className="layout__content">
+						<main>{children}</main>
+					</div>
+					<Footer/>
 				</div>
-				<Footer/>
-			</div>
+			</CollectionContext>
 		</AdminContext>
 	);
 };

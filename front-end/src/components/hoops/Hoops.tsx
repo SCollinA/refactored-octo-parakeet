@@ -6,7 +6,7 @@ import { GET_COLLECTION_WITH_HOOPS, GET_HOOPS_WITHOUT_COLLECTIONS } from "../../
 import { IHoop } from "../../models/hoop.model";
 
 import { AdminContext } from "../admin/AdminContext";
-import { CollectionContext } from "../collections/Collections";
+import { CollectionContext } from "../collections/CollectionContext";
 import Loading from "../loading/Loading";
 
 import HoopCreate from "./hoop/create/HoopCreate";
@@ -14,14 +14,15 @@ import Hoop from "./hoop/Hoop";
 
 import "./Hoops.scss";
 
-export default ({
-	collectionId,
-}: {
-	collectionId?: string,
-}) => {
+export default () => {
+	const { isLoggedIn } = useContext(AdminContext);
+	const {
+		selectedCollectionId,
+		selectedHoopId,
+	} = useContext(CollectionContext);
 	let hoops: IHoop[];
 	let loading: boolean;
-	if (!collectionId) {
+	if (!selectedCollectionId) {
 		const {
 			data,
 			loading: hoopsLoading,
@@ -33,15 +34,12 @@ export default ({
 			data,
 			loading: collectionsLoading,
 		} = useQuery(GET_COLLECTION_WITH_HOOPS, {
-			variables: { id: collectionId },
+			variables: { id: selectedCollectionId },
 		});
 		hoops = get(["Collection", "0", "hoops"], data);
 		loading = collectionsLoading;
 	}
-	const { isLoggedIn } = useContext(AdminContext);
-	const {
-		selectedHoopId,
-	} = useContext(CollectionContext);
+	console.log("stuff", selectedCollectionId, selectedHoopId)
 	return (
 		<div className="hoops">
 			<Loading loading={loading}>
