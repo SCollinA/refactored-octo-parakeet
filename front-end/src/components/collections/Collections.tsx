@@ -4,11 +4,11 @@ import React, { createContext, useContext, useState } from "react";
 
 import { GET_COLLECTIONS } from "../../graphql/queries";
 import { ICollection } from "../../models/collection.model";
-
-import { AdminContext } from "../admin/AdminContext";
 import ColCard from "../../components-collin/layout/card/ColCard";
 import ColPlaceholder from "../../components-collin/layout/placeholder/ColPlaceholder";
-import ColLoading from "../../components-collin/loading/ColLoading";
+
+import { AdminContext } from "../admin/AdminContext";
+import Loading from "../loading/Loading";
 import Hoops from "../hoops/Hoops";
 
 import Collection from "./collection/Collection";
@@ -47,8 +47,7 @@ export default () => {
 	const collections: ICollection[] = get(["Collection"], data);
 	return (
 		<div className="collections">
-			<ColLoading text={"hallie's • hoops •"}
-				loading={loading}
+			<Loading loading={loading}
 				fitChild={true}
 				preventClick={false}
 			>
@@ -79,7 +78,7 @@ export default () => {
 						</>
 					}
 				</CollectionContext.Provider>
-			</ColLoading>
+			</Loading>
 		</div>
 	);
 };

@@ -1,12 +1,7 @@
 **To Do:**
 create splash page with random image and brief text
 
-center no collections found placeholder
-
 make add collection/hoop button bigger
-
-
-add subheading to placeholders
 
 save images to file on the back-end (or not)
 	back end
@@ -57,3 +52,5 @@ give collections clickable styles
 remove section wrappers
 
 remove margins
+
+center no collections found placeholder

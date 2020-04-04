@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 
 import { LOGIN } from "../../graphql/mutations";
 
-import ColLoading from "../../components-collin/loading/ColLoading";
+import Loading from "../loading/Loading";
 
 import { AdminContext } from "./AdminContext";
 
@@ -32,9 +32,7 @@ export default () => {
 		setShowAdmin(false);
 	};
 	return (
-		<ColLoading loading={loading}
-			text={"hallie's • hoops •"}
-		>
+		<Loading loading={loading}>
 			{isLoggedIn &&
 				<div className="admin-logout clickable">
 					<input type="button" value="logout"
@@ -92,6 +90,6 @@ export default () => {
 						admin
 					</p>)
 			}
-		</ColLoading>
+		</Loading>
 	);
 };

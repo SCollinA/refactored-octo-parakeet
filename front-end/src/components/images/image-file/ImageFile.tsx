@@ -4,18 +4,16 @@ import React, {
 	useState,
 } from "react";
 
-import Loading from "../../../components-collin/loading/ColLoading";
-
 import { IImageFile } from "../../../models/file.model";
+
+import Loading from "../../loading/Loading";
 
 import "./ImageFile.scss";
 
 export default ({
 	file,
-	loadingText,
 }: {
 	file: IImageFile,
-	loadingText: string,
 }) => {
 	// const [windowAspectRatio, setWindowAspectRatio] = useState<number>(1);
 	// useEffect(() => {
@@ -29,8 +27,7 @@ export default ({
 	const [loading, setLoading] = useState(false);
 	if (!!file) {
 		return (
-			<Loading text={loadingText}
-				loading={loading}
+			<Loading loading={loading}
 				fitChild={true}
 				preventClick={false}
 			>

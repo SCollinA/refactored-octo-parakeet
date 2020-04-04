@@ -1,0 +1,11 @@
+@import "../../styles/shared/variables";
+
+.col-loading {
+	
+	& > svg {
+
+		& > text {
+			fill: $primary-color;
+		}
+	}
+}

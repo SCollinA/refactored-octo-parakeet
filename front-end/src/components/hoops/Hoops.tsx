@@ -7,7 +7,7 @@ import { IHoop } from "../../models/hoop.model";
 
 import { AdminContext } from "../admin/AdminContext";
 import { CollectionContext } from "../collections/Collections";
-import ColLoading from "../../components-collin/loading/ColLoading";
+import Loading from "../loading/Loading";
 
 import HoopCreate from "./hoop/create/HoopCreate";
 import Hoop from "./hoop/Hoop";
@@ -44,8 +44,7 @@ export default ({
 	} = useContext(CollectionContext);
 	return (
 		<div className="hoops">
-			<ColLoading text={"hallie's • hoops •"}
-				loading={loading}
+			<Loading loading={loading}
 				fitChild={true}
 				preventClick={false}
 			>
@@ -66,7 +65,7 @@ export default ({
 							<HoopCreate/>}
 					</>
 				}
-			</ColLoading>
+			</Loading>
 		</div>
 	);
 };

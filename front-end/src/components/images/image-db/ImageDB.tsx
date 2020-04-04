@@ -4,8 +4,9 @@ import React from "react";
 
 import ColImage from "../../../components-collin/model/data/image/read-only/ColImage";
 
+import Loading from "../../loading/Loading";
+
 import "./ImageDB.scss";
-import ColLoading from "../../../components-collin/loading/ColLoading";
 
 export default ({
 	id,
@@ -13,14 +14,12 @@ export default ({
 	imageAltText,
 	imageQuery,
 	imageQueryImagePath,
-	loadingText,
 }: {
 	id: string,
 	image?: string,
 	imageAltText: string,
 	imageQuery: any,
 	imageQueryImagePath: string[],
-	loadingText: string,
 }) => {
 	const {
 		data,
@@ -33,14 +32,13 @@ export default ({
 	const loading = dataLoading;
 	return (
 		<div className="image-db">
-			<ColLoading loading={loading}
-				text={loadingText}
+			<Loading loading={loading}
 				fitChild={true}
 			>
 				<ColImage imageSrc={`data:image/jpeg;base64,${image}`}
 					imageAlt={imageAltText}
 				/>
-			</ColLoading>
+			</Loading>
 		</div>
 	);
 };

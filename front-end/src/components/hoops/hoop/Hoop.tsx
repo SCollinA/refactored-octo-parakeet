@@ -5,17 +5,17 @@ import React, { useContext } from "react";
 import { DELETE_HOOP, UPDATE_HOOP } from "../../../graphql/mutations";
 import { GET_HOOPS_FULL } from "../../../graphql/queries";
 import { IHoop } from "../../../models/hoop.model";
+import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPlaceholder";
+import ColModel from "../../../components-collin/model/ColModel";
+import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 import { AdminContext } from "../../admin/AdminContext";
 import { CollectionContext } from "../../collections/Collections";
-import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPlaceholder";
-import ColLoading from "../../../components-collin/loading/ColLoading";
-import ColModel from "../../../components-collin/model/ColModel";
+import Loading from "../../loading/Loading";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
 
 import "./Hoop.scss";
-import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 export default ({
 	hoop,
@@ -65,8 +65,7 @@ export default ({
 		const loading = updateLoading || removeLoading;
 		return (
 			<div className={`hoop${selectedClass}`}>
-				<ColLoading text={"hallie's • hoops •"}
-					loading={loading}
+				<Loading loading={loading}
 					fitChild={true}
 					preventClick={false}
 				>
@@ -89,7 +88,7 @@ export default ({
 							variables: washData(updatedHoop),
 						})}
 					/>
-				</ColLoading>
+				</Loading>
 			</div>
 		);
 	}

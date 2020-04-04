@@ -23,13 +23,13 @@ export default ({
 	const [innerLoading, setInnerLoading] = useState<boolean>(loading || false);
 	useEffect(() => {
 		sleepUtils(loadingTimeout).then(() =>
-			setInnerLoading(false)
+			setInnerLoading(loading || false)
 		);
 	}, [loading]);
 	return (
 		<>
 			{innerLoading &&
-				<div className={`loading${fitChild ? " fit-child" : ""}`}
+				<div className={`col-loading${fitChild ? " fit-child" : ""}`}
 					onClick={(event) =>
 						preventClick && event.stopPropagation()}
 				>

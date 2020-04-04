@@ -6,10 +6,10 @@ import { CREATE_HOOP, MERGE_COLLECTION_HOOPS } from "../../../../graphql/mutatio
 import { GET_COLLECTION_WITH_HOOPS, GET_HOOPS_WITHOUT_COLLECTIONS } from "../../../../graphql/queries";
 import { ICollection } from "../../../../models/collection.model";
 import { IHoop } from "../../../../models/hoop.model";
+import ColButton from "../../../../components-collin/buttons/ColButton";
 
 import { CollectionContext } from "../../../collections/Collections";
-import ColButton from "../../../../components-collin/buttons/ColButton";
-import ColLoading from "../../../../components-collin/loading/ColLoading";
+import Loading from "../../../loading/Loading";
 
 import "./HoopCreate.scss";
 
@@ -83,8 +83,7 @@ export default () => {
 	const loading = createLoading || connectLoading;
 	return (
 		<div className={`hoop-create`}>
-			<ColLoading text={"hallie's • hoops •"}
-				loading={loading}
+			<Loading loading={loading}
 				fitChild={true}
 				preventClick={false}
 			>
@@ -92,7 +91,7 @@ export default () => {
 					value="add hoop"
 					action={() => createHoop()}
 				/>
-			</ColLoading>
+			</Loading>
 		</div>
 	);
 };

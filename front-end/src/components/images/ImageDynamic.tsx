@@ -16,7 +16,6 @@ export default ({
 	hoop: IHoop,
 }) => {
 	if (!!hoop) {
-		const loadingText = "hallie's • hoops •";
 		if (
 			hoop.recentlyupdatedimage ||
 			!!hoop.image
@@ -27,14 +26,11 @@ export default ({
 					imageAltText={hoop.title}
 					imageQuery={GET_HOOP_WITH_IMAGE}
 					imageQueryImagePath={["getHoop", "Hoop", "image"]}
-					loadingText={loadingText}
 				/>
 			);
 		} else if (!!hoop.file) {
 			return (
-				<ImageFile file={hoop.file}
-					loadingText={loadingText}
-				/>
+				<ImageFile file={hoop.file}/>
 			);
 		}
 	}

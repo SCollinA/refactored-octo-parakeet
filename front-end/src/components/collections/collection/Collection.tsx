@@ -5,11 +5,11 @@ import React, { useContext } from "react";
 import { DELETE_COLLECTION, UPDATE_COLLECTION } from "../../../graphql/mutations";
 import { GET_COLLECTIONS } from "../../../graphql/queries";
 import { ICollection } from "../../../models/collection.model";
-
 import { AdminContext } from "../../admin/AdminContext";
 import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPlaceholder";
-import ColLoading from "../../../components-collin/loading/ColLoading";
 import ColModel from "../../../components-collin/model/ColModel";
+
+import Loading from "../../loading/Loading";
 import Hoops from "../../hoops/Hoops";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
@@ -69,8 +69,7 @@ export default ({
 			<div className={`collection${selectedClass}`}
 				onClick={() => setSelectedCollectionId(collection.id)}
 			>
-				<ColLoading text={"hallie's • hoops •"}
-					loading={loading}
+				<Loading loading={loading}
 					fitChild={true}
 					preventClick={false}
 				>
@@ -98,7 +97,7 @@ export default ({
 							},
 						})}
 					/>
-				</ColLoading>
+				</Loading>
 				{isSelected &&
 					<Hoops collectionId={collection.id}/>}
 			</div>

@@ -4,7 +4,7 @@
     position: relative;
 } */
 
-.loading {
+.col-loading {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -25,7 +25,7 @@
 .fit-child {
     position: absolute;
 }
-.loading > svg {
+.col-loading > svg {
     animation: loading 10s linear infinite;
 }
 @keyframes loading {

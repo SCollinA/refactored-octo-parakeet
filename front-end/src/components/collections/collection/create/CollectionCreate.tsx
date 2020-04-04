@@ -4,9 +4,9 @@ import React from "react";
 
 import { CREATE_COLLECTION } from "../../../../graphql/mutations";
 import { GET_COLLECTIONS } from "../../../../graphql/queries";
-
 import ColButton from "../../../../components-collin/buttons/ColButton";
-import ColLoading from "../../../../components-collin/loading/ColLoading";
+
+import Loading from "../../../loading/Loading";
 
 import "./CollectionCreate.scss";
 
@@ -39,8 +39,7 @@ export default () => {
 	});
 	return (
 		<div className={`collection-create`}>
-			<ColLoading text={"hallie's • hoops •"}
-				loading={loading}
+			<Loading loading={loading}
 				fitChild={true}
 				preventClick={false}
 			>
@@ -48,7 +47,7 @@ export default () => {
 					value="add collection"
 					action={() => createCollection()}
 				/>
-			</ColLoading>
+			</Loading>
 		</div>
 	);
 };

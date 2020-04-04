@@ -8,5 +8,5 @@ import "./ColPlaceholder.scss";
 export default ({ text = "Oops!", icon = faEyeSlash }: {text?: string, icon?: IconDefinition}) =>
 	<div className="col-placeholder">
 		<FontAwesomeIcon icon={icon} size="2x"/>
-		<p className="placeholderText">{text}</p>
+		<p className="col-placeholder__text">{text}</p>
 	</div>;
