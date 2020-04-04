@@ -3,7 +3,6 @@ import React, { ReactNode } from "react";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
 
-import "../../components-collin/styles/effects.scss";
 import "./Layout.scss";
 
 import AdminContext from "../admin/AdminContext";

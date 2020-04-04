@@ -1,5 +1,5 @@
 **To Do:**
-remove section wrappers
+remove margins
 
 create splash page with random image and brief text
 
@@ -10,7 +10,6 @@ center no collections found placeholder
 
 make add collection/hoop button bigger
 
-give collections clickable styles
 
 add subheading to placeholders
 
@@ -57,3 +56,7 @@ fix delete hoop
 make hallies hoops logo just plain text
 
 align text in footer
+
+give collections clickable styles
+
+remove section wrappers

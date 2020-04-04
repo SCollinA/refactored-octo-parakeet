@@ -1,4 +1,5 @@
 @import "../../../styles/shared/variables";
+@import "../../../components-collin/styles/effects";
 
 .social-links {
     display: flex;
@@ -10,9 +11,7 @@
 .social-link {
 	padding: 5px;
 
-	&.clickable:hover {
-		background-color: $secondary-color;
-	}
+	@include clickable($primary-color);
 }
 
 @media (max-width: 500px) {
