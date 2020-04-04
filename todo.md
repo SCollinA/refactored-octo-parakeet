@@ -1,3 +1,19 @@
+make hallies hoops logo just plain text
+
+create splash page with random image and brief text
+
+align text in footer
+
+make admin login thing not so jumpy
+
+center no collections found placeholder
+
+make add collection/hoop button bigger
+
+give collections clickable styles
+
+add subheading to placeholders
+
 save images to file on the back-end (or not)
 	back end
 		add new resolver with typescript to save to file
@@ -12,8 +28,27 @@ change collection of existing hoop
 
 auto-select hoop/collection after adding
 
-show random hoop image for collection
+show random hoop image for collection if no hoop selected
 
 contact form
 
 do not show collections without hoops
+
+add delete confirmation
+
+fix remove image
+	remove image
+	save
+	
+	image not removed
+
+fix upload image
+	remove image
+	upload image
+	upload image
+	upload image
+
+	weird, right?
+
+fix delete hoop
+	still mapped to collection?
