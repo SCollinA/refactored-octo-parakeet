@@ -32,9 +32,7 @@ export default ({
 	const loading = dataLoading;
 	return (
 		<div className="image-db">
-			<Loading loading={loading}
-				fitChild={true}
-			>
+			<Loading loading={loading}>
 				<ColImage imageSrc={`data:image/jpeg;base64,${image}`}
 					imageAlt={imageAltText}
 				/>

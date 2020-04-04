@@ -16,7 +16,7 @@ export default ({
 	preventClick?: boolean,
 }) =>
 	<ColLoading text={"hallie's • hoops •"}
-		loading={true}
+		loading={loading}
 		fitChild={fitChild}
 		preventClick={preventClick}
 		children={children}

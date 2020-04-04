@@ -47,10 +47,7 @@ export default () => {
 	const collections: ICollection[] = get(["Collection"], data);
 	return (
 		<div className="collections">
-			<Loading loading={loading}
-				fitChild={true}
-				preventClick={false}
-			>
+			<Loading loading={loading}>
 				<CollectionContext.Provider value={context}>
 					{/* TODO: Add batch edit button here */}
 					{!!selectedCollectionId ?

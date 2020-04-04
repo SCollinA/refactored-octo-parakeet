@@ -39,10 +39,7 @@ export default () => {
 	});
 	return (
 		<div className={`collection-create`}>
-			<Loading loading={loading}
-				fitChild={true}
-				preventClick={false}
-			>
+			<Loading loading={loading}>
 				<ColButton type="button"
 					value="add collection"
 					action={() => createCollection()}

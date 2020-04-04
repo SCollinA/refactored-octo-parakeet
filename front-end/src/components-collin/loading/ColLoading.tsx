@@ -8,7 +8,7 @@ export default ({
 	children,
 	loading,
 	loadingTimeout = 1000,
-	text = "loading",
+	text = "loading...",
 	fitChild = false,
 	preventClick = true,
 }: {
@@ -19,7 +19,7 @@ export default ({
 	fitChild?: boolean,
 	preventClick?: boolean,
 }) => {
-	const height = 29 * text.length;
+	const height = 33 * text.length;
 	const [innerLoading, setInnerLoading] = useState<boolean>(loading || false);
 	useEffect(() => {
 		sleepUtils(loadingTimeout).then(() =>

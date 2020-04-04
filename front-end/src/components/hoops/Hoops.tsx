@@ -44,10 +44,7 @@ export default ({
 	} = useContext(CollectionContext);
 	return (
 		<div className="hoops">
-			<Loading loading={loading}
-				fitChild={true}
-				preventClick={false}
-			>
+			<Loading loading={loading}>
 				{!!selectedHoopId ?
 					<Hoop hoop={find(
 							({id}) => id === selectedHoopId,

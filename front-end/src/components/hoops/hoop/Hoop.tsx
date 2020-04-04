@@ -65,10 +65,7 @@ export default ({
 		const loading = updateLoading || removeLoading;
 		return (
 			<div className={`hoop${selectedClass}`}>
-				<Loading loading={loading}
-					fitChild={true}
-					preventClick={false}
-				>
+				<Loading loading={loading}>
 					<ColModel dataModel={scrubbedHoop}
 						isSelectable={true}
 						isSelected={isSelected}

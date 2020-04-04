@@ -69,10 +69,7 @@ export default ({
 			<div className={`collection${selectedClass}`}
 				onClick={() => setSelectedCollectionId(collection.id)}
 			>
-				<Loading loading={loading}
-					fitChild={true}
-					preventClick={false}
-				>
+				<Loading loading={loading}>
 					<ColModel dataModel={scrubbedCollection}
 						isSelectable={true}
 						isSelected={isSelected}

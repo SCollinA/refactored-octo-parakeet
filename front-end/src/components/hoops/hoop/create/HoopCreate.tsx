@@ -83,10 +83,7 @@ export default () => {
 	const loading = createLoading || connectLoading;
 	return (
 		<div className={`hoop-create`}>
-			<Loading loading={loading}
-				fitChild={true}
-				preventClick={false}
-			>
+			<Loading loading={loading}>
 				<ColButton type="button"
 					value="add hoop"
 					action={() => createHoop()}

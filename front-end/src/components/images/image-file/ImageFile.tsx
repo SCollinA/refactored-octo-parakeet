@@ -27,10 +27,7 @@ export default ({
 	const [loading, setLoading] = useState(false);
 	if (!!file) {
 		return (
-			<Loading loading={loading}
-				fitChild={true}
-				preventClick={false}
-			>
+			<Loading loading={loading}>
 				<Img className="image-file"
 					fluid={file.childImageSharp.fluid}
 					onStartLoad={() => setLoading(true)}
