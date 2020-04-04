@@ -2,9 +2,11 @@
 	flex: 1;
 	align-self: stretch;
 	display: flex;
+    flex-wrap: wrap;
 
 	.col-card {
-		// flex: auto;
+		flex: auto;
+		margin: 2px;
 		align-self: stretch;
 		display: flex;
 		align-items: center;
@@ -18,5 +20,12 @@
 	.col-data-edit {
 		margin: 0 20px;
 		flex: 1;
+	}
+
+	&__buttons {
+		flex: auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
 	}
 }
