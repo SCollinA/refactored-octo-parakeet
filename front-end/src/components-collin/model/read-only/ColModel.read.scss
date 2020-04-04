@@ -1,10 +1,13 @@
 .col-model-read {
+	flex: 1;
+	align-self: stretch;
 	display: flex;
     flex-wrap: wrap;
 	justify-content: space-around;
 	
 	& > .col-card {
-		flex: 1 1 32%;
+		align-self: stretch;
+		flex: auto;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;

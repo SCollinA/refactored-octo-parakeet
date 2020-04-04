@@ -4,8 +4,10 @@
 .hoop {
 	position: relative;
 	flex-basis: 25%;
+	align-self: stretch;
 
 	& > .col-model {
+		height: 100%;
 		@include clickable($primary-color, 1px);
 		
 		& > .col-card {
@@ -13,9 +15,17 @@
 	
 			& > .col-model-read {
 				flex-direction: column;
-		
-				.col-image {
-					padding: 10px;
+				flex-wrap: unset;
+			
+				& > .col-card {
+					
+					&:last-child {
+						flex-basis: 90%;
+						
+						.col-image {
+							padding: 10px;
+						}
+					}
 				}
 			}
 		}
@@ -23,7 +33,7 @@
 
 	&--selected {
 		height: unset;
-		margin: auto;
+		margin: 0 auto;
 		flex-basis: 50%;
 		
 		& > .col-model {
@@ -33,12 +43,16 @@
 			& > .col-card
 			  > .col-model-read {
 				flex-direction: initial;
+				flex-wrap: wrap;
 				
-				& > .col-card:last-child {
-					flex-basis: 100%;
-					
-					.col-image {
-						width: 75%;
+				& > .col-card {
+
+					&:last-child {
+						flex-basis: 100%;
+						
+						.col-image {
+							width: 75%;
+						}
 					}
 				}
 			}

@@ -14,7 +14,7 @@ import { ColViewModelDataType, ColViewModelValues } from "../viewModelStore/ColV
 import ColModelEdit from "./edit/ColModel.edit";
 import ColModelRead from "./read-only/ColModel.read";
 
-import "./ColModel.css";
+import "./ColModel.scss";
 
 export default ({
 	cancel = () => undefined,
@@ -97,15 +97,16 @@ export default ({
 		>
 			<ColCard clickable={!isSelected && isSelectable}>
 				{isSelected && !isEditing &&
-					<ColButton type="button"
-						value="Back"
-						action={() => unselect()}
-					/>}
-				{isEditable && !isEditing &&
-					<ColButton type="button"
-						value="edit"
-						action={() => setIsEditing(true)}
-					/>}
+					<div className="col-model__buttons">
+						<ColButton type="button"
+							value="Back"
+							action={() => unselect()}
+						/>
+						<ColButton type="button"
+							value="edit"
+							action={() => setIsEditing(true)}
+						/>
+					</div>}
 				{isEditable && isEditing ?
 					<ColModelEdit dataViews={viewModel.dataViews}
 						cancel={() => {

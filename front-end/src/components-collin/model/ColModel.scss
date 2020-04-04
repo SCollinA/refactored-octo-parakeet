@@ -1,0 +1,16 @@
+.col-model {
+	display: flex;
+
+	& > .col-card {
+		flex: 1;
+		align-self: stretch;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__buttons {
+		flex: 0;
+		display: flex;
+		justify-content: flex-start;
+	}
+}
