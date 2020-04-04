@@ -41,14 +41,17 @@
 			margin: auto;
 
 			& > .col-card
-			  > .col-model-read {
+			  > .col-model-read,
+			& > .col-card
+			  > .col-model-edit {
 				flex-direction: initial;
 				flex-wrap: wrap;
 				
 				& > .col-card {
 
-					&:last-child {
+					&:last-of-type {
 						flex-basis: 100%;
+						align-self: stretch;
 						
 						.col-image {
 							width: 75%;
