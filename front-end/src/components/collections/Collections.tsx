@@ -14,7 +14,7 @@ import Hoops from "../hoops/Hoops";
 import Collection from "./collection/Collection";
 import CollectionCreate from "./collection/create/CollectionCreate";
 
-import "./Collections.css";
+import "./Collections.scss";
 
 export interface ICollectionContext {
 	selectedCollectionId: string;

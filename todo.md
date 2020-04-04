@@ -1,10 +1,5 @@
 **To Do:**
-remove margins
-
 create splash page with random image and brief text
-
-
-make admin login thing not so jumpy
 
 center no collections found placeholder
 
@@ -60,3 +55,5 @@ align text in footer
 give collections clickable styles
 
 remove section wrappers
+
+remove margins
