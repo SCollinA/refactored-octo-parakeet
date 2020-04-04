@@ -5,5 +5,5 @@
 	border-radius: 2px;
 	overflow: hidden;
 	background-color: whitesmoke;
-	@include clickable(whitesmoke);
+	@include clickable(whitesmoke, 1px);
 }

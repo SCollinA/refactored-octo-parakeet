@@ -3,15 +3,12 @@
 
 .social-links {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
 }
 
 .social-link {
 	padding: 5px;
 
-	@include clickable($primary-color);
+	@include clickable($primary-color, .5px);
 }
 
 @media (max-width: 500px) {

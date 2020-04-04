@@ -1,26 +1,27 @@
-@mixin clickable($color) {
+@mixin clickable($color, $size) {
 	&.clickable {
 		cursor: pointer;
-		transition: border 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
-		border: solid transparent 1px;
+		transition: border 300ms linear;
+		border: solid transparent $size;
 		
 		&:hover {
-			border: solid $color 1px;
+			border: solid $color $size;
 		}
 	}
 }
 
-@mixin selectable {
+@mixin selectable($color, $size) {
 	&.selectable {
 		cursor: pointer;
+		transition: border-bottom 300ms linear;
+		border-bottom: solid transparent $size;
 		
 		&:hover {
-			border: unset;
-			border-bottom: solid .5px black;
+			border-bottom: solid $color $size;
 		}
 
 		&--selected {
-			border-bottom: solid .5px black;
+			border-bottom: solid $color $size;
 		}
 	}
 }

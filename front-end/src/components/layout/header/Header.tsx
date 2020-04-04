@@ -27,7 +27,7 @@ export default () => {
 		<div className="header">
 			<Link to="/"
 				className="header__home-link clickable selectable"
-				activeClassName="selected"
+				activeClassName="selectable--selected"
 			>
 				Hallie's Hoops
 			</Link>

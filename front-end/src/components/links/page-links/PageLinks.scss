@@ -14,7 +14,7 @@
     justify-content: center;
 	
 	&__link {
-		@include selectable;
+		@include selectable($primary-color, .5px);
 
 		&.selectable {
 			width: 100%;

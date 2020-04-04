@@ -7,7 +7,7 @@ export default () =>
 	<div className="page-links">
 		<div className="page-link">
 			<Link to="/collections" className="page-link__link selectable"
-				activeClassName="selected"
+				activeClassName="selectable--selected"
 			>
 				<h2>collections</h2>
 			</Link>
