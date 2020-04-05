@@ -1,9 +1,9 @@
 import { useMutation } from "@apollo/react-hooks";
-import { filter, get } from "lodash/fp";
+import { filter, get, set } from "lodash/fp";
 import React, { useContext } from "react";
 
 import { DELETE_HOOP, UPDATE_HOOP } from "../../../graphql/mutations";
-import { GET_HOOPS_FULL } from "../../../graphql/queries";
+import { GET_HOOPS_WITHOUT_COLLECTIONS, GET_COLLECTION_WITH_HOOPS } from "../../../graphql/queries";
 import { IHoop } from "../../../models/hoop.model";
 import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPlaceholder";
 import ColModel from "../../../components-collin/model/ColModel";
@@ -24,6 +24,7 @@ export default ({
 }) => {
 	const { isLoggedIn } = useContext(AdminContext);
 	const {
+		selectedCollectionId,
 		selectedHoopId,
 		setSelectedHoopId,
 	} = useContext(CollectionContext);
@@ -44,20 +45,42 @@ export default ({
 			{ loading: removeLoading },
 		] = useMutation(DELETE_HOOP, {
 			update(cache) {
-				const cachedData = cache.readQuery({
-					query: GET_HOOPS_FULL,
-				});
-				const cachedHoops = get(
-					"Collection",
-					cachedData,
-				);
-				const updatedHoops = filter(
+				let query;
+				let cachedData;
+				let cachedHoops;
+				let updatedHoops;
+				let updatedData;
+				if (!selectedCollectionId) {
+					query = GET_HOOPS_WITHOUT_COLLECTIONS;
+					cachedData = cache.readQuery({
+						query,
+					});
+					cachedHoops = get(
+						"Hoop",
+						cachedData,
+					);
+					updatedData = set("Hoop");
+				} else {
+					query = GET_COLLECTION_WITH_HOOPS;
+					cachedData = cache.readQuery({
+						query,
+						variables: { id: selectedCollectionId },
+					});
+					cachedHoops = get(
+						["Collection", "0", "hoops"],
+						cachedData,
+					);
+					updatedData = set(["Collection", "0", "hoops"]);
+				}
+				updatedHoops = filter(
 					({ id }: IHoop) => hoop.id !== id,
 					cachedHoops,
 				);
+				const data = updatedData(updatedHoops, cachedData as any);
+				// console.log({query, cachedData, cachedHoops, updatedData, updatedHoops, data})
 				cache.writeQuery({
-					data: { Hoop: updatedHoops },
-					query: GET_HOOPS_FULL,
+					data,
+					query,
 				});
 			},
 			variables: { id: hoop.id },

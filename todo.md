@@ -23,13 +23,13 @@ contact form
 
 do not show collections without hoops
 
+
+**Doing:**
 add delete confirmation
 
-fix remove image
-	remove image
-	save
-	
-	image not removed
+**Done:**
+fix delete hoop
+	still mapped to collection?
 
 fix upload image
 	remove image
@@ -39,10 +39,12 @@ fix upload image
 
 	weird, right?
 
-fix delete hoop
-	still mapped to collection?
+fix remove image
+	remove image
+	save
+	
+	image not removed
 
-**Done:**
 make hallies hoops logo just plain text
 
 align text in footer

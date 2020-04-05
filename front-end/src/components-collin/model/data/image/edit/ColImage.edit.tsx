@@ -182,12 +182,11 @@ export default ({
 						type: EImageActionType.LoadImage,
 					})}}
 				/>
+				<ColButton type="button" value="rotate right"
+					action={() => dispatch({ type: EImageActionType.RotateImage})}
+				/>
 				<ColButton type="button" value="remove image"
 					action={() => dispatch({ type: EImageActionType.RemoveImage })}
-				/>
-				<ColButton type="button"
-					action={() => dispatch({ type: EImageActionType.RotateImage})}
-					value="rotate right"
 				/>
 			</div>
 			{!!state.image && (<>
