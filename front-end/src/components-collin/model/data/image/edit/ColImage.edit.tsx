@@ -6,11 +6,9 @@ import React, {
 	RefObject,
 	useEffect,
 	useReducer,
-	useState,
 } from "react";
 
 import ColButton from "../../../../buttons/ColButton";
-import ColLoading from "../../../../loading/ColLoading";
 import { blobUrl } from "../../../../utils/blobs.utils";
 
 import "../../ColData.edit.scss";
@@ -19,18 +17,18 @@ import "./ColImage.edit.scss";
 
 enum EImageActionType {
 	LoadImage = "LOAD_IMAGE",
-	EmitImage = "EMIT_IMAGE",
+	UpdateImage = "UPDATE_IMAGE",
 	RemoveImage = "REMOVE_IMAGE",
 	SetImageDimensions = "SET_IMAGE_DIMENSIONS",
 	ResizeWindow = "RESIZE_WINDOW",
-	// RotateImage = "ROTATE_IMAGE",
+	RotateImage = "ROTATE_IMAGE",
 	SetImageWidthPercent = "SET_IMAGE_WIDTH_PERCENT",
 }
 interface IImageState {
 	image: Blob | File | undefined;
 	imageHeight: number;
-	// imageRotating: boolean;
-	imageUploaded: boolean;
+	rotatingImage: boolean;
+	updatingImage: boolean;
 	imageWidth: number;
 	imageWidthPercent: number;
 	removingImage: boolean;
@@ -44,8 +42,8 @@ interface IImageAction extends Partial<IImageState> {
 const imageState: IImageState = {
 	image: undefined,
 	imageHeight: 0,
-	// imageRotating: false,
-	imageUploaded: false,
+	rotatingImage: false,
+	updatingImage: false,
 	imageWidth: 0,
 	imageWidthPercent: 1,
 	removingImage: false,
@@ -59,63 +57,63 @@ const imageReducer: React.Reducer<Partial<IImageState>, IImageAction> =
 			case EImageActionType.LoadImage:
 			// Reset image width when blob changes (initial load or image rotation)
 			// Set image not visible in order to get natural dimensions after image changes
-				console.log("load image changed", action)
+				// console.log("load image changed", action)
 				return {
 					...state,
 					image: action.image,
-					imageUploaded: action.imageUploaded,
+					updatingImage: action.updatingImage,
 					imageWidthPercent: 0,
 					imageHeight: 0,
 					imageWidth: 0,
-					// imageRotating: false,
+					rotatingImage: false,
 				};
 			case EImageActionType.SetImageDimensions:
-				console.log("resize image changed", action)
+				// console.log("resize image changed", action)
 				return {
 					...state,
 					imageHeight: action.imageHeight,
 					imageWidth: action.imageWidth,
 				};
 			case EImageActionType.SetImageWidthPercent:
-				console.log("image width percent changed", action)
+				// console.log("image width percent changed", action)
 				return {
 					...state,
-					imageRotating: false,
+					rotatingImage: false,
 					imageWidthPercent: action.imageWidthPercent,
 				};
-			case EImageActionType.EmitImage:
-				console.log("emitting image action");
+			case EImageActionType.UpdateImage:
+				// console.log("emitting image action");
 				return {
 					...state,
-					imageUploaded: false,
+					updatingImage: false,
 					removingImage: false,
 				}
 			case EImageActionType.ResizeWindow:
-				console.log("resize window changed", action)
+				// console.log("resize window changed", action)
 				return {
 					...state,
 					windowHeight: action.windowHeight,
 					windowWidth: action.windowWidth,
 				};
 			case EImageActionType.RemoveImage:
-				console.log("remove image changed", action)
+				// console.log("remove image changed", action)
 				return {
 					...state,
-					imageUploaded: true,
+					updatingImage: true,
 					image: undefined,
 					imageWidth: 0,
 					imageHeight: 0,
 					imageWidthPercent: 1,
 					removingImage: true,
 				};
-			// case EImageActionType.RotateImage:
-			// 	console.log("rotate image changed", action)
-			// 	return {
-			// 		...state,
-			// 		imageRotating: action.imageRotating,
-			// 		imageWidth: state.imageHeight,
-			// 		imageHeight: state.imageWidth,
-			// 	};
+			case EImageActionType.RotateImage:
+				// console.log("rotate image changed", action)
+				return {
+					...state,
+					rotatingImage: true,
+					imageWidth: state.imageHeight,
+					imageHeight: state.imageWidth,
+				};
 		}
 	};
 
@@ -132,30 +130,35 @@ export default ({
 	const [state, dispatch] = useReducer(imageReducer, imageState);
 	// Initialize window dimensions observers
 	useEffect(attachWindowResizeEventListeners(dispatch), []);
-	console.log("rendering col image edit", state);
+	// console.log("rendering col image edit", state);
 	// Step 1: Create image blob from existing image value
 	useEffect(createImageBlobIfNotExists(image, state, dispatch), [image]);
-	// Get scaled image width if not loaded yet
+	// Get scaled image width
 	useEffect(getImageWidthPercent(state, dispatch), [
 		state.windowWidth,
 		state.windowHeight,
 		state.imageHeight,
 		state.imageWidth,
 	]);
-	// Emit image when loaded
+	// Update image when changed
 	useEffect(updateImage(
 		state,
 		dispatch,
 		imageRef,
 		canvasRef,
 		onChange,
-	), [state.imageUploaded, state.imageWidthPercent]);
+	), [state.updatingImage, state.imageWidthPercent]);
 	useEffect(removeImage(
 		state,
 		dispatch,
 		onChange,
 	), [state.removingImage]);
-	// useEffect(rotateImage(state, dispatch, imageRef, canvasRef), [state.imageRotating]);
+	useEffect(rotateImage(
+		state,
+		dispatch,
+		imageRef,
+		canvasRef,
+	), [state.rotatingImage]);
 	return (
 		<div className="col-data-edit col-image-edit">
 			<p className="col-image-edit__file-name">
@@ -172,42 +175,23 @@ export default ({
 					name="image"
 					accept="image/*"
 					onChange={(event: any) => {
-						console.log("file input new value")
+						// console.log("file input new value")
 						dispatch({
 						image: event.target.files[0],
-						imageUploaded: true,
+						updatingImage: true,
 						type: EImageActionType.LoadImage,
 					})}}
 				/>
 				<ColButton type="button" value="remove image"
 					action={() => dispatch({ type: EImageActionType.RemoveImage })}
 				/>
-				{/* <ColButton type="button"
-					action={() => dispatch({
-						imageRotating: true,
-						type: EImageActionType.RotateImage,
-					})}
+				<ColButton type="button"
+					action={() => dispatch({ type: EImageActionType.RotateImage})}
 					value="rotate right"
-				/> */}
+				/>
 			</div>
-			{/* imageFile is uploaded file, imageBlob is original or rotated image */}
 			{!!state.image && (<>
-				{/* // While image not visible or rotating, show loader
-				// <ColLoading loading={!state.imageLoaded || state.imageRotating} fitChild={true}> */}
-				<ColLoading loading={!state.imageWidthPercent} fitChild={true}>
-					{/* Load image as not visible to get natural dimensions */}
-					{!!state.imageWidthPercent &&
-						// Showing image
-						<img className="col-image-edit__uploaded-image"
-							style={{
-								display: "block",
-								width: `${state.imageWidthPercent * 100}%`,
-							}}
-							alt="uploaded image"
-							src={blobUrl(state.image)}
-						/>}
-				</ColLoading>
-				{/* // // Getting image natural dimensions */}
+				{/* Loaidng image offscreen to get natural dimensions */}
 				<img className="col-image-edit__hidden-image" ref={imageRef}
 					style={{
 						display: "none",
@@ -216,7 +200,7 @@ export default ({
 					alt="natural image"
 					// Step 2: Resize image on load using natural dimensions
 					onLoad={() => {
-						console.log("hidden img element loaded")
+						// console.log("hidden img element loaded")
 						dispatch({
 						imageHeight: get(["current", "height"], imageRef),
 						imageWidth: get(["current", "width"], imageRef),
@@ -229,9 +213,31 @@ export default ({
 					height={state.imageHeight}
 					style={{ display: "none" }}
 				/>
+				{/* Load image on screen after scaling */}
+				{!!state.imageWidthPercent &&
+					<img className="col-image-edit__uploaded-image"
+						style={{
+							display: "block",
+							width: `${state.imageWidthPercent * 100}%`,
+						}}
+						alt="uploaded image"
+						src={blobUrl(state.image)}
+					/>}
 			</>)}
 		</div>
 	);
+};
+
+const removeImage = (
+	state: Partial<IImageState>,
+	dispatch: React.Dispatch<IImageAction>,
+	onChange: (value: string) => void,
+) => () =>  {
+	if (state.removingImage) {
+		// console.log("removing image")
+		onChange("")
+		dispatch({ type: EImageActionType.UpdateImage })
+	}
 };
 
 const updateImage = (
@@ -241,144 +247,154 @@ const updateImage = (
 	canvasRef: RefObject<HTMLCanvasElement>,
 	onChange: (value: string) => void,
 ) => () => {
-		console.log("emitting image maybe")
-		if (state.imageUploaded && !!state.imageWidthPercent) {
-			if (!!canvasRef?.current && !!imageRef?.current) {
-				console.log("emitting image")
-				const imageNode = imageRef.current;
-				const canvasNode = canvasRef.current;
-				const canvasContext = canvasNode.getContext("2d");
-				if (!canvasContext) {
+		const {
+			updatingImage: imageUploaded,
+			imageWidthPercent,
+			imageWidth,
+			imageHeight,
+		} = state;
+		// console.log("updating image maybe")
+		if (
+			imageUploaded && !!imageWidthPercent &&
+			!!imageWidth && !!imageHeight &&
+			!!canvasRef?.current && !!imageRef?.current
+		) {
+			// console.log("updating image")
+			const imageNode = imageRef.current;
+			const canvasNode = canvasRef.current;
+			const canvasContext = canvasNode.getContext("2d");
+			if (!canvasContext) {
+				return;
+			}
+			// console.log("updating image 2")
+			canvasContext.drawImage(
+				imageNode,
+				0,
+				0,
+				imageWidth,
+				imageHeight,
+			);
+			canvasNode.toBlob((imageBlob) => {
+				if (!imageBlob) {
 					return;
 				}
-				console.log("emitting image 2")
-				canvasContext.drawImage(imageNode, 0, 0, state.imageWidth || 0, state.imageHeight || 0);
-				canvasNode.toBlob((imageBlob) => {
-					if (!imageBlob) {
-						return;
+				const fr = new FileReader();
+				fr.onload = () => {
+					const uploadedImage = btoa(`${fr.result}`);
+					if (!!uploadedImage) {
+						// console.log("updating image 3")
+						onChange(`data:image/jpeg;base64,${uploadedImage}`);
+						dispatch({ type: EImageActionType.UpdateImage })
 					}
-					const fr = new FileReader();
-					fr.onload = () => {
-						const uploadedImage = btoa(`${fr.result}`);
-						if (!!uploadedImage) {
-							console.log("emitting image 3")
-							onChange(`data:image/jpeg;base64,${uploadedImage}`);
-							dispatch({ type: EImageActionType.EmitImage })
-						}
-					};
-					fr.readAsBinaryString(imageBlob);
-				}, "image/jpeg");
-			}
+				};
+				fr.readAsBinaryString(imageBlob);
+			}, "image/jpeg");
 		}
 	};
 
-const removeImage = (
+const rotateImage = (
 	state: Partial<IImageState>,
 	dispatch: React.Dispatch<IImageAction>,
-	onChange: (value: string) => void,
-) => () =>  {
-	if (state.removingImage) {
-		onChange("")
-		dispatch({ type: EImageActionType.EmitImage })
+	imageRef: RefObject<HTMLImageElement>,
+	canvasRef: RefObject<HTMLCanvasElement>,
+) =>
+	() => {
+		if (state.rotatingImage && !!canvasRef?.current && !!imageRef?.current) {
+			// get canvas and image elements from page
+			const canvasNode = get(["current"], canvasRef);
+			const imageNode =  get(["current"], imageRef);
+			if (!canvasNode || !imageNode) {
+				return;
+			}
+			const canvasContext = canvasNode.getContext("2d");
+			if (!canvasContext) {
+				return;
+			}
+			// update the canvas size and position
+			canvasContext.save();
+			// move to the right half the width of canvas
+			canvasContext.translate(
+				canvasNode.width / 2,
+				canvasNode.height / 2,
+			);
+			// rotate right 90 degrees
+			canvasContext.rotate(Math.PI / 2);
+			// move to the left half the height of canvas
+			canvasContext.translate(
+				(-1 * canvasNode.height / 2),
+				(-1 * canvasNode.width / 2),
+			);
+			// draw the hidden image to the canvas
+			canvasContext.drawImage(
+				imageNode,
+				0,
+				0,
+				state.imageHeight || 0,
+				state.imageWidth || 0,
+			);
+			canvasContext.restore();
+			canvasNode.toBlob((image: Blob | null) => {
+				if (!image) {
+					return;
+				}
+				dispatch({
+					image,
+					updatingImage: true,
+					type: EImageActionType.LoadImage,
+				});
+			}, "image/jpeg", 1.0);
+		}
+	};
+
+const getImageWidthPercent = (
+	state: Partial<IImageState>,
+	dispatch: React.Dispatch<IImageAction>,
+) => () => {
+	const {
+		imageWidth,
+		imageHeight,
+		windowWidth,
+		windowHeight,
+	} = state;
+	// console.log("getting image width percent maybe")
+	if (!!imageWidth && !!imageHeight &&
+		!!windowWidth && !!windowHeight) {
+		// console.log("getting image width percent")
+		const aspectRatio = imageWidth / imageHeight;
+		let newWidth = imageWidth;
+		let newHeight = imageHeight;
+		if (newWidth >= (windowWidth * .9)) {
+			newWidth = windowWidth * .9;
+			newHeight = newWidth / aspectRatio;
+		}
+		if (newHeight >= (windowHeight * .9)) {
+			newHeight = windowHeight * .9;
+			newWidth = newHeight * aspectRatio;
+		}
+		let newImageWidthPercent = newWidth / imageWidth;
+		if (newImageWidthPercent > 1) {
+			newImageWidthPercent = 1;
+		}
+		dispatch({
+			imageWidthPercent: newImageWidthPercent,
+			type: EImageActionType.SetImageWidthPercent,
+		});
 	}
 };
 
-const getImageWidthPercent =
-	(state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
-		() => {
-			const {
-				imageWidth,
-				imageHeight,
-				windowWidth,
-				windowHeight,
-			} = state;
-			console.log("getting image width percent maybe")
-			if (!!imageWidth && !!imageHeight &&
-				!!windowWidth && !!windowHeight) {
-				console.log("getting image width percent")
-				const aspectRatio = imageWidth / imageHeight;
-				let newWidth = imageWidth;
-				let newHeight = imageHeight;
-				if (newWidth >= (windowWidth * .9)) {
-					newWidth = windowWidth * .9;
-					newHeight = newWidth / aspectRatio;
-				}
-				if (newHeight >= (windowHeight * .9)) {
-					newHeight = windowHeight * .9;
-					newWidth = newHeight * aspectRatio;
-				}
-				let newImageWidthPercent = newWidth / imageWidth;
-				if (newImageWidthPercent > 1) {
-					newImageWidthPercent = 1;
-				}
-				dispatch({
-					imageWidthPercent: newImageWidthPercent,
-					type: EImageActionType.SetImageWidthPercent,
-				});
-			}
-		};
-
-// const rotateImage = (
-// 	state: Partial<IImageState>,
-// 	dispatch: React.Dispatch<IImageAction>,
-// 	imageRef: RefObject<HTMLImageElement>,
-// 	canvasRef: RefObject<HTMLCanvasElement>,
-// ) =>
-// 	() => {
-// 		if (state.imageRotating && !!canvasRef?.current && !!imageRef?.current) {
-// 			// get canvas and image elements from page
-// 			const imageCanvasNode = get(["current"], canvasRef);
-// 			const rotatingImage =  get(["current"], imageRef);
-// 			if (!imageCanvasNode || !rotatingImage) {
-// 				return;
-// 			}
-// 			const canvasContext = imageCanvasNode.getContext("2d");
-// 			if (!canvasContext) {
-// 				return;
-// 			}
-// 			// get whichever element actually exists
-// 			// rotate the canvas, draw the image, and rotate the canvas back
-// 			canvasContext.save();
-// 			canvasContext.translate(
-// 				imageCanvasNode.width / 2,
-// 				imageCanvasNode.height / 2,
-// 			);
-// 			canvasContext.rotate(Math.PI / 2);
-// 			canvasContext.translate(
-// 				(-1 * imageCanvasNode.height / 2),
-// 				(-1 * imageCanvasNode.width / 2),
-// 			);
-// 			canvasContext.drawImage(
-// 				rotatingImage,
-// 				0,
-// 				0,
-// 				state.imageHeight || 0,
-// 				state.imageWidth || 0,
-// 			);
-// 			canvasContext.restore();
-// 			imageCanvasNode.toBlob((imageBlob: Blob | null) => {
-// 				if (!imageBlob) {
-// 					return;
-// 				}
-// 				dispatch({
-// 					imageBlob,
-// 					type: EImageActionType.LoadImage,
-// 				});
-// 			}, "image/jpeg", 1.0);
-// 		}
-// 	};
-
-const createImageBlobIfNotExists =
-(image: string, state: Partial<IImageState>, dispatch: React.Dispatch<IImageAction>) =>
-	() => {
-		console.log("creating image blob")
+const createImageBlobIfNotExists = (
+	image: string,
+	state: Partial<IImageState>,
+	dispatch: React.Dispatch<IImageAction>,
+) => () => {
+		// console.log("creating image blob")
 		if (!state.image?.size) {
 			if (!!image) {
 				fetch(image)
 					.then((res) => res.blob())
 					.then((imageBlob) => dispatch({
 						image: imageBlob,
-						imageUploaded: false,
+						updatingImage: false,
 						type: EImageActionType.LoadImage,
 					}));
 			}
@@ -387,7 +403,7 @@ const createImageBlobIfNotExists =
 
 const attachWindowResizeEventListeners = (dispatch: React.Dispatch<IImageAction>) => {
 	const updateWindowDimensions = throttle(250, () => {
-		console.log("updating window dimensions")
+		// console.log("updating window dimensions")
 		dispatch({
 		type: EImageActionType.ResizeWindow,
 		windowHeight: window.innerHeight,
