@@ -23,6 +23,8 @@ add isVisible flag to hoops/collections
 
 auto edit  hoop/collection after adding
 
+image loading up small
+
 **Doing:**
 
 **Done:**
