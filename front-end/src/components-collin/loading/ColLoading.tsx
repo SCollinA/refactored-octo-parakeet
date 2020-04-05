@@ -1,7 +1,8 @@
 import React, { ReactNode, useState, useEffect } from "react";
-import { debounce } from "lodash/fp";
 
 import "./ColLoading.scss";
+
+let loadingTimer: any;
 
 export default ({
 	children,
@@ -21,13 +22,32 @@ export default ({
 	const height = 33 * text.length;
 	const [innerLoading, setInnerLoading] = useState<boolean>(loading);
 	// console.log("initiializing loaidng", loading, innerLoading);
-	const debouncedLoading = debounce(loadingTimeout,
-		() => setInnerLoading(loading),
-	);
-	useEffect(() => loading ?
-		setInnerLoading(loading) :
-		debouncedLoading(),
-	[loading]);
+	useEffect(() => {
+		// console.log("loading effect", loading);
+		// Always start loading
+		if (loading) {
+			// console.log("loading effect true", loading);
+			setInnerLoading(true);
+			clearTimeout(loadingTimer);
+			// Start timer
+			loadingTimer = setTimeout(() => {
+				// console.log("loading effect timer", loading);
+				// setInnerLoading(false);
+				clearTimeout(loadingTimer);
+			}, loadingTimeout);
+		// If stopping loading and timer not expired
+		} else if (!!loadingTimer) {
+			clearTimeout(loadingTimer);
+			loadingTimer = setTimeout(() => {
+				// console.log("loading effect timer", loading);
+				setInnerLoading(false);
+				clearTimeout(loadingTimer);
+			}, loadingTimeout);
+		} else {
+			// console.log("loading effect false no timer", loading);
+			setInnerLoading(false);
+		}
+	}, [loading]);
 	return (
 		<>
 			{innerLoading &&
