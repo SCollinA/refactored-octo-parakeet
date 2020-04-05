@@ -1,4 +1,4 @@
-import { graphql } from "gatsby";
+// import { graphql } from "gatsby";
 import gql from "graphql-tag";
 
 export const HOOP_BASIC_FRAGMENT = gql`
@@ -20,11 +20,22 @@ export const HOOP_WITH_IMAGE_FRAGMENT = gql`
     ${HOOP_BASIC_FRAGMENT}
 `;
 
-export const COLLECTION_FULL_FRAGMENT = gql`
-    fragment CollectionFull on Collection {
+export const COLLECTION_BASIC_FRAGMENT = gql`
+    fragment CollectionBasic on Collection {
 		id
         name
     }
+`;
+
+export const COLLECTION_FULL_FRAGMENT = gql`
+    fragment CollectionFull on Collection {
+		id
+		name
+		hoops {
+			...HoopBasic
+		}
+	}
+	${HOOP_BASIC_FRAGMENT}
 `;
 
 export const HOOP_FULL_FRAGMENT = gql`

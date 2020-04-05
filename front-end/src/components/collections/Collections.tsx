@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/react-hooks";
-import { find, get, map } from "lodash/fp";
+import { find, get, map, flow, filter } from "lodash/fp";
 import React, { useContext } from "react";
 
 import { GET_COLLECTIONS } from "../../graphql/queries";
@@ -42,13 +42,16 @@ export default () => {
 							<ColCard>
 								<ColPlaceholder text={"No collections found"}/>
 							</ColCard>}
-						{!selectedHoopId && map(
-							(collection) =>
+						{!selectedHoopId && flow(
+							filter((collection: ICollection) =>
+								isLoggedIn || !!get(["hoops", "length"], collection),
+							),
+							map((collection) =>
 								<Collection key={collection.id}
 									collection={collection}
 								/>,
-							collections,
-						)}
+							),
+						)(collections)}
 						{isLoggedIn && !selectedHoopId &&
 							<CollectionCreate/>}
 					</>

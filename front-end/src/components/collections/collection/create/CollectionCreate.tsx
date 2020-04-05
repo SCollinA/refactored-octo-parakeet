@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/react-hooks";
 import { get } from "lodash/fp";
-import React from "react";
+import React, { useContext } from "react";
 
 import { CREATE_COLLECTION } from "../../../../graphql/mutations";
 import { GET_COLLECTIONS } from "../../../../graphql/queries";
@@ -9,8 +9,12 @@ import ColButton from "../../../../components-collin/buttons/ColButton";
 import Loading from "../../../loading/Loading";
 
 import "./CollectionCreate.scss";
+import { CollectionContext } from "../../CollectionContext";
 
 export default () => {
+	const {
+		setSelectedCollectionId,
+	} = useContext(CollectionContext);
 	const [
 		createCollection,
 		{ loading },
@@ -35,6 +39,7 @@ export default () => {
 				data: { Collection: updatedCollections },
 				query: GET_COLLECTIONS,
 			});
+			setSelectedCollectionId(newCollection.id)
 		},
 	});
 	return (

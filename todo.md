@@ -15,19 +15,20 @@ add read/edit custom template inputs to col model
 add existing hoop to collection
 change collection of existing hoop
 
-auto-select hoop/collection after adding
-
 show random hoop image for collection if no hoop selected
 
 contact form
 
-do not show collections without hoops
-
+auto edit  hoop/collection after adding
 
 **Doing:**
-add delete confirmation
+do not show collections without hoops
 
 **Done:**
+auto-select hoop/collection after adding
+
+add delete confirmation
+
 fix delete hoop
 	still mapped to collection?
 

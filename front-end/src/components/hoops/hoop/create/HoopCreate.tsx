@@ -16,24 +16,26 @@ import "./HoopCreate.scss";
 export default () => {
 	const {
 		selectedCollectionId,
+		setSelectedHoopId,
 	} = useContext(CollectionContext);
 	const [
 		createHoop,
 		{ loading: createLoading },
 	] = useMutation(CREATE_HOOP, {
-		onCompleted(data) {
+		async onCompleted(data) {
 			const newHoop: IHoop = get(
 				"CreateHoop",
 				data,
 			);
 			if (!!selectedCollectionId) {
-				mergeCollectionHoops({
+				await mergeCollectionHoops({
 					variables: {
 						collectionId: selectedCollectionId,
 						hoopId: newHoop.id,
 					},
 				});
 			}
+			setSelectedHoopId(newHoop.id);
 		},
 		update(cache, { data }) {
 			if (!selectedCollectionId) {
