@@ -6,12 +6,14 @@ import { CREATE_COLLECTION } from "../../../../graphql/mutations";
 import { GET_COLLECTIONS } from "../../../../graphql/queries";
 import ColButton from "../../../../components-collin/buttons/ColButton";
 
-import Loading from "../../../loading/Loading";
+import { LoadingContext } from "../../../layout/loading/Loading";
 
-import "./CollectionCreate.scss";
 import { CollectionContext } from "../../CollectionContext";
 
+import "./CollectionCreate.scss";
+
 export default () => {
+	const { setLoading } = useContext(LoadingContext);
 	const {
 		setSelectedCollectionId,
 	} = useContext(CollectionContext);
@@ -39,17 +41,17 @@ export default () => {
 				data: { Collection: updatedCollections },
 				query: GET_COLLECTIONS,
 			});
-			setSelectedCollectionId(newCollection.id)
+			setSelectedCollectionId(newCollection.id);
+			setLoading(false, "CollectionCreate");
 		},
 	});
+	setLoading(loading, "CollectionCreate");
 	return (
 		<div className={`collection-create`}>
-			<Loading loading={loading}>
-				<ColButton type="button"
-					value="add collection"
-					action={() => createCollection()}
-				/>
-			</Loading>
+			<ColButton type="button"
+				value="add collection"
+				action={() => createCollection()}
+			/>
 		</div>
 	);
 };

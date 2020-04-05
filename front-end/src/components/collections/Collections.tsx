@@ -8,7 +8,7 @@ import ColCard from "../../components-collin/layout/card/ColCard";
 import ColPlaceholder from "../../components-collin/layout/placeholder/ColPlaceholder";
 
 import { AdminContext } from "../admin/AdminContext";
-import Loading from "../loading/Loading";
+import { LoadingContext } from "../layout/loading/Loading";
 
 import { CollectionContext } from "./CollectionContext";
 import Collection from "./collection/Collection";
@@ -18,6 +18,7 @@ import "./Collections.scss";
 
 export default () => {
 	const { isLoggedIn } = useContext(AdminContext);
+	const { setLoading } = useContext(LoadingContext);
 	const {
 		selectedCollectionId,
 		selectedHoopId,
@@ -27,36 +28,34 @@ export default () => {
 		loading,
 	} = useQuery(GET_COLLECTIONS);
 	const collections: ICollection[] = get(["Collection"], data);
+	setLoading(loading, "Collections");
 	return (
 		<div className="collections">
-			<Loading loading={loading}>
-				{/* TODO: Add batch edit button here */}
-				{!!selectedCollectionId ?
-					<Collection collection={find(
-							({id}) => id === selectedCollectionId,
-							collections,
-						)}
-					/> :
-					<>
-						{!get("length", collections) &&
-							<ColCard>
-								<ColPlaceholder text={"No collections found"}/>
-							</ColCard>}
-						{!selectedHoopId && flow(
-							filter((collection: ICollection) =>
-								isLoggedIn || !!get(["hoops", "length"], collection),
-							),
-							map((collection) =>
-								<Collection key={collection.id}
-									collection={collection}
-								/>,
-							),
-						)(collections)}
-						{isLoggedIn && !selectedHoopId &&
-							<CollectionCreate/>}
-					</>
-				}
-			</Loading>
+			{/* TODO: Add batch edit button here */}
+			{!!selectedCollectionId ?
+				<Collection collection={find(
+						({id}) => id === selectedCollectionId,
+						collections,
+					)}
+				/> :
+				<>
+					{!get("length", collections) &&
+						<ColCard>
+							<ColPlaceholder text={"No collections found"}/>
+						</ColCard>}
+					{!selectedHoopId && flow(
+						filter((collection: ICollection) =>
+							isLoggedIn || !!get(["hoops", "length"], collection),
+						),
+						map((collection) =>
+							<Collection key={collection.id}
+								collection={collection}
+							/>,
+						),
+					)(collections)}
+					{isLoggedIn && !selectedHoopId &&
+						<CollectionCreate/>}
+				</>}
 		</div>
 	);
 };

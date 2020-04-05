@@ -1,13 +1,14 @@
 import React, { ReactNode } from "react";
 
+import AdminContext from "../admin/AdminContext";
+import LinkImports from "../utils/components/LinkImports";
+import SEO from "../utils/components/SEO";
+
+import Loading from "./loading/Loading";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
 
 import "./Layout.scss";
-
-import AdminContext from "../admin/AdminContext";
-import LinkImports from "../utils/components/LinkImports";
-import SEO from "../utils/components/SEO";
 
 export default ({
 	children,
@@ -20,9 +21,11 @@ export default ({
 			<LinkImports></LinkImports>
 			<div className="layout">
 				<Header/>
-				<div className="layout__content">
-					<main>{children}</main>
-				</div>
+				<Loading>
+					<div className="layout__content">
+						<main>{children}</main>
+					</div>
+				</Loading>
 				<Footer/>
 			</div>
 		</AdminContext>

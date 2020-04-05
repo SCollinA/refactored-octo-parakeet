@@ -9,7 +9,7 @@ import { AdminContext } from "../../admin/AdminContext";
 import ColPlaceholder from "../../../components-collin/layout/placeholder/ColPlaceholder";
 import ColModel from "../../../components-collin/model/ColModel";
 
-import Loading from "../../loading/Loading";
+import { LoadingContext } from "../../layout/loading/Loading";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
 
@@ -23,6 +23,7 @@ export default ({
 	collection?: ICollection,
 }) => {
 	const { isLoggedIn } = useContext(AdminContext);
+	const { setLoading } = useContext(LoadingContext);
 	const {
 		selectedCollectionId,
 		setSelectedCollectionId,
@@ -64,36 +65,35 @@ export default ({
 			variables: { id: collection.id },
 		});
 		const loading = updateLoading || removeLoading;
+		setLoading(loading, "Collection");
 		return (
 			<div className={`collection${selectedClass}`}
 				onClick={() => setSelectedCollectionId(collection.id)}
 			>
-				<Loading loading={loading}>
-					<ColModel dataModel={scrubbedCollection}
-						isSelectable={true}
-						isSelected={isSelected}
-						placeholders={{
-							...placeholders,
-							id: collection.id,
-						}}
-						select={() => setSelectedCollectionId(collection.id)}
-						unselect={() => {
-							setSelectedHoopId("");
-							setSelectedCollectionId("");
-						}}
-						isEditable={isLoggedIn && isSelected}
-						onRemove={() => {
-							removeCollection();
-							setSelectedHoopId("");
-							setSelectedCollectionId("");
-						}}
-						onSubmit={(updatedCollection: ICollection) => updateCollection({
-							variables: {
-								...washData(updatedCollection),
-							},
-						})}
-					/>
-				</Loading>
+				<ColModel dataModel={scrubbedCollection}
+					isSelectable={true}
+					isSelected={isSelected}
+					placeholders={{
+						...placeholders,
+						id: collection.id,
+					}}
+					select={() => setSelectedCollectionId(collection.id)}
+					unselect={() => {
+						setSelectedHoopId("");
+						setSelectedCollectionId("");
+					}}
+					isEditable={isLoggedIn && isSelected}
+					onRemove={() => {
+						removeCollection();
+						setSelectedHoopId("");
+						setSelectedCollectionId("");
+					}}
+					onSubmit={(updatedCollection: ICollection) => updateCollection({
+						variables: {
+							...washData(updatedCollection),
+						},
+					})}
+				/>
 			</div>
 		);
 	}

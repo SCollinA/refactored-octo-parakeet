@@ -1,31 +1,33 @@
 import React, { ReactNode, useState, useEffect } from "react";
-
-import sleepUtils from "../utils/sleep.utils";
+import { debounce } from "lodash/fp";
 
 import "./ColLoading.scss";
 
 export default ({
 	children,
 	loading,
-	loadingTimeout = 1000,
+	loadingTimeout = 500,
 	text = "loading...",
 	fitChild = false,
 	preventClick = false,
 }: {
 	children: ReactNode,
-	loading?: boolean,
+	loading: boolean,
 	loadingTimeout?: number,
 	text?: string,
 	fitChild?: boolean,
 	preventClick?: boolean,
 }) => {
 	const height = 33 * text.length;
-	const [innerLoading, setInnerLoading] = useState<boolean>(loading || false);
-	useEffect(() => {
-		sleepUtils(loadingTimeout).then(() =>
-			setInnerLoading(loading || false)
-		);
-	}, [loading]);
+	const [innerLoading, setInnerLoading] = useState<boolean>(loading);
+	// console.log("initiializing loaidng", loading, innerLoading);
+	const debouncedLoading = debounce(loadingTimeout,
+		() => setInnerLoading(loading),
+	);
+	useEffect(() => loading ?
+		setInnerLoading(loading) :
+		debouncedLoading(),
+	[loading]);
 	return (
 		<>
 			{innerLoading &&

@@ -1,7 +1,7 @@
 **To Do:**
-create splash page with random image and brief text
+fix/improve mobile styles
 
-make add collection/hoop button bigger
+create splash page with random image and brief text
 
 save images to file on the back-end (or not)
 	back end
@@ -19,12 +19,17 @@ show random hoop image for collection if no hoop selected
 
 contact form
 
+add isVisible flag to hoops/collections
+
 auto edit  hoop/collection after adding
 
 **Doing:**
-do not show collections without hoops
 
 **Done:**
+do not show collections without hoops
+
+make add collection/hoop button bigger
+
 auto-select hoop/collection after adding
 
 add delete confirmation

@@ -1,12 +1,12 @@
 import Img from "gatsby-image";
 import React, {
 	// useEffect,
-	useState,
+	useContext,
 } from "react";
 
 import { IImageFile } from "../../../models/file.model";
 
-import Loading from "../../loading/Loading";
+import { LoadingContext } from "../../layout/loading/Loading";
 
 import "./ImageFile.scss";
 
@@ -24,18 +24,14 @@ export default ({
 	// });
 	// const correctedAspectRatio = file.childImageSharp.fluid.aspectRatio / windowAspectRatio;
 	// const imageWidthPercent = correctedAspectRatio * 100;
-	const [loading, setLoading] = useState(false);
 	if (!!file) {
-		return (
-			<Loading loading={loading}>
-				<Img className="image-file"
-					fluid={file.childImageSharp.fluid}
-					onStartLoad={() => setLoading(true)}
-					onLoad={() => setLoading(false)}
-					// style={{ width: `${imageWidthPercent}%` }}
-				/>
-			</Loading>
-		);
+		const { setLoading } = useContext(LoadingContext);
+		return <Img className="image-file"
+			fluid={file.childImageSharp.fluid}
+			onStartLoad={() => setLoading(true, "ImageFile")}
+			onLoad={() => setLoading(false, "ImageFile")}
+			// style={{ width: `${imageWidthPercent}%` }}
+		/>;
 	} else {
 		throw new Error("Hoop file not found in ImageFile component");
 	}

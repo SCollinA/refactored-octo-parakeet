@@ -10,8 +10,8 @@ import ColModel from "../../../components-collin/model/ColModel";
 import { imagePrefix } from "../../../components-collin/utils/image.utils";
 
 import { AdminContext } from "../../admin/AdminContext";
+import { LoadingContext } from "../../layout/loading/Loading";
 import { CollectionContext } from "../../collections/CollectionContext";
-import Loading from "../../loading/Loading";
 import { scrubData } from "../../utils/functions/scrubData";
 import { washData } from "../../utils/functions/washData";
 
@@ -23,6 +23,7 @@ export default ({
 	hoop?: IHoop,
 }) => {
 	const { isLoggedIn } = useContext(AdminContext);
+	const { setLoading } = useContext(LoadingContext);
 	const {
 		selectedCollectionId,
 		selectedHoopId,
@@ -86,29 +87,28 @@ export default ({
 			variables: { id: hoop.id },
 		});
 		const loading = updateLoading || removeLoading;
+		setLoading(loading, "Hoop");
 		return (
 			<div className={`hoop${selectedClass}`}>
-				<Loading loading={loading}>
-					<ColModel dataModel={scrubbedHoop}
-						isSelectable={true}
-						isSelected={isSelected}
-						unselectedKeys={["id", "title", "image"]}
-						placeholders={{
-							...placeholders,
-							id: hoop.id,
-						}}
-						select={() => setSelectedHoopId(hoop.id)}
-						unselect={() => setSelectedHoopId("")}
-						isEditable={isLoggedIn && isSelected}
-						onRemove={() => {
-							removeHoop();
-							setSelectedHoopId("");
-						}}
-						onSubmit={(updatedHoop: IHoop) => updateHoop({
-							variables: washData(updatedHoop),
-						})}
-					/>
-				</Loading>
+				<ColModel dataModel={scrubbedHoop}
+					isSelectable={true}
+					isSelected={isSelected}
+					unselectedKeys={["id", "title", "image"]}
+					placeholders={{
+						...placeholders,
+						id: hoop.id,
+					}}
+					select={() => setSelectedHoopId(hoop.id)}
+					unselect={() => setSelectedHoopId("")}
+					isEditable={isLoggedIn && isSelected}
+					onRemove={() => {
+						removeHoop();
+						setSelectedHoopId("");
+					}}
+					onSubmit={(updatedHoop: IHoop) => updateHoop({
+						variables: washData(updatedHoop),
+					})}
+				/>
 			</div>
 		);
 	}

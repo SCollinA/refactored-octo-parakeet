@@ -3,13 +3,14 @@ import React, { useContext, useState } from "react";
 
 import { LOGIN } from "../../graphql/mutations";
 
-import Loading from "../loading/Loading";
+import { LoadingContext } from "../layout/loading/Loading";
 
 import { AdminContext } from "./AdminContext";
 
 import "./AdminLogin.scss";
 
 export default () => {
+	const { setLoading } = useContext(LoadingContext);
 	const [showAdmin, setShowAdmin] = useState(false);
 	const {
 		isLoggedIn,
@@ -31,65 +32,64 @@ export default () => {
 		setIsLoggedIn(false);
 		setShowAdmin(false);
 	};
-	return (
-		<Loading loading={loading}>
-			{isLoggedIn &&
-				<div className="admin-logout clickable">
-					<input type="button" value="logout"
-						onClick={() => logout()}
-					/>
-				</div>}
-			{!isLoggedIn &&
-				(showAdmin ?
-					<form className="admin-login"
-						onSubmit={(event: any) => {
-							event.preventDefault();
-							adminLogin({
-								variables: {
-									password: event.target.adminPassword.value,
-								},
-							});
-						}}
-					>
-						<label htmlFor="username">
-								admin password
-						</label>
-						<input id="username"
-							autoComplete={"username"}
-							type="text"
-							name="adminUsername"
-							placeholder="no username"
-							style={{ display: "none" }}
-						/>
-						<label htmlFor="password">
+	setLoading(loading, "AdminLogin");
+	return (<>
+		{isLoggedIn &&
+			<div className="admin-logout clickable">
+				<input type="button" value="logout"
+					onClick={() => logout()}
+				/>
+			</div>}
+		{!isLoggedIn &&
+			(showAdmin ?
+				<form className="admin-login"
+					onSubmit={(event: any) => {
+						event.preventDefault();
+						adminLogin({
+							variables: {
+								password: event.target.adminPassword.value,
+							},
+						});
+					}}
+				>
+					<label htmlFor="username">
 							admin password
-						</label>
-						<input id="password"
-							autoFocus
-							autoComplete={"current-password"}
-							type="password"
-							placeholder="not 'password1'"
-							name="adminPassword"
-						/>
-						<label htmlFor="submit">
-							submit
-						</label>
-						<input id="submit" type="submit" value="submit"/>
-						<label htmlFor="cancel">
-							cancel
-						</label>
-						<input id="cancel"
-							type="button"
-							value="cancel"
-							onClick={() => setShowAdmin(false)}
-						/>
-					</form> :
-					<p className="admin-login__button"
-						onClick={() => setShowAdmin(true)}
-					>
-						admin
-					</p>)
-			}
-		</Loading>
-	);
+					</label>
+					<input id="username"
+						autoComplete={"username"}
+						type="text"
+						name="adminUsername"
+						placeholder="no username"
+						style={{ display: "none" }}
+					/>
+					<label htmlFor="password">
+						admin password
+					</label>
+					<input id="password"
+						autoFocus
+						autoComplete={"current-password"}
+						type="password"
+						placeholder="not 'password1'"
+						name="adminPassword"
+					/>
+					<label htmlFor="submit">
+						submit
+					</label>
+					<input id="submit" type="submit" value="submit"/>
+					<label htmlFor="cancel">
+						cancel
+					</label>
+					<input id="cancel"
+						type="button"
+						value="cancel"
+						onClick={() => setShowAdmin(false)}
+					/>
+				</form> :
+				<p className="admin-login__button"
+					onClick={() => setShowAdmin(true)}
+				>
+					admin
+				</p>)
+		}
+	</>);
 };

@@ -6,8 +6,8 @@ import { GET_COLLECTION_WITH_HOOPS, GET_HOOPS_WITHOUT_COLLECTIONS } from "../../
 import { IHoop } from "../../models/hoop.model";
 
 import { AdminContext } from "../admin/AdminContext";
+import { LoadingContext } from "../layout/loading/Loading";
 import { CollectionContext } from "../collections/CollectionContext";
-import Loading from "../loading/Loading";
 
 import HoopCreate from "./hoop/create/HoopCreate";
 import Hoop from "./hoop/Hoop";
@@ -16,6 +16,7 @@ import "./Hoops.scss";
 
 export default () => {
 	const { isLoggedIn } = useContext(AdminContext);
+	const { setLoading } = useContext(LoadingContext);
 	const {
 		selectedCollectionId,
 		selectedHoopId,
@@ -42,27 +43,26 @@ export default () => {
 		hoops = get(["Collection", "0", "hoops"], data);
 		loading = collectionsLoading;
 	}
+	setLoading(loading, "Hoops");
 	return (
 		<div className="hoops">
-			<Loading loading={loading}>
-				{!!selectedHoopId ?
-					<Hoop hoop={find(
-							({id}) => id === selectedHoopId,
-							hoops,
-						)}
-					/> :
-					<>
-						{map(
-							(hoop) => <Hoop key={hoop.id}
-								hoop={hoop}
-							/>,
-							hoops,
-						)}
-						{isLoggedIn &&
-							<HoopCreate/>}
-					</>
-				}
-			</Loading>
+			{!!selectedHoopId ?
+				<Hoop hoop={find(
+						({id}) => id === selectedHoopId,
+						hoops,
+					)}
+				/> :
+				<>
+					{map(
+						(hoop) => <Hoop key={hoop.id}
+							hoop={hoop}
+						/>,
+						hoops,
+					)}
+					{isLoggedIn &&
+						<HoopCreate/>}
+				</>
+			}
 		</div>
 	);
 };

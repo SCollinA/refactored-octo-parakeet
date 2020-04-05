@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/react-hooks";
 import { get } from "lodash/fp";
-import React from "react";
+import React, { useContext } from "react";
 
 import ColImage from "../../../components-collin/model/data/image/read-only/ColImage";
 
-import Loading from "../../loading/Loading";
+import { LoadingContext } from "../../layout/loading/Loading";
 
 import "./ImageDB.scss";
 
@@ -21,6 +21,7 @@ export default ({
 	imageQuery: any,
 	imageQueryImagePath: string[],
 }) => {
+	const { setLoading } = useContext(LoadingContext);
 	const {
 		data,
 		loading: dataLoading,
@@ -29,14 +30,12 @@ export default ({
 		variables: { id },
 	});
 	image = image || get(imageQueryImagePath, data) || "";
-	const loading = dataLoading;
+	setLoading(dataLoading, "ImageDB");
 	return (
 		<div className="image-db">
-			<Loading loading={loading}>
-				<ColImage imageSrc={`data:image/jpeg;base64,${image}`}
-					imageAlt={imageAltText}
-				/>
-			</Loading>
+			<ColImage imageSrc={`data:image/jpeg;base64,${image}`}
+				imageAlt={imageAltText}
+			/>
 		</div>
 	);
 };

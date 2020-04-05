@@ -8,12 +8,13 @@ import { ICollection } from "../../../../models/collection.model";
 import { IHoop } from "../../../../models/hoop.model";
 import ColButton from "../../../../components-collin/buttons/ColButton";
 
+import { LoadingContext } from "../../../layout/loading/Loading";
 import { CollectionContext } from "../../../collections/CollectionContext";
-import Loading from "../../../loading/Loading";
 
 import "./HoopCreate.scss";
 
 export default () => {
+	const { setLoading } = useContext(LoadingContext);
 	const {
 		selectedCollectionId,
 		setSelectedHoopId,
@@ -83,14 +84,13 @@ export default () => {
 		},
 	});
 	const loading = createLoading || connectLoading;
+	setLoading(loading, "HoopCreate");
 	return (
 		<div className={`hoop-create`}>
-			<Loading loading={loading}>
-				<ColButton type="button"
-					value="add hoop"
-					action={() => createHoop()}
-				/>
-			</Loading>
+			<ColButton type="button"
+				value="add hoop"
+				action={() => createHoop()}
+			/>
 		</div>
 	);
 };
