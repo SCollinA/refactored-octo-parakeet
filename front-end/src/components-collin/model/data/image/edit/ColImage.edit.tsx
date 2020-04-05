@@ -136,6 +136,7 @@ export default ({
 	useEffect(createImageBlobIfNotExists(image, state, dispatch), [image]);
 	// Get scaled image width if not loaded yet
 	useEffect(getImageWidthPercent(state, dispatch), [
+		state.imageVisible,
 		state.windowWidth,
 		state.windowHeight,
 		state.imageHeight,
