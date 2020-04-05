@@ -20,7 +20,7 @@ import "./ColImage.edit.scss";
 enum EImageActionType {
 	LoadImage = "LOAD_IMAGE",
 	EmitImage = "EMIT_IMAGE",
-	// RemoveImage = "REMOVE_IMAGE",
+	RemoveImage = "REMOVE_IMAGE",
 	SetImageDimensions = "SET_IMAGE_DIMENSIONS",
 	ResizeWindow = "RESIZE_WINDOW",
 	// RotateImage = "ROTATE_IMAGE",
@@ -96,16 +96,17 @@ const imageReducer: React.Reducer<Partial<IImageState>, IImageAction> =
 					windowHeight: action.windowHeight,
 					windowWidth: action.windowWidth,
 				};
-			// case EImageActionType.RemoveImage:
-			// 	console.log("remove image changed", action)
-			// 	return {
-			// 		...state,
-			// 		imageBlob: undefined,
-			// 		imageFile: undefined,
-			// 		imageWidth: undefined,
-			// 		imageHeight: undefined,
-			// 		imageWidthPercent: 1,
-			// 	};
+			case EImageActionType.RemoveImage:
+				console.log("remove image changed", action)
+				return {
+					...state,
+					imageUploaded: true,
+					imageVisible: true,
+					image: undefined,
+					imageWidth: 0,
+					imageHeight: 0,
+					imageWidthPercent: 1,
+				};
 			// case EImageActionType.RotateImage:
 			// 	console.log("rotate image changed", action)
 			// 	return {
@@ -125,8 +126,7 @@ export default ({
 	onChange: (value: string) => void,
 }) => {
 	let imageInput: HTMLInputElement;
-	const hiddenImageRef =  React.createRef<HTMLImageElement>();
-	const uploadedImageRef =  React.createRef<HTMLImageElement>();
+	const imageRef =  React.createRef<HTMLImageElement>();
 	const canvasRef =  React.createRef<HTMLCanvasElement>();
 	const [state, dispatch] = useReducer(imageReducer, imageState);
 	// Initialize window dimensions observers
@@ -145,7 +145,7 @@ export default ({
 	useEffect(emitImage(
 		state,
 		dispatch,
-		hiddenImageRef,
+		imageRef,
 		canvasRef,
 		onChange,
 	), [state.imageUploaded, state.imageVisible]);
@@ -173,12 +173,11 @@ export default ({
 						type: EImageActionType.LoadImage,
 					})}}
 				/>
-				{/* <ColButton type="button" value="remove image"
+				<ColButton type="button" value="remove image"
 					action={() => {
-						onChange("");
 						dispatch({ type: EImageActionType.RemoveImage });
 					}}
-				/> */}
+				/>
 				{/* <ColButton type="button"
 					action={() => dispatch({
 						imageRotating: true,
@@ -209,7 +208,7 @@ export default ({
 							src={blobUrl(state.image)}
 						/>}
 					{/* // Getting image natural dimensions */}
-					<img className="col-image-edit__natural-image" ref={hiddenImageRef}
+					<img className="col-image-edit__hidden-image" ref={imageRef}
 						style={{
 							display: "none",
 							width: "unset",
@@ -219,8 +218,8 @@ export default ({
 						onLoad={() => {
 							console.log("hidden img element loaded")
 							dispatch({
-							imageHeight: get(["current", "height"], hiddenImageRef),
-							imageWidth: get(["current", "width"], hiddenImageRef),
+							imageHeight: get(["current", "height"], imageRef),
+							imageWidth: get(["current", "width"], imageRef),
 							type: EImageActionType.SetImageDimensions,
 						})}}
 						src={blobUrl(state.image)}
@@ -238,29 +237,34 @@ const emitImage = (
 	onChange: (value: string) => void,
 ) => () => {
 		console.log("emitting image maybe")
-		if (state.imageUploaded && state.imageVisible && !!canvasRef?.current && !!imageRef?.current) {
+		if (state.imageUploaded && state.imageVisible) {
 			console.log("emitting image")
-			const imageCanvasNode = canvasRef.current;
-			const uploadedImageNode = imageRef.current;
-			const canvasContext = imageCanvasNode.getContext("2d");
-			if (!canvasContext) {
-				return;
-			}
-			canvasContext.drawImage(uploadedImageNode, 0, 0, state.imageWidth || 0, state.imageHeight || 0);
-			imageCanvasNode.toBlob((imageBlob) => {
-				if (!imageBlob) {
+			if (!!canvasRef?.current && !!imageRef?.current) {
+				const imageCanvasNode = canvasRef.current;
+				const uploadedImageNode = imageRef.current;
+				const canvasContext = imageCanvasNode.getContext("2d");
+				if (!canvasContext) {
 					return;
 				}
-				const fr = new FileReader();
-				fr.onload = () => {
-					const uploadedImage = btoa(`${fr.result}`);
-					if (!!uploadedImage) {
-						onChange(`data:image/jpeg;base64,${uploadedImage}`);
-						dispatch({ type: EImageActionType.EmitImage })
+				canvasContext.drawImage(uploadedImageNode, 0, 0, state.imageWidth || 0, state.imageHeight || 0);
+				imageCanvasNode.toBlob((imageBlob) => {
+					if (!imageBlob) {
+						return;
 					}
-				};
-				fr.readAsBinaryString(imageBlob);
-			}, "image/jpeg");
+					const fr = new FileReader();
+					fr.onload = () => {
+						const uploadedImage = btoa(`${fr.result}`);
+						if (!!uploadedImage) {
+							onChange(`data:image/jpeg;base64,${uploadedImage}`);
+							dispatch({ type: EImageActionType.EmitImage })
+						}
+					};
+					fr.readAsBinaryString(imageBlob);
+				}, "image/jpeg");
+			} else {
+				onChange("");
+				dispatch({ type: EImageActionType.EmitImage })
+			}
 		}
 	};
 
