@@ -1,5 +1,5 @@
 import { map } from "lodash/fp";
-import React, { ReactNode, SyntheticEvent } from "react";
+import React, { ReactNode, SyntheticEvent, useState } from "react";
 
 import ColButton from "../../buttons/ColButton";
 import ColCard from "../../layout/card/ColCard";
@@ -13,6 +13,7 @@ import ColStringLongInput from "../data/string-long/edit/ColStringLong.edit";
 import ColStringInput from "../data/string/edit/ColString.edit";
 
 import "./ColModel.edit.scss";
+import ColModal from "../../layout/modal/ColModal";
 
 export default ({
 	cancel = () => undefined,
@@ -21,6 +22,7 @@ export default ({
 	submit = () => undefined,
 	update = () => undefined,
 	dataViews: dataViews,
+	confirmDelete = true,
 }: {
 	cancel?: () => void,
 	remove?: () => void,
@@ -28,7 +30,9 @@ export default ({
 	submit?: () => void,
 	update?: (value: Partial<IColDataModel>) => void,
 	dataViews: DataViews,
+	confirmDelete?: boolean,
 }) => {
+	const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 	return (
 		<form id="col-model-edit" className="col-model-edit"
 			onReset={() => reset()}
@@ -112,8 +116,18 @@ export default ({
 				/>
 				<ColButton type="button"
 					value="delete"
-					action={() => remove()}
+					action={() => setIsConfirmingDelete(true)}
 				/>
+				{isConfirmingDelete &&
+					<ColModal>
+						Are you sure?
+						<ColButton type="button" value="cancel"
+							action={() => setIsConfirmingDelete(false)}
+						/>
+						<ColButton type="button" value="confirm"
+							action={() => remove()}
+						/>
+					</ColModal>}
 				<ColButton type="reset"
 					value="reset"
 				/>
