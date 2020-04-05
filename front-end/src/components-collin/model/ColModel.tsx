@@ -43,7 +43,7 @@ export default ({
 	onSubmit?: (updatedModel: any) => void,
 	unselect?: () => void,
 }) => {
-	console.log("setting up col model")
+	// console.log("setting up col model")
 	const [isEditing, setIsEditing] = useState(false);
 	if (!!unselectedKeys && !isSelected) {
 		dataModel = pick(unselectedKeys, dataModel) as IColDataModel;
