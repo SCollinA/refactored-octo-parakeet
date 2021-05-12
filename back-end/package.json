@@ -42,7 +42,7 @@
     "jsonwebtoken": "^8.5.1",
     "neo4j-driver": "^4.0.1",
     "neo4j-graphql-js": "^2.11.2",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.16",
     "redis": "^2.8.0"
   }
 }
